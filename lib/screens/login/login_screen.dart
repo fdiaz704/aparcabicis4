@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../services/navigation_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         IconButton(
                           onPressed: _toggleMenu,
-                          icon: const Icon(LucideIcons.menu),
+                          icon: Icon(PlatformIcons.menu),
                           color: AppColors.primary,
                         ),
                       ],
@@ -151,8 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        LucideIcons.bike,
+                      child: Icon(
+                        PlatformIcons.bike,
                         size: 50,
                         color: Colors.white,
                       ),
@@ -180,9 +180,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Email',
-                              prefixIcon: Icon(LucideIcons.mail),
+                              prefixIcon: Icon(PlatformIcons.mail),
                               hintText: 'ejemplo@correo.com',
                             ),
                             validator: (value) {
@@ -204,14 +204,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
                               labelText: 'Contraseña',
-                              prefixIcon: const Icon(LucideIcons.keyRound),
+                              prefixIcon: Icon(PlatformIcons.key),
                               hintText: 'Mínimo 8 caracteres',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showPassword = !_showPassword);
                                 },
                                 icon: Icon(
-                                  _showPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  _showPassword ? PlatformIcons.visibilityOff : PlatformIcons.visibility,
                                 ),
                               ),
                             ),
@@ -288,7 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
-                            leading: const Icon(LucideIcons.userPlus),
+                            leading: Icon(PlatformIcons.add),
                             title: const Text('Crear usuario'),
                             onTap: () {
                               _toggleMenu();
@@ -296,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(LucideIcons.userMinus),
+                            leading: Icon(PlatformIcons.delete),
                             title: const Text('Eliminar usuario'),
                             onTap: () {
                               _toggleMenu();
@@ -304,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(LucideIcons.key),
+                            leading: Icon(PlatformIcons.key),
                             title: const Text('Cambiar contraseña'),
                             onTap: () {
                               _toggleMenu();
@@ -312,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                           ListTile(
-                            leading: const Icon(LucideIcons.mail),
+                            leading: Icon(PlatformIcons.mail),
                             title: const Text('Recuperar contraseña'),
                             onTap: () {
                               _toggleMenu();

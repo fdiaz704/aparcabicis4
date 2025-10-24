@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
@@ -45,10 +47,10 @@ class StatCard extends StatelessWidget {
                     child: Icon(
                       icon,
                       color: cardColor,
-                      size: 24,
+                      size: Platform.isIOS ? 20 : 24,
                     ),
                   ),
-                  const SizedBox(width: AppSpacing.sm),
+                  SizedBox(width: Platform.isIOS ? AppSpacing.xs : AppSpacing.sm),
                   Expanded(
                     child: Text(
                       title,

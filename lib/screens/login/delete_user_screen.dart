@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../services/navigation_service.dart';
 
 class DeleteUserScreen extends StatefulWidget {
@@ -101,7 +101,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                   children: [
                     IconButton(
                       onPressed: () => NavigationService.pop(),
-                      icon: const Icon(LucideIcons.chevronLeft),
+                      icon: Icon(PlatformIcons.chevronLeft),
                       color: AppColors.primary,
                     ),
                     const Expanded(
@@ -158,9 +158,9 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'Email',
-                              prefixIcon: Icon(LucideIcons.mail),
+                              prefixIcon: Icon(PlatformIcons.mail),
                               hintText: 'Tu email actual',
                             ),
                             validator: (value) {
@@ -182,14 +182,14 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
                               labelText: 'Contraseña',
-                              prefixIcon: const Icon(LucideIcons.key),
+                              prefixIcon: Icon(PlatformIcons.key),
                               hintText: 'Tu contraseña actual',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showPassword = !_showPassword);
                                 },
                                 icon: Icon(
-                                  _showPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  _showPassword ? PlatformIcons.visibilityOff : PlatformIcons.visibility,
                                 ),
                               ),
                             ),
@@ -209,14 +209,14 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             obscureText: !_showConfirmPassword,
                             decoration: InputDecoration(
                               labelText: 'Confirmar contraseña',
-                              prefixIcon: const Icon(LucideIcons.key),
+                              prefixIcon: Icon(PlatformIcons.key),
                               hintText: 'Repite tu contraseña',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showConfirmPassword = !_showConfirmPassword);
                                 },
                                 icon: Icon(
-                                  _showConfirmPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  _showConfirmPassword ? PlatformIcons.visibilityOff : PlatformIcons.visibility,
                                 ),
                               ),
                             ),

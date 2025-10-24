@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/stations_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../models/bike_station.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../utils/platform_widgets.dart';
 import '../../services/navigation_service.dart';
 import '../../widgets/bike_station_card.dart';
@@ -60,7 +60,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Buscar estaciones...',
-                      prefixIcon: const Icon(LucideIcons.search),
+                      prefixIcon: Icon(PlatformIcons.search),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
                               onPressed: () {
@@ -68,7 +68,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                                   _searchController.clear();
                                 });
                               },
-                              icon: const Icon(Icons.clear),
+                              icon: Icon(PlatformIcons.close),
                             )
                           : null,
                       border: OutlineInputBorder(
@@ -94,7 +94,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                           onPressed: () => _showFilterSheet(context),
                           icon: Stack(
                             children: [
-                              const Icon(Icons.tune),
+                              Icon(PlatformIcons.filter),
                               if (activeFilterCount > 0)
                                 Positioned(
                                   right: -2,
@@ -206,7 +206,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              LucideIcons.search,
+              PlatformIcons.search,
               size: 64,
               color: Colors.grey[400],
             ),
@@ -291,7 +291,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
+                    icon: Icon(PlatformIcons.close),
                   ),
                 ],
               ),

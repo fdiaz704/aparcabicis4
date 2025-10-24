@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../models/bike_station.dart';
 import '../providers/stations_provider.dart';
 import '../providers/reservations_provider.dart';
 import '../utils/constants.dart';
 import '../utils/helpers.dart';
+import '../utils/platform_icons.dart';
 import '../services/navigation_service.dart';
 
 class BikeStationCard extends StatelessWidget {
@@ -110,7 +110,7 @@ class BikeStationCard extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          LucideIcons.bike,
+                          PlatformIcons.bike,
                           size: 16,
                           color: hasAvailableSpots ? AppColors.available : AppColors.unavailable,
                         ),

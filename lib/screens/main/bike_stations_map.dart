@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../models/bike_station.dart';
 import '../../providers/stations_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../services/navigation_service.dart';
 
 class BikeStationsMap extends StatefulWidget {
@@ -58,8 +58,8 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                               ),
                             ],
                           ),
-                          child: const Icon(
-                            Icons.my_location,
+                          child: Icon(
+                            PlatformIcons.locationFill,
                             size: 12,
                             color: Colors.white,
                           ),
@@ -91,7 +91,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                 backgroundColor: Colors.white,
                 foregroundColor: AppColors.primary,
                 child: Icon(
-                  _userLocation != null ? LucideIcons.navigation : LucideIcons.navigation,
+                  _userLocation != null ? PlatformIcons.location : PlatformIcons.location,
                 ),
               ),
             ),
@@ -162,7 +162,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
             ],
           ),
           child: Icon(
-            Icons.location_on,
+            PlatformIcons.locationFill,
             color: Colors.white,
             size: isSelected ? 24 : 20,
           ),
@@ -201,13 +201,13 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                 IconButton(
                   onPressed: () => _toggleFavorite(stationsProvider, station),
                   icon: Icon(
-                    isFavorite ? Icons.star : Icons.star_border,
+                    isFavorite ? PlatformIcons.star : PlatformIcons.starBorder,
                     color: isFavorite ? AppColors.favorite : Colors.grey,
                   ),
                 ),
                 IconButton(
                   onPressed: () => _closeSelectedStation(),
-                  icon: const Icon(Icons.close),
+                  icon: Icon(PlatformIcons.close),
                 ),
               ],
             ),
@@ -215,7 +215,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
             // Address
             Row(
               children: [
-                const Icon(Icons.location_on, size: 16, color: Colors.grey),
+                Icon(PlatformIcons.location, size: 16, color: Colors.grey),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(

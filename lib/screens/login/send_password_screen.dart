@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../services/navigation_service.dart';
 
 class SendPasswordScreen extends StatefulWidget {
@@ -81,7 +81,7 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                   children: [
                     IconButton(
                       onPressed: () => NavigationService.pop(),
-                      icon: const Icon(LucideIcons.chevronLeft),
+                      icon: Icon(PlatformIcons.chevronLeft),
                       color: AppColors.primary,
                     ),
                     const Expanded(
@@ -124,10 +124,10 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
               borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
               border: Border.all(color: Colors.blue.withOpacity(0.3)),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(LucideIcons.info, color: Colors.blue),
-                SizedBox(width: AppSpacing.sm),
+                Icon(PlatformIcons.info, color: Colors.blue),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
                     'Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña.',
@@ -150,9 +150,9 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(LucideIcons.mail),
+                    prefixIcon: Icon(PlatformIcons.mail),
                     hintText: 'ejemplo@correo.com',
                   ),
                   validator: (value) {

@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/reservations_provider.dart';
 import '../../models/reservation_record.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../utils/platform_widgets.dart';
 import '../../widgets/stat_card.dart';
 import '../../widgets/history_card.dart';
@@ -49,25 +51,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
-                    childAspectRatio: 1.2,
+                    childAspectRatio: Platform.isIOS ? 1.0 : 1.2,
                     crossAxisSpacing: AppSpacing.sm,
                     mainAxisSpacing: AppSpacing.sm,
                     children: [
                       StatCard(
-                        icon: LucideIcons.bike,
+                        icon: PlatformIcons.bike,
                         title: 'Total reservas',
                         value: stats['totalReservations'].toString(),
                         color: AppColors.primary,
                       ),
                       StatCard(
-                        icon: Icons.check_circle,
+                        icon: PlatformIcons.checkmarkCircle,
                         title: 'Completadas',
                         value: stats['completedReservations'].toString(),
                         subtitle: '${stats['completionRate']}% éxito',
                         color: AppColors.success,
                       ),
                       StatCard(
-                        icon: LucideIcons.clock,
+                        icon: PlatformIcons.clock,
                         title: 'Tiempo total',
                         value: AppHelpers.formatDuration(
                           Duration(seconds: stats['totalUsageTime']),
@@ -246,7 +248,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              LucideIcons.history,
+              PlatformIcons.history,
               size: 64,
               color: Colors.grey[400],
             ),
@@ -327,11 +329,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: AppSpacing.lg),
           
           // Station Info
-          _buildDetailRow('Estación', record.stationName, LucideIcons.bike),
-          _buildDetailRow('Fecha', AppHelpers.formatDateTime(record.startTime), Icons.calendar_today),
+          _buildDetailRow('Estación', record.stationName, PlatformIcons.bike),
+          _buildDetailRow('Fecha', AppHelpers.formatDateTime(record.startTime), PlatformIcons.calendar),
           
           if (duration != null)
-            _buildDetailRow('Duración', AppHelpers.formatDuration(duration), LucideIcons.clock),
+            _buildDetailRow('Duración', AppHelpers.formatDuration(duration), PlatformIcons.clock),
           
           if (record.cost > 0)
             _buildDetailRow('Coste', '€${record.cost.toStringAsFixed(2)}', Icons.euro),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../providers/stations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../widgets/stat_card.dart';
 import '../../services/navigation_service.dart';
 
@@ -79,8 +79,8 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: const Icon(
-                LucideIcons.user,
+              child: Icon(
+                PlatformIcons.user,
                 size: 40,
                 color: Colors.white,
               ),
@@ -129,7 +129,7 @@ class ProfileScreen extends StatelessWidget {
                   child: _buildQuickStatItem(
                     'Reservas totales',
                     stats['totalReservations'].toString(),
-                    LucideIcons.bike,
+                    PlatformIcons.bike,
                     AppColors.primary,
                   ),
                 ),
@@ -142,7 +142,7 @@ class ProfileScreen extends StatelessWidget {
                   child: _buildQuickStatItem(
                     'Tiempo total',
                     AppHelpers.formatDuration(Duration(seconds: stats['totalUsageTime'])),
-                    LucideIcons.clock,
+                    PlatformIcons.clock,
                     AppColors.info,
                   ),
                 ),
@@ -195,14 +195,14 @@ class ProfileScreen extends StatelessWidget {
           mainAxisSpacing: AppSpacing.sm,
           children: [
             _buildCustomStatCard(
-              icon: Icons.check_circle,
+              icon: PlatformIcons.checkmarkCircle,
               title: 'Completadas',
               value: stats['completedReservations'].toString(),
               subtitle: '${stats['completionRate']}% éxito',
               color: AppColors.success,
             ),
             StatCard(
-              icon: Icons.cancel,
+              icon: PlatformIcons.close,
               title: 'Canceladas',
               value: stats['cancelledReservations'].toString(),
               subtitle: '${stats['cancellationRate']}% del total',
@@ -216,14 +216,14 @@ class ProfileScreen extends StatelessWidget {
               color: Colors.orange,
             ),
             StatCard(
-              icon: Icons.star,
+              icon: PlatformIcons.star,
               title: 'Favoritos',
               value: favoriteStationsCount.toString(),
               subtitle: 'Estaciones marcadas',
               color: AppColors.favorite,
             ),
             StatCard(
-              icon: LucideIcons.clock,
+              icon: PlatformIcons.clock,
               title: 'Tiempo promedio',
               value: AppHelpers.formatDuration(Duration(seconds: stats['averageUsageTime'])),
               subtitle: 'Por reserva',
@@ -250,26 +250,26 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
-                leading: const Icon(LucideIcons.key),
+                leading: Icon(PlatformIcons.key),
                 title: const Text('Cambiar contraseña'),
                 subtitle: const Text('Actualiza tu contraseña de acceso'),
-                trailing: const Icon(Icons.chevron_right),
+                trailing: Icon(PlatformIcons.chevronRight),
                 onTap: () => NavigationService.pushNamed(AppRoutes.changePassword),
               ),
               const Divider(height: 1),
               ListTile(
-                leading: const Icon(LucideIcons.userMinus),
+                leading: Icon(PlatformIcons.delete),
                 title: const Text('Eliminar cuenta'),
                 subtitle: const Text('Eliminar permanentemente tu cuenta'),
-                trailing: const Icon(Icons.chevron_right),
+                trailing: Icon(PlatformIcons.chevronRight),
                 onTap: () => NavigationService.pushNamed(AppRoutes.deleteUser),
               ),
               const Divider(height: 1),
               ListTile(
-                leading: const Icon(LucideIcons.logOut),
+                leading: Icon(PlatformIcons.close),
                 title: const Text('Cerrar sesión'),
                 subtitle: const Text('Salir de tu cuenta'),
-                trailing: const Icon(Icons.chevron_right),
+                trailing: Icon(PlatformIcons.chevronRight),
                 onTap: () => _handleLogout(context, authProvider),
               ),
             ],

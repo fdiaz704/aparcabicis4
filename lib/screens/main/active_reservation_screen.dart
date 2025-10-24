@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/reservations_provider.dart';
 import '../../providers/stations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
+import '../../utils/platform_icons.dart';
 import '../../services/navigation_service.dart';
 
 class ActiveReservationScreen extends StatefulWidget {
@@ -138,8 +138,8 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.location_on,
+              child: Icon(
+                PlatformIcons.locationFill,
                 color: Colors.white,
                 size: 28,
               ),
@@ -222,7 +222,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(LucideIcons.clock, color: AppColors.primary),
+                Icon(PlatformIcons.clock, color: AppColors.primary),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
                   reservationsProvider.formatTime(timeLeft),
@@ -271,7 +271,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(LucideIcons.clock, color: AppColors.primary),
+                Icon(PlatformIcons.clock, color: AppColors.primary),
                 const SizedBox(width: AppSpacing.sm),
                 Text(
                   reservationsProvider.formatTime(usageTime),

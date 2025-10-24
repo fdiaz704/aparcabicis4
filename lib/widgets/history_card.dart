@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../models/reservation_record.dart';
 import '../utils/constants.dart';
 import '../utils/helpers.dart';
+import '../utils/platform_icons.dart';
 
 class HistoryCard extends StatelessWidget {
   final ReservationRecord record;
@@ -102,8 +102,8 @@ class HistoryCard extends StatelessWidget {
                   // Duration
                   Row(
                     children: [
-                      const Icon(
-                        LucideIcons.clock,
+                      Icon(
+                        PlatformIcons.clock,
                         size: 16,
                         color: Colors.grey,
                       ),
