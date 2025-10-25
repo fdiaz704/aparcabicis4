@@ -1,7 +1,7 @@
 name: aparcabicis4
 description: "Sistema móvil de reserva y control de plazas de aparcamiento inteligente para bicicletas."
 publish_to: 'none'
-version: 1.0.0+10
+version: 1.0.0+11
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
