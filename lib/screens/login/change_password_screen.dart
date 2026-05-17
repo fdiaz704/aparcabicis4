@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
@@ -90,7 +89,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   children: [
                     IconButton(
                       onPressed: () => NavigationService.pop(),
-                      icon: const Icon(LucideIcons.chevronLeft),
+                      icon: const Icon(Icons.arrow_back),
                       color: AppColors.primary,
                     ),
                     const Expanded(
@@ -122,7 +121,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
                               labelText: 'Email',
-                              prefixIcon: Icon(LucideIcons.mail),
+                              prefixIcon: Icon(Icons.mail),
                               hintText: 'Tu email actual',
                             ),
                             validator: (value) {
@@ -144,14 +143,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             obscureText: !_showCurrentPassword,
                             decoration: InputDecoration(
                               labelText: 'Contraseña actual',
-                              prefixIcon: const Icon(LucideIcons.key),
+                              prefixIcon: const Icon(Icons.vpn_key),
                               hintText: 'Tu contraseña actual',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showCurrentPassword = !_showCurrentPassword);
                                 },
                                 icon: Icon(
-                                  _showCurrentPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  _showCurrentPassword ? Icons.visibility_off : Icons.visibility,
                                 ),
                               ),
                             ),
@@ -171,14 +170,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             obscureText: !_showNewPassword,
                             decoration: InputDecoration(
                               labelText: 'Nueva contraseña',
-                              prefixIcon: const Icon(LucideIcons.key),
+                              prefixIcon: const Icon(Icons.vpn_key),
                               hintText: 'Mínimo 8 caracteres',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showNewPassword = !_showNewPassword);
                                 },
                                 icon: Icon(
-                                  _showNewPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  _showNewPassword ? Icons.visibility_off : Icons.visibility,
                                 ),
                               ),
                             ),
@@ -204,14 +203,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             obscureText: !_showConfirmNewPassword,
                             decoration: InputDecoration(
                               labelText: 'Confirmar nueva contraseña',
-                              prefixIcon: const Icon(LucideIcons.key),
+                              prefixIcon: const Icon(Icons.vpn_key),
                               hintText: 'Repite la nueva contraseña',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showConfirmNewPassword = !_showConfirmNewPassword);
                                 },
                                 icon: Icon(
-                                  _showConfirmNewPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  _showConfirmNewPassword ? Icons.visibility_off : Icons.visibility,
                                 ),
                               ),
                             ),

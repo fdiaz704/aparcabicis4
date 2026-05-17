@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/constants.dart';
@@ -64,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildNavigationTile(
               'Eliminar cuenta',
               'Eliminar permanentemente tu cuenta',
-              LucideIcons.userMinus,
+              PlatformIcons.delete,
               () => NavigationService.pushNamed(AppRoutes.deleteUser),
             ),
           ]),
@@ -83,7 +82,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildNavigationTile(
               'Preguntas frecuentes',
               'Encuentra respuestas a dudas comunes',
-              Icons.quiz,
+              PlatformIcons.help,
               () => _showFAQ(),
             ),
             _buildNavigationTile(
@@ -107,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildNavigationTile(
               'Términos de servicio',
               'Lee nuestros términos y condiciones',
-              Icons.description,
+              PlatformIcons.info,
               () => _showTerms(),
             ),
             _buildNavigationTile(
@@ -224,18 +223,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
-              const Text(
-                'Preguntas frecuentes',
-                style: AppTextStyles.heading2,
+              const Expanded(
+                child: Text(
+                  'Preguntas frecuentes',
+                  style: AppTextStyles.heading2,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
-              const Spacer(),
+              const SizedBox(width: AppSpacing.sm),
               PlatformWidgets.buildAdaptiveCloseButton(context),
             ],
           ),

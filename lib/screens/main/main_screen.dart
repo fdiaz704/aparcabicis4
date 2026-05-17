@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../providers/reservations_provider.dart';
@@ -58,12 +57,11 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           appBar: AppBar(
             title: Row(
               children: [
-                const Icon(LucideIcons.bike, color: Colors.white),
+                Icon(PlatformIcons.bike),
                 const SizedBox(width: 8),
                 Text(
                   AppConstants.appName,
                   style: const TextStyle(
-                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -95,7 +93,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                     NavigationService.pushNamedAndClearStack(AppRoutes.login);
                   }
                 },
-                icon: const Icon(LucideIcons.logOut, color: Colors.white),
+                icon: Icon(PlatformIcons.close),
                 tooltip: 'Cerrar sesión',
               ),
             ],
@@ -168,13 +166,13 @@ class _StationsTabViewState extends State<_StationsTabView> with SingleTickerPro
             labelColor: AppColors.primary,
             unselectedLabelColor: Colors.grey,
             indicatorColor: AppColors.primary,
-            tabs: const [
+            tabs: [
               Tab(
-                icon: Icon(LucideIcons.list),
+                icon: Icon(PlatformIcons.menu),
                 text: 'Lista',
               ),
               Tab(
-                icon: Icon(LucideIcons.map),
+                icon: Icon(PlatformIcons.location),
                 text: 'Mapa',
               ),
             ],
@@ -201,17 +199,17 @@ class _HistoryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            LucideIcons.history,
+            PlatformIcons.history,
             size: 64,
             color: AppColors.primary,
           ),
-          SizedBox(height: 16),
-          Text(
+          const SizedBox(height: 16),
+          const Text(
             'Historial de Reservas',
             style: TextStyle(
               fontSize: 24,
@@ -219,8 +217,8 @@ class _HistoryTab extends StatelessWidget {
               color: AppColors.primary,
             ),
           ),
-          SizedBox(height: 8),
-          Text(
+          const SizedBox(height: 8),
+          const Text(
             'Aquí se mostrará el historial\nde tus reservas anteriores',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -245,8 +243,8 @@ class _ProfileTab extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            LucideIcons.user,
+          Icon(
+            PlatformIcons.user,
             size: 64,
             color: AppColors.primary,
           ),
@@ -288,17 +286,17 @@ class _SettingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            LucideIcons.settings,
+            PlatformIcons.settings,
             size: 64,
             color: AppColors.primary,
           ),
-          SizedBox(height: 16),
-          Text(
+          const SizedBox(height: 16),
+          const Text(
             'Configuración',
             style: TextStyle(
               fontSize: 24,
@@ -306,8 +304,8 @@ class _SettingsTab extends StatelessWidget {
               color: AppColors.primary,
             ),
           ),
-          SizedBox(height: 8),
-          Text(
+          const SizedBox(height: 8),
+          const Text(
             'Aquí se mostrarán las opciones\nde configuración y ayuda',
             textAlign: TextAlign.center,
             style: TextStyle(

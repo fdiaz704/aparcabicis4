@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 import 'dart:io';
 
 /// Platform-adaptive icons that provide native look and feel on both iOS and Android
@@ -55,12 +54,12 @@ class PlatformIcons {
   static IconData get privacy => Platform.isIOS ? CupertinoIcons.lock : Icons.privacy_tip;
   static IconData get security => Platform.isIOS ? CupertinoIcons.lock : Icons.security;
 
-  // App-specific Icons (using Lucide for consistency, but with platform-aware styling)
-  static IconData get bike => LucideIcons.bike;
-  static IconData get parking => LucideIcons.car;
-  static IconData get station => LucideIcons.mapPin;
-  static IconData get reservation => LucideIcons.calendar;
-  static IconData get history => LucideIcons.history;
+  // App-specific Icons
+  static IconData get bike => Icons.directions_bike;
+  static IconData get parking => Platform.isIOS ? CupertinoIcons.car_detailed : Icons.local_parking;
+  static IconData get station => Platform.isIOS ? CupertinoIcons.map_pin_ellipse : Icons.pin_drop_outlined;
+  static IconData get reservation => calendar;
+  static IconData get history => Platform.isIOS ? CupertinoIcons.clock : Icons.history;
   static IconData get favorite => Platform.isIOS ? CupertinoIcons.heart : Icons.favorite;
   static IconData get favoriteBorder => Platform.isIOS ? CupertinoIcons.heart : Icons.favorite_border;
   static IconData get star => Platform.isIOS ? CupertinoIcons.star : Icons.star;
@@ -104,6 +103,7 @@ class PlatformIcons {
   static IconData get errorFilled => Platform.isIOS ? CupertinoIcons.exclamationmark_circle_fill : Icons.error;
   static IconData get warningFilled => Platform.isIOS ? CupertinoIcons.exclamationmark_triangle_fill : Icons.warning_amber;
   static IconData get infoFilled => Platform.isIOS ? CupertinoIcons.info_circle_fill : Icons.info;
+
 
   /// Get platform-appropriate icon size for different contexts
   static double getIconSize(IconSize size) {

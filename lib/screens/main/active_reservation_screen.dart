@@ -107,10 +107,10 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
   Widget _buildHeaderMap(dynamic station, bool isReserved, bool isInUse) {
     // Get all stations to show nearby ones
     final stationsProvider = Provider.of<StationsProvider>(context, listen: false);
-    
+
     Set<Marker> markers = stationsProvider.stations.map((s) {
       final isTargetStation = s.id == station.id;
-      
+
       // Determine marker hue
       double markerHue;
       if (isTargetStation) {

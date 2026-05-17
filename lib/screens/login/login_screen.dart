@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (success) {
           // Reset filters for the new session
           context.read<StationsProvider>().resetFilters();
-          
+
           AppHelpers.showSuccessSnackBar(context, 'Inicio de sesión exitoso');
           NavigationService.pushNamedAndClearStack(AppRoutes.main);
         } else {

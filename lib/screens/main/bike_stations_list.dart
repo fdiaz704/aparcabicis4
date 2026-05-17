@@ -278,7 +278,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                         onPressed: () {
                           stationsProvider.resetFilters();
                           // Update local search controller if needed, though resetFilters clears query too
-                          _searchController.clear(); 
+                          _searchController.clear();
                         },
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
@@ -300,9 +300,9 @@ class _BikeStationsListState extends State<BikeStationsList> {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: AppSpacing.lg),
-                  
+
                   // Scrollable content
                   Flexible(
                     child: SingleChildScrollView(
@@ -320,7 +320,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                               stationsProvider.setFilters(showOnlyAvailable: value);
                             },
                           ),
-                          
+
                           // Favorites Filter
                           PlatformWidgets.buildAdaptiveSwitch(
                             title: 'Solo favoritos',
@@ -331,16 +331,16 @@ class _BikeStationsListState extends State<BikeStationsList> {
                               stationsProvider.setFilters(showOnlyFavorites: value);
                             },
                           ),
-                          
+
                           const SizedBox(height: AppSpacing.md),
-                          
+
                           // Sort Options
                           const Text(
                             'Ordenar por',
                             style: AppTextStyles.heading3,
                           ),
                           const SizedBox(height: AppSpacing.sm),
-                          
+
                           RadioListTile<String>(
                             title: const Text('Sin ordenar'),
                             value: 'none',
@@ -350,7 +350,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                               stationsProvider.setFilters(sortBy: value);
                             },
                           ),
-                          
+
                           RadioListTile<String>(
                             title: const Text('Nombre (A-Z)'),
                             value: 'name',
@@ -360,7 +360,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                               stationsProvider.setFilters(sortBy: value);
                             },
                           ),
-                          
+
                           RadioListTile<String>(
                             title: const Text('Disponibilidad (más a menos)'),
                             value: 'availability',
@@ -374,9 +374,9 @@ class _BikeStationsListState extends State<BikeStationsList> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: AppSpacing.lg),
-                  
+
                   // Apply Button
                   SizedBox(
                     width: double.infinity,

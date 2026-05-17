@@ -22,7 +22,7 @@ class BikeStationsMap extends StatefulWidget {
 class _BikeStationsMapState extends State<BikeStationsMap> {
   BikeStation? _selectedStation;
   GoogleMapController? _mapController;
-  
+
   // Madrid center (Puerta del Sol)
   static const CameraPosition _initialPosition = CameraPosition(
     target: LatLng(40.4168, -3.7038),
@@ -113,7 +113,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     return stationsProvider.stations.map((station) {
       final hasAvailableSpots = station.availableSpots > 0;
       final isActiveReservation = reservationsProvider.activeReservation?.id == station.id;
-      
+
       // Determine marker hue based on status
       double markerHue;
       if (isActiveReservation) {
@@ -245,7 +245,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     setState(() {
       _selectedStation = station;
     });
-    
+
     // Animate camera to selected station
     _mapController?.animateCamera(
       CameraUpdate.newLatLng(LatLng(station.lat, station.lng)),
@@ -263,17 +263,17 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     // For now, we'll just center back on Madrid or show a message
     // since we enabled myLocationEnabled in the map widget which handles the blue dot.
     // But to move the camera we need the location.
-    
-    // Since we don't have the geolocator logic fully implemented in this file 
+
+    // Since we don't have the geolocator logic fully implemented in this file
     // (it was just a toggle before), we will reset to initial position for now
     // or rely on the map's built-in button if we enabled it.
     // But we disabled the built-in button to use our custom one.
-    
+
     // Let's just reset to Madrid center for this demo if we can't get location easily
     _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(_initialPosition),
     );
-    
+
     AppHelpers.showInfoSnackBar(context, 'Centrando en Madrid');
   }
 

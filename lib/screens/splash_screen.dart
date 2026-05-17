@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../providers/auth_provider.dart';
 import '../providers/stations_provider.dart';
 import '../providers/reservations_provider.dart';
 import '../utils/constants.dart';
 import '../services/navigation_service.dart';
+import '../utils/platform_icons.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -136,8 +136,8 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ],
                         ),
-                        child: const Icon(
-                          LucideIcons.bike,
+                        child: Icon(
+                          PlatformIcons.bike,
                           size: 60,
                           color: Colors.white,
                         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../utils/constants.dart';
 import '../../services/navigation_service.dart';
+import '../../utils/platform_icons.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -33,17 +33,14 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
         title: const Text('Ayuda y Tutorial'),
         leading: IconButton(
           onPressed: () => NavigationService.pop(),
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(PlatformIcons.back),
         ),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white70,
-          indicatorColor: Colors.white,
-          tabs: const [
-            Tab(text: 'Tutorial', icon: Icon(Icons.play_circle_outline)),
-            Tab(text: 'FAQ', icon: Icon(Icons.help_outline)),
-            Tab(text: 'Contacto', icon: Icon(Icons.support_agent)),
+          tabs: [
+            Tab(text: 'Tutorial', icon: Icon(PlatformIcons.play)),
+            Tab(text: 'FAQ', icon: Icon(PlatformIcons.help)),
+            Tab(text: 'Contacto', icon: Icon(PlatformIcons.phone)),
           ],
         ),
       ),
@@ -68,7 +65,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
           _buildTutorialSection(
             'Bienvenido a Aparcabicis',
             'Tu aplicación para reservar plazas de aparcamiento para bicicletas de forma inteligente.',
-            LucideIcons.bike,
+            PlatformIcons.bike,
             AppColors.primary,
           ),
 
