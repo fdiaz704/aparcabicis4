@@ -28,6 +28,9 @@ import 'screens/login/send_password_screen.dart';
 import 'screens/main/main_screen.dart';
 import 'screens/main/active_reservation_screen.dart';
 import 'screens/main/help_screen.dart';
+import 'screens/main/history_screen.dart';
+import 'screens/main/profile_screen.dart';
+import 'screens/main/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,9 +89,9 @@ class AparcabicisApp extends StatelessWidget {
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.main: (context) => const MainScreen(),
         AppRoutes.activeReservation: (context) => const ActiveReservationScreen(),
-        AppRoutes.history: (context) => const Placeholder(), // HistoryScreen
-        AppRoutes.profile: (context) => const Placeholder(), // ProfileScreen
-        AppRoutes.settings: (context) => const Placeholder(), // SettingsScreen
+        AppRoutes.history: (context) => const HistoryScreen(),
+        AppRoutes.profile: (context) => const ProfileScreen(),
+        AppRoutes.settings: (context) => const SettingsScreen(),
         AppRoutes.help: (context) => const HelpScreen(),
         AppRoutes.createUser: (context) => const CreateUserScreen(),
         AppRoutes.changePassword: (context) => const ChangePasswordScreen(),
@@ -127,9 +130,9 @@ class AparcabicisApp extends StatelessWidget {
         AppRoutes.login: (context) => const LoginScreen(),
         AppRoutes.main: (context) => const MainScreen(),
         AppRoutes.activeReservation: (context) => const ActiveReservationScreen(),
-        AppRoutes.history: (context) => const Placeholder(), // HistoryScreen
-        AppRoutes.profile: (context) => const Placeholder(), // ProfileScreen
-        AppRoutes.settings: (context) => const Placeholder(), // SettingsScreen
+        AppRoutes.history: (context) => const HistoryScreen(),
+        AppRoutes.profile: (context) => const ProfileScreen(),
+        AppRoutes.settings: (context) => const SettingsScreen(),
         AppRoutes.help: (context) => const HelpScreen(),
         AppRoutes.createUser: (context) => const CreateUserScreen(),
         AppRoutes.changePassword: (context) => const ChangePasswordScreen(),

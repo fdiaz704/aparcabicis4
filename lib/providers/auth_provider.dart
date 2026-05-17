@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
+import '../utils/constants.dart';
 
 class AuthProvider with ChangeNotifier {
   User? _user;
@@ -207,7 +208,7 @@ class AuthProvider with ChangeNotifier {
         return {'success': false, 'message': 'Debes escribir ELIMINAR para confirmar'};
       }
       
-      if (confirmationText.toLowerCase() != 'eliminar') {
+      if (confirmationText != AppConstants.deleteConfirmationText) {
         return {'success': false, 'message': 'Debes escribir exactamente "ELIMINAR" para confirmar'};
       }
       
@@ -304,7 +305,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   bool _isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+    return RegExp(r'^[\w\.\-]+@[\w\-]+(\.[\w\-]+)+$').hasMatch(email);
   }
 
   bool _isStrongPassword(String password) {
