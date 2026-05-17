@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../providers/stations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../services/navigation_service.dart';
@@ -69,6 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         if (success) {
+          // Reset filters for the new session
+          context.read<StationsProvider>().resetFilters();
+          
           AppHelpers.showSuccessSnackBar(context, 'Inicio de sesión exitoso');
           NavigationService.pushNamedAndClearStack(AppRoutes.main);
         } else {
@@ -180,10 +184,38 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            decoration: InputDecoration(
                               labelText: 'Email',
-                              prefixIcon: Icon(LucideIcons.mail),
+                              labelStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                               hintText: 'ejemplo@correo.com',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 16,
+                              ),
+                              prefixIcon: Icon(LucideIcons.mail, color: AppColors.primary),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.9),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                                borderSide: BorderSide(color: Colors.grey.shade300),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                                borderSide: BorderSide(color: Colors.grey.shade300),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                                borderSide: BorderSide(color: AppColors.primary, width: 2),
+                              ),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -202,16 +234,45 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextFormField(
                             controller: _passwordController,
                             obscureText: !_showPassword,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                             decoration: InputDecoration(
                               labelText: 'Contraseña',
-                              prefixIcon: const Icon(LucideIcons.keyRound),
+                              labelStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                               hintText: 'Mínimo 8 caracteres',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 16,
+                              ),
+                              prefixIcon: Icon(LucideIcons.keyRound, color: AppColors.primary),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.9),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                                borderSide: BorderSide(color: Colors.grey.shade300),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                                borderSide: BorderSide(color: Colors.grey.shade300),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                                borderSide: BorderSide(color: AppColors.primary, width: 2),
+                              ),
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showPassword = !_showPassword);
                                 },
                                 icon: Icon(
                                   _showPassword ? LucideIcons.eyeOff : LucideIcons.eye,
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ),
@@ -238,7 +299,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 activeColor: AppColors.primary,
                               ),
-                              const Text('Recuérdame'),
+                              Text(
+                                'Recuérdame',
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ],
                           ),
                           

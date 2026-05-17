@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
@@ -18,7 +21,13 @@ class BikeStationsMap extends StatefulWidget {
 
 class _BikeStationsMapState extends State<BikeStationsMap> {
   BikeStation? _selectedStation;
-  Map<String, double>? _userLocation;
+  GoogleMapController? _mapController;
+  
+  // Madrid center (Puerta del Sol)
+  static const CameraPosition _initialPosition = CameraPosition(
+    target: LatLng(40.4168, -3.7038),
+    zoom: 13,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -26,73 +35,56 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
       builder: (context, stationsProvider, reservationsProvider, child) {
         return Stack(
           children: [
-            // Map Background
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: AppColors.mapGradient,
+            // Google Map
+            // Google Map
+            GoogleMap(
+              initialCameraPosition: _initialPosition,
+              onMapCreated: (controller) => _mapController = controller,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: false, // Custom button used below
+              zoomControlsEnabled: false, // We use custom buttons
+              zoomGesturesEnabled: true,
+              scrollGesturesEnabled: false,
+              mapToolbarEnabled: false,
+              gestureRecognizers: {
+                Factory<OneSequenceGestureRecognizer>(
+                  () => ScaleGestureRecognizer(),
                 ),
-              ),
-              child: CustomPaint(
-                painter: _GridPainter(),
-                child: Stack(
-                  children: [
-                    // User Location
-                    if (_userLocation != null)
-                      Positioned(
-                        left: _userLocation!['x']! - 8,
-                        top: _userLocation!['y']! - 8,
-                        child: Container(
-                          width: 16,
-                          height: 16,
-                          decoration: BoxDecoration(
-                            color: AppColors.info,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.info.withOpacity(0.3),
-                                blurRadius: 8,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
-                            Icons.my_location,
-                            size: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    
-                    // Station Markers
-                    ...stationsProvider.stations.asMap().entries.map((entry) {
-                      final index = entry.key;
-                      final station = entry.value;
-                      return _buildStationMarker(
-                        station,
-                        index,
-                        reservationsProvider,
-                        stationsProvider,
-                      );
-                    }).toList(),
-                  ],
-                ),
-              ),
+              },
+              markers: _createMarkers(stationsProvider, reservationsProvider),
+              onTap: (_) => _closeSelectedStation(),
             ),
             
             // Geolocation Button
             Positioned(
               top: AppSpacing.md,
               right: AppSpacing.md,
-              child: FloatingActionButton.small(
-                onPressed: _toggleUserLocation,
-                backgroundColor: Colors.white,
-                foregroundColor: AppColors.primary,
-                child: Icon(
-                  _userLocation != null ? LucideIcons.navigation : LucideIcons.navigation,
-                ),
+              child: Column(
+                children: [
+                  FloatingActionButton.small(
+                    heroTag: 'location_btn',
+                    onPressed: _moveToUserLocation,
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.primary,
+                    child: const Icon(LucideIcons.navigation),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  FloatingActionButton.small(
+                    heroTag: 'zoom_in_btn',
+                    onPressed: _zoomIn,
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.primary,
+                    child: const Icon(Icons.add),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  FloatingActionButton.small(
+                    heroTag: 'zoom_out_btn',
+                    onPressed: _zoomOut,
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.primary,
+                    child: const Icon(Icons.remove),
+                  ),
+                ],
               ),
             ),
             
@@ -114,61 +106,35 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     );
   }
 
-  Widget _buildStationMarker(
-    BikeStation station,
-    int index,
-    ReservationsProvider reservationsProvider,
+  Set<Marker> _createMarkers(
     StationsProvider stationsProvider,
+    ReservationsProvider reservationsProvider,
   ) {
-    // Calculate position based on index (grid distribution)
-    final double left = 20 + (index % 5) * 60.0;
-    final double top = 60 + (index ~/ 5) * 80.0;
-    
-    final hasAvailableSpots = station.availableSpots > 0;
-    final isActiveReservation = reservationsProvider.activeReservation?.id == station.id;
-    final isSelected = _selectedStation?.id == station.id;
+    return stationsProvider.stations.map((station) {
+      final hasAvailableSpots = station.availableSpots > 0;
+      final isActiveReservation = reservationsProvider.activeReservation?.id == station.id;
+      
+      // Determine marker hue based on status
+      double markerHue;
+      if (isActiveReservation) {
+        markerHue = BitmapDescriptor.hueBlue; // Reserved
+      } else if (hasAvailableSpots) {
+        markerHue = BitmapDescriptor.hueGreen; // Available
+      } else {
+        markerHue = BitmapDescriptor.hueRed; // Unavailable
+      }
 
-    Color markerColor;
-    if (isActiveReservation) {
-      markerColor = AppColors.reserved;
-    } else if (hasAvailableSpots) {
-      markerColor = AppColors.available;
-    } else {
-      markerColor = AppColors.unavailable;
-    }
-
-    return Positioned(
-      left: left,
-      top: top,
-      child: GestureDetector(
-        onTap: () => _selectStation(station),
-        child: AnimatedContainer(
-          duration: AppAnimations.medium,
-          width: isSelected ? 44 : 36,
-          height: isSelected ? 44 : 36,
-          decoration: BoxDecoration(
-            color: markerColor,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white,
-              width: isSelected ? 3 : 2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: markerColor.withOpacity(0.3),
-                blurRadius: isSelected ? 12 : 8,
-                spreadRadius: isSelected ? 3 : 1,
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.location_on,
-            color: Colors.white,
-            size: isSelected ? 24 : 20,
-          ),
+      return Marker(
+        markerId: MarkerId(station.id),
+        position: LatLng(station.lat, station.lng),
+        icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
+        infoWindow: InfoWindow(
+          title: station.name,
+          snippet: '${station.availableSpots} plazas libres',
         ),
-      ),
-    );
+        onTap: () => _selectStation(station),
+      );
+    }).toSet();
   }
 
   Widget _buildSelectedStationCard(
@@ -279,6 +245,11 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     setState(() {
       _selectedStation = station;
     });
+    
+    // Animate camera to selected station
+    _mapController?.animateCamera(
+      CameraUpdate.newLatLng(LatLng(station.lat, station.lng)),
+    );
   }
 
   void _closeSelectedStation() {
@@ -287,20 +258,23 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     });
   }
 
-  void _toggleUserLocation() {
-    setState(() {
-      if (_userLocation == null) {
-        // Simulate user location in center of map
-        _userLocation = {
-          'x': MediaQuery.of(context).size.width / 2,
-          'y': MediaQuery.of(context).size.height / 2,
-        };
-        AppHelpers.showInfoSnackBar(context, 'Ubicación activada');
-      } else {
-        _userLocation = null;
-        AppHelpers.showInfoSnackBar(context, 'Ubicación desactivada');
-      }
-    });
+  Future<void> _moveToUserLocation() async {
+    // In a real app, we would get the user's location here.
+    // For now, we'll just center back on Madrid or show a message
+    // since we enabled myLocationEnabled in the map widget which handles the blue dot.
+    // But to move the camera we need the location.
+    
+    // Since we don't have the geolocator logic fully implemented in this file 
+    // (it was just a toggle before), we will reset to initial position for now
+    // or rely on the map's built-in button if we enabled it.
+    // But we disabled the built-in button to use our custom one.
+    
+    // Let's just reset to Madrid center for this demo if we can't get location easily
+    _mapController?.animateCamera(
+      CameraUpdate.newCameraPosition(_initialPosition),
+    );
+    
+    AppHelpers.showInfoSnackBar(context, 'Centrando en Madrid');
   }
 
   void _toggleFavorite(StationsProvider stationsProvider, BikeStation station) {
@@ -328,8 +302,6 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
       AppHelpers.showErrorSnackBar(context, 'Ya tienes una reserva activa');
       return;
     }
-
-    // Reservar directamente sin modal de confirmación
 
     try {
       // Update station availability
@@ -360,36 +332,18 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
       AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
     }
   }
-}
 
-class _GridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
-      ..strokeWidth = 1;
-
-    const gridSize = 20.0;
-
-    // Draw vertical lines
-    for (double x = 0; x < size.width; x += gridSize) {
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, size.height),
-        paint,
-      );
-    }
-
-    // Draw horizontal lines
-    for (double y = 0; y < size.height; y += gridSize) {
-      canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        paint,
-      );
+  Future<void> _zoomIn() async {
+    final currentZoom = await _mapController?.getZoomLevel();
+    if (currentZoom != null) {
+      _mapController?.animateCamera(CameraUpdate.zoomTo(currentZoom + 1));
     }
   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  Future<void> _zoomOut() async {
+    final currentZoom = await _mapController?.getZoomLevel();
+    if (currentZoom != null) {
+      _mapController?.animateCamera(CameraUpdate.zoomTo(currentZoom - 1));
+    }
+  }
 }

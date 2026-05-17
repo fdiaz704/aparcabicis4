@@ -20,10 +20,15 @@ class BikeStationsList extends StatefulWidget {
 
 class _BikeStationsListState extends State<BikeStationsList> {
   final _searchController = TextEditingController();
-  bool _showOnlyAvailable = false;
-  bool _showOnlyFavorites = false;
-  String _sortBy = 'none'; // 'none', 'name', 'availability'
   bool _isFilterOpen = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize search controller with stored query
+    final stationsProvider = Provider.of<StationsProvider>(context, listen: false);
+    _searchController.text = stationsProvider.searchQuery;
+  }
 
   @override
   void dispose() {
@@ -35,17 +40,9 @@ class _BikeStationsListState extends State<BikeStationsList> {
   Widget build(BuildContext context) {
     return Consumer2<StationsProvider, ReservationsProvider>(
       builder: (context, stationsProvider, reservationsProvider, child) {
-        final filteredStations = stationsProvider.getFilteredStations(
-          searchQuery: _searchController.text,
-          showOnlyAvailable: _showOnlyAvailable,
-          showOnlyFavorites: _showOnlyFavorites,
-          sortBy: _sortBy,
-        );
 
-        final activeFilterCount = stationsProvider.getActiveFilterCount(
-          _showOnlyAvailable,
-          _showOnlyFavorites,
-        );
+        final filteredStations = stationsProvider.getFilteredStations();
+        final activeFilterCount = stationsProvider.getActiveFilterCount();
 
         return Column(
           children: [
@@ -63,11 +60,10 @@ class _BikeStationsListState extends State<BikeStationsList> {
                       prefixIcon: const Icon(LucideIcons.search),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
-                              onPressed: () {
-                                setState(() {
+                                onPressed: () {
                                   _searchController.clear();
-                                });
-                              },
+                                  stationsProvider.setSearchQuery('');
+                                },
                               icon: const Icon(Icons.clear),
                             )
                           : null,
@@ -80,7 +76,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                       ),
                     ),
                     onChanged: (value) {
-                      setState(() {});
+                      stationsProvider.setSearchQuery(value);
                     },
                   ),
                   
@@ -90,11 +86,19 @@ class _BikeStationsListState extends State<BikeStationsList> {
                   Row(
                     children: [
                       Expanded(
-                        child: OutlinedButton.icon(
+                        child: ElevatedButton.icon(
                           onPressed: () => _showFilterSheet(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade600,
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                            ),
+                          ),
                           icon: Stack(
                             children: [
-                              const Icon(Icons.tune),
+                              const Icon(Icons.tune, color: Colors.white),
                               if (activeFilterCount > 0)
                                 Positioned(
                                   right: -2,
@@ -126,6 +130,10 @@ class _BikeStationsListState extends State<BikeStationsList> {
                             activeFilterCount > 0 
                                 ? 'Filtros ($activeFilterCount)'
                                 : 'Filtros',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
@@ -240,8 +248,8 @@ class _BikeStationsListState extends State<BikeStationsList> {
   }
 
   Widget _buildFilterDialog() {
-    return StatefulBuilder(
-      builder: (context, setDialogState) {
+    return Consumer<StationsProvider>(
+      builder: (context, stationsProvider, child) {
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
@@ -258,143 +266,125 @@ class _BikeStationsListState extends State<BikeStationsList> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-              // Header
-              Row(
-                children: [
-                  const Text(
-                    'Filtros',
-                    style: AppTextStyles.heading2,
-                  ),
-                  const Spacer(),
-                  OutlinedButton(
-                    onPressed: () {
-                      setDialogState(() {
-                        _showOnlyAvailable = false;
-                        _showOnlyFavorites = false;
-                        _sortBy = 'none';
-                      });
-                      setState(() {});
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Limpiar todo',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-              
-              const SizedBox(height: AppSpacing.lg),
-              
-              // Scrollable content
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // Header
+                  Row(
                     children: [
-                      // Available Filter
-                      PlatformWidgets.buildAdaptiveSwitch(
-                        title: 'Solo disponibles',
-                        subtitle: 'Mostrar solo estaciones con plazas libres',
-                        value: _showOnlyAvailable,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          setDialogState(() {
-                            _showOnlyAvailable = value;
-                          });
-                          setState(() {});
-                        },
-                      ),
-                      
-                      // Favorites Filter
-                      PlatformWidgets.buildAdaptiveSwitch(
-                        title: 'Solo favoritos',
-                        subtitle: 'Mostrar solo estaciones marcadas como favoritas',
-                        value: _showOnlyFavorites,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          setDialogState(() {
-                            _showOnlyFavorites = value;
-                          });
-                          setState(() {});
-                        },
-                      ),
-                      
-                      const SizedBox(height: AppSpacing.md),
-                      
-                      // Sort Options
                       const Text(
-                        'Ordenar por',
-                        style: AppTextStyles.heading3,
+                        'Filtros',
+                        style: AppTextStyles.heading2,
                       ),
-                      const SizedBox(height: AppSpacing.sm),
-                      
-                      RadioListTile<String>(
-                        title: const Text('Sin ordenar'),
-                        value: 'none',
-                        groupValue: _sortBy,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          setDialogState(() {
-                            _sortBy = value!;
-                          });
-                          setState(() {});
+                      const Spacer(),
+                      OutlinedButton(
+                        onPressed: () {
+                          stationsProvider.resetFilters();
+                          // Update local search controller if needed, though resetFilters clears query too
+                          _searchController.clear(); 
                         },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text(
+                          'Limpiar todo',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ),
-                      
-                      RadioListTile<String>(
-                        title: const Text('Nombre (A-Z)'),
-                        value: 'name',
-                        groupValue: _sortBy,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          setDialogState(() {
-                            _sortBy = value!;
-                          });
-                          setState(() {});
-                        },
-                      ),
-                      
-                      RadioListTile<String>(
-                        title: const Text('Disponibilidad (más a menos)'),
-                        value: 'availability',
-                        groupValue: _sortBy,
-                        activeColor: AppColors.primary,
-                        onChanged: (value) {
-                          setDialogState(() {
-                            _sortBy = value!;
-                          });
-                          setState(() {});
-                        },
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.close),
                       ),
                     ],
                   ),
-                ),
-              ),
-              
-              const SizedBox(height: AppSpacing.lg),
-              
-              // Apply Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Aplicar filtros'),
-                ),
-              ),
+                  
+                  const SizedBox(height: AppSpacing.lg),
+                  
+                  // Scrollable content
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Available Filter
+                          PlatformWidgets.buildAdaptiveSwitch(
+                            title: 'Solo disponibles',
+                            subtitle: 'Mostrar solo estaciones con plazas libres',
+                            value: stationsProvider.showOnlyAvailable,
+                            activeColor: AppColors.primary,
+                            onChanged: (value) {
+                              stationsProvider.setFilters(showOnlyAvailable: value);
+                            },
+                          ),
+                          
+                          // Favorites Filter
+                          PlatformWidgets.buildAdaptiveSwitch(
+                            title: 'Solo favoritos',
+                            subtitle: 'Mostrar solo estaciones marcadas como favoritas',
+                            value: stationsProvider.showOnlyFavorites,
+                            activeColor: AppColors.primary,
+                            onChanged: (value) {
+                              stationsProvider.setFilters(showOnlyFavorites: value);
+                            },
+                          ),
+                          
+                          const SizedBox(height: AppSpacing.md),
+                          
+                          // Sort Options
+                          const Text(
+                            'Ordenar por',
+                            style: AppTextStyles.heading3,
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                          
+                          RadioListTile<String>(
+                            title: const Text('Sin ordenar'),
+                            value: 'none',
+                            groupValue: stationsProvider.sortBy,
+                            activeColor: AppColors.primary,
+                            onChanged: (value) {
+                              stationsProvider.setFilters(sortBy: value);
+                            },
+                          ),
+                          
+                          RadioListTile<String>(
+                            title: const Text('Nombre (A-Z)'),
+                            value: 'name',
+                            groupValue: stationsProvider.sortBy,
+                            activeColor: AppColors.primary,
+                            onChanged: (value) {
+                              stationsProvider.setFilters(sortBy: value);
+                            },
+                          ),
+                          
+                          RadioListTile<String>(
+                            title: const Text('Disponibilidad (más a menos)'),
+                            value: 'availability',
+                            groupValue: stationsProvider.sortBy,
+                            activeColor: AppColors.primary,
+                            onChanged: (value) {
+                              stationsProvider.setFilters(sortBy: value);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: AppSpacing.lg),
+                  
+                  // Apply Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Aplicar filtros'),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -405,11 +395,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
   }
 
   void _clearAllFilters() {
-    setState(() {
-      _searchController.clear();
-      _showOnlyAvailable = false;
-      _showOnlyFavorites = false;
-      _sortBy = 'none';
-    });
+    _searchController.clear();
+    context.read<StationsProvider>().resetFilters();
   }
 }

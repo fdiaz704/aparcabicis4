@@ -23,6 +23,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Consumer<ReservationsProvider>(
       builder: (context, reservationsProvider, child) {
         final history = reservationsProvider.reservationHistory;
@@ -34,13 +36,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
             // Statistics Cards
             Container(
               padding: const EdgeInsets.all(AppSpacing.md),
-              color: Colors.grey[50],
+              color: isDark ? Theme.of(context).colorScheme.surface : Colors.grey[50],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Estadísticas',
-                    style: AppTextStyles.heading3,
+                    style: AppTextStyles.heading3.copyWith(
+                      color: isDark ? Colors.white : Colors.black,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.md),
                   
@@ -86,7 +90,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 horizontal: AppSpacing.sm,
                 vertical: 2,
               ),
-              color: Colors.white,
+              color: isDark ? Theme.of(context).colorScheme.surface : Colors.white,
               child: Row(
                 children: [
                   // Filter Dropdown
@@ -95,23 +99,36 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: DropdownButtonFormField<ReservationStatus?>(
                       value: _selectedFilter,
                       isDense: true,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Estado',
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(
+                        labelStyle: TextStyle(
+                          color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
+                        ),
+                        border: const OutlineInputBorder(),
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.sm,
                           vertical: 0,
                         ),
                       ),
                       items: [
-                        const DropdownMenuItem<ReservationStatus?>(
+                        DropdownMenuItem<ReservationStatus?>(
                           value: null,
-                          child: Text('Todos'),
+                          child: Text(
+                            'Todos',
+                            style: TextStyle(
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                         ...ReservationStatus.values.map((status) {
                           return DropdownMenuItem<ReservationStatus?>(
                             value: status,
-                            child: Text(_getStatusText(status)),
+                            child: Text(
+                              _getStatusText(status),
+                              style: TextStyle(
+                                color: isDark ? Colors.white : Colors.black,
+                              ),
+                            ),
                           );
                         }),
                       ],
@@ -131,30 +148,53 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: DropdownButtonFormField<String>(
                       value: _sortBy,
                       isDense: true,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Ordenar',
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(
+                        labelStyle: TextStyle(
+                          color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
+                        ),
+                        border: const OutlineInputBorder(),
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.sm,
                           vertical: 0,
                         ),
                       ),
-                      items: const [
+                      items: [
                         DropdownMenuItem(
                           value: 'date_desc',
-                          child: Text('Reciente'),
+                          child: Text(
+                            'Reciente',
+                            style: TextStyle(
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: 'date_asc',
-                          child: Text('Antiguo'),
+                          child: Text(
+                            'Antiguo',
+                            style: TextStyle(
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: 'duration_desc',
-                          child: Text('+ Duración'),
+                          child: Text(
+                            '+ Duración',
+                            style: TextStyle(
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: 'duration_asc',
-                          child: Text('- Duración'),
+                          child: Text(
+                            '- Duración',
+                            style: TextStyle(
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                       ],
                       onChanged: (value) {
@@ -174,12 +214,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 horizontal: AppSpacing.md,
                 vertical: AppSpacing.sm,
               ),
-              color: Colors.grey[50],
+              color: isDark ? Theme.of(context).colorScheme.surface : Colors.grey[50],
               child: Row(
                 children: [
                   Text(
                     '${filteredHistory.length} reserva${filteredHistory.length != 1 ? 's' : ''} encontrada${filteredHistory.length != 1 ? 's' : ''}',
-                    style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -239,6 +282,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget _buildEmptyState() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -248,14 +293,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
             Icon(
               LucideIcons.history,
               size: 64,
-              color: Colors.grey[400],
+              color: isDark ? Colors.grey.shade600 : Colors.grey.shade400,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               _selectedFilter != null
                   ? 'No hay reservas ${_getStatusText(_selectedFilter!).toLowerCase()}'
                   : 'No hay reservas en el historial',
-              style: AppTextStyles.heading3.copyWith(color: Colors.grey[600]),
+              style: AppTextStyles.heading3.copyWith(
+                color: isDark ? Colors.grey.shade300 : Colors.grey.shade600,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -263,7 +310,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
               _selectedFilter != null
                   ? 'Intenta cambiar el filtro para ver más reservas'
                   : 'Tus reservas aparecerán aquí una vez que las completes',
-              style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[500]),
+              style: AppTextStyles.bodySmall.copyWith(
+                color: isDark ? Colors.grey.shade400 : Colors.grey.shade500,
+              ),
               textAlign: TextAlign.center,
             ),
             if (_selectedFilter != null) ...[
@@ -361,13 +410,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.grey[600]),
+          Icon(icon, size: 20, color: Colors.grey.shade700),
           const SizedBox(width: AppSpacing.sm),
           Text(
             '$label:',
             style: AppTextStyles.body.copyWith(
-              fontWeight: FontWeight.w500,
-              color: Colors.grey[700],
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade800,
             ),
           ),
           const SizedBox(width: AppSpacing.sm),

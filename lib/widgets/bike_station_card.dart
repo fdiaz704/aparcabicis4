@@ -21,6 +21,8 @@ class BikeStationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Consumer2<StationsProvider, ReservationsProvider>(
       builder: (context, stationsProvider, reservationsProvider, child) {
         final isFavorite = stationsProvider.isFavorite(station.id);
@@ -52,7 +54,9 @@ class BikeStationCard extends StatelessWidget {
                       onPressed: () => _toggleFavorite(context, stationsProvider),
                       icon: Icon(
                         isFavorite ? Icons.star : Icons.star_border,
-                        color: isFavorite ? AppColors.favorite : Colors.grey,
+                        color: isFavorite 
+                            ? AppColors.favorite 
+                            : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
                       ),
                       tooltip: isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos',
                     ),
@@ -84,16 +88,19 @@ class BikeStationCard extends StatelessWidget {
                 // Address Row
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.location_on,
                       size: 16,
-                      color: Colors.grey,
+                      color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
                     ),
                     const SizedBox(width: AppSpacing.xs),
                     Expanded(
                       child: Text(
                         station.address,
-                        style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: isDark ? Colors.grey.shade200 : Colors.grey.shade800,
+                          fontWeight: FontWeight.w500,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

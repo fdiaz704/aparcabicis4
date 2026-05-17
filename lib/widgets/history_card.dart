@@ -19,6 +19,7 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final statusColor = _getStatusColor(record.status);
     final statusIcon = _getStatusIcon(record.status);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -37,7 +38,9 @@ class HistoryCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       record.stationName,
-                      style: AppTextStyles.heading3,
+                      style: AppTextStyles.heading3.copyWith(
+                        color: isDark ? Colors.white : Colors.black,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -81,15 +84,18 @@ class HistoryCard extends StatelessWidget {
               // Date and Time
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today,
                     size: 16,
-                    color: Colors.grey,
+                    color: Colors.grey.shade700,
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Text(
                     AppHelpers.formatDateTime(record.startTime),
-                    style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: Colors.grey.shade800,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -102,15 +108,18 @@ class HistoryCard extends StatelessWidget {
                   // Duration
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         LucideIcons.clock,
                         size: 16,
-                        color: Colors.grey,
+                        color: Colors.grey.shade700,
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Text(
                         _getDurationText(),
-                        style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: Colors.grey.shade800,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),

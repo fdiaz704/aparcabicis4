@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
@@ -104,49 +105,49 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
   }
 
   Widget _buildHeaderMap(dynamic station, bool isReserved, bool isInUse) {
+    // Get all stations to show nearby ones
+    final stationsProvider = Provider.of<StationsProvider>(context, listen: false);
+    
+    Set<Marker> markers = stationsProvider.stations.map((s) {
+      final isTargetStation = s.id == station.id;
+      
+      // Determine marker hue
+      double markerHue;
+      if (isTargetStation) {
+        markerHue = BitmapDescriptor.hueBlue; // Reserved/Target
+      } else if (s.availableSpots > 0) {
+        markerHue = BitmapDescriptor.hueGreen; // Available
+      } else {
+        markerHue = BitmapDescriptor.hueRed; // Unavailable
+      }
+
+      return Marker(
+        markerId: MarkerId(s.id),
+        position: LatLng(s.lat, s.lng),
+        icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
+      );
+    }).toSet();
+
     return Container(
       height: AppDimensions.mapHeight,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: AppColors.mapGradient,
-        ),
-      ),
       child: Stack(
         children: [
-          // Grid Background
-          CustomPaint(
-            painter: _GridPainter(),
-            size: Size.infinite,
-          ),
-          
-          // Station Marker (centered)
-          Center(
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: AppColors.reserved,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 3),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.reserved.withOpacity(0.4),
-                    blurRadius: 15,
-                    spreadRadius: 3,
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.location_on,
-                color: Colors.white,
-                size: 28,
-              ),
+          GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(station.lat, station.lng),
+              zoom: 15, // Close enough to see nearby context
             ),
+            markers: markers,
+            zoomControlsEnabled: false,
+            zoomGesturesEnabled: false, // Disabled as requested
+            scrollGesturesEnabled: false, // Disabled as requested
+            rotateGesturesEnabled: false,
+            tiltGesturesEnabled: false,
+            myLocationEnabled: false, // Keep it clean
+            mapToolbarEnabled: false,
           ),
           
-          // Status Badge
+          // Status Badge Overlay
           Positioned(
             top: AppSpacing.md,
             right: AppSpacing.md,
@@ -158,6 +159,13 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
               decoration: BoxDecoration(
                 color: isReserved ? Colors.grey[600] : AppColors.primary,
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Text(
                 isReserved ? 'Reservada' : 'En uso',
@@ -531,34 +539,4 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
   }
 }
 
-class _GridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
-      ..strokeWidth = 1;
 
-    const gridSize = 20.0;
-
-    // Draw vertical lines
-    for (double x = 0; x < size.width; x += gridSize) {
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, size.height),
-        paint,
-      );
-    }
-
-    // Draw horizontal lines
-    for (double y = 0; y < size.height; y += gridSize) {
-      canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        paint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}

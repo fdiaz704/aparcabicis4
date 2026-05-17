@@ -22,6 +22,7 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardColor = color ?? AppColors.primary;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
       child: InkWell(
@@ -53,8 +54,8 @@ class StatCard extends StatelessWidget {
                     child: Text(
                       title,
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w500,
+                        color: isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -67,10 +68,10 @@ class StatCard extends StatelessWidget {
               Flexible(
                 child: Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: isDark ? Colors.white : Colors.black87,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -84,7 +85,8 @@ class StatCard extends StatelessWidget {
                   child: Text(
                     subtitle!,
                     style: AppTextStyles.bodySmall.copyWith(
-                      color: Colors.grey[500],
+                      color: isDark ? Colors.grey.shade400 : Colors.grey.shade700,
+                      fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

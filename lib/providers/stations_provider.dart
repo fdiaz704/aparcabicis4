@@ -10,6 +10,17 @@ class StationsProvider with ChangeNotifier {
   List<BikeStation> get stations => _stations;
   List<String> get favoriteStations => _favoriteStations;
 
+  // Filter State
+  String _searchQuery = '';
+  bool _showOnlyAvailable = false;
+  bool _showOnlyFavorites = false;
+  String _sortBy = 'none';
+
+  String get searchQuery => _searchQuery;
+  bool get showOnlyAvailable => _showOnlyAvailable;
+  bool get showOnlyFavorites => _showOnlyFavorites;
+  String get sortBy => _sortBy;
+
   // Initialize with mock data and load favorites
   Future<void> initialize() async {
     _loadMockStations();
@@ -61,35 +72,55 @@ class StationsProvider with ChangeNotifier {
     }
   }
 
-  // Filter stations based on search criteria
-  List<BikeStation> getFilteredStations({
-    String? searchQuery,
-    bool showOnlyAvailable = false,
-    bool showOnlyFavorites = false,
-    String sortBy = 'none', // 'none', 'name', 'availability'
+  // Setters for filters
+  void setSearchQuery(String query) {
+    _searchQuery = query;
+    notifyListeners();
+  }
+
+  void setFilters({
+    bool? showOnlyAvailable,
+    bool? showOnlyFavorites,
+    String? sortBy,
   }) {
+    if (showOnlyAvailable != null) _showOnlyAvailable = showOnlyAvailable;
+    if (showOnlyFavorites != null) _showOnlyFavorites = showOnlyFavorites;
+    if (sortBy != null) _sortBy = sortBy;
+    notifyListeners();
+  }
+
+  void resetFilters() {
+    _searchQuery = '';
+    _showOnlyAvailable = false;
+    _showOnlyFavorites = false;
+    _sortBy = 'none';
+    notifyListeners();
+  }
+
+  // Filter stations based on stored state
+  List<BikeStation> getFilteredStations() {
     List<BikeStation> filtered = List.from(_stations);
 
     // Apply search filter
-    if (searchQuery != null && searchQuery.isNotEmpty) {
+    if (_searchQuery.isNotEmpty) {
       filtered = filtered.where((station) {
-        return station.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
-               station.address.toLowerCase().contains(searchQuery.toLowerCase());
+        return station.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+               station.address.toLowerCase().contains(_searchQuery.toLowerCase());
       }).toList();
     }
 
     // Apply availability filter
-    if (showOnlyAvailable) {
+    if (_showOnlyAvailable) {
       filtered = filtered.where((station) => station.availableSpots > 0).toList();
     }
 
     // Apply favorites filter
-    if (showOnlyFavorites) {
+    if (_showOnlyFavorites) {
       filtered = filtered.where((station) => _favoriteStations.contains(station.id)).toList();
     }
 
     // Apply sorting
-    switch (sortBy) {
+    switch (_sortBy) {
       case 'name':
         filtered.sort((a, b) => a.name.compareTo(b.name));
         break;
@@ -105,10 +136,10 @@ class StationsProvider with ChangeNotifier {
   }
 
   // Get active filter count
-  int getActiveFilterCount(bool showOnlyAvailable, bool showOnlyFavorites) {
+  int getActiveFilterCount() {
     int count = 0;
-    if (showOnlyAvailable) count++;
-    if (showOnlyFavorites) count++;
+    if (_showOnlyAvailable) count++;
+    if (_showOnlyFavorites) count++;
     return count;
   }
 
