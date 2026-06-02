@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
-import '../utils/constants.dart';
+import '../services/secure_storage_service.dart';
 
 class AuthProvider with ChangeNotifier {
   User? _user;
@@ -10,55 +10,61 @@ class AuthProvider with ChangeNotifier {
   User? get user => _user;
   bool get isLoggedIn => _isLoggedIn;
 
-  // Initialize and load saved credentials
+  // Initialize: purge any legacy plaintext password, then load saved state
   Future<void> initialize() async {
+    await _migrateLegacyCredentials();
     await _loadSavedCredentials();
   }
 
-  // Get saved credentials for auto-fill
-  Future<Map<String, String?>> getSavedCredentials() async {
+  // One-time cleanup: older versions stored the password in plain text in
+  // SharedPreferences. Remove it from any existing install. Passwords must
+  // never persist on the device.
+  Future<void> _migrateLegacyCredentials() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.containsKey('bikeParking_password')) {
+        await prefs.remove('bikeParking_password');
+        debugPrint('Removed legacy plaintext password from storage');
+      }
+    } catch (e) {
+      debugPrint('Legacy credential migration error: $e');
+    }
+  }
+
+  // Get the remembered email for auto-fill (never the password).
+  Future<String?> getSavedEmail() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final rememberMe = prefs.getString('bikeParking_rememberMe');
-      final email = prefs.getString('bikeParking_email');
-      final password = prefs.getString('bikeParking_password');
-      
-      debugPrint('AuthProvider - getSavedCredentials:');
-      debugPrint('  rememberMe: $rememberMe');
-      debugPrint('  email: $email');
-      debugPrint('  password: ${password != null ? '[HIDDEN]' : 'null'}');
-      
       if (rememberMe == 'true') {
-        return {
-          'email': email,
-          'password': password,
-        };
+        return prefs.getString('bikeParking_email');
       }
-      return {'email': null, 'password': null};
+      return null;
     } catch (e) {
-      debugPrint('Get saved credentials error: $e');
-      return {'email': null, 'password': null};
+      debugPrint('Get saved email error: $e');
+      return null;
     }
   }
 
   // Login method
   Future<bool> login(String email, String password, bool rememberMe) async {
     try {
-      // TODO: Replace with actual authentication logic
-      // For now, we'll simulate a successful login
-      if (email.isNotEmpty && password.length >= 8) {
+      // TODO: Replace with a real backend call. On success the backend should
+      // return a session token; persist ONLY the token (never the password):
+      //   await SecureStorageService.saveSessionToken(response.token);
+      // For now, we simulate a successful login.
+      if (_isValidEmail(email.trim()) && password.length >= 8) {
         _user = User(email: email);
         _isLoggedIn = true;
-        
-        debugPrint('Login successful, rememberMe: $rememberMe');
+
+        // "Recuérdame" only remembers the email to pre-fill the form next time.
+        // The password is never persisted on the device.
         if (rememberMe) {
-          debugPrint('Saving credentials...');
-          await _saveCredentials(email, password, rememberMe);
+          await _saveRememberedEmail(email);
         } else {
-          debugPrint('Clearing saved credentials...');
-          await _clearSavedCredentials();
+          await _clearRememberedEmail();
         }
-        
+
         notifyListeners();
         return true;
       }
@@ -73,9 +79,11 @@ class AuthProvider with ChangeNotifier {
   Future<void> logout() async {
     _user = null;
     _isLoggedIn = false;
-    
-    // Solo limpiar el estado de login, pero mantener credenciales si "Recuérdame" estaba activo
+
+    // Clear the login state but keep the remembered email if "Recuérdame" was on.
     await _clearLoginState();
+    // Drop any session token from secure storage (no-op if none stored yet).
+    await SecureStorageService.deleteSessionToken();
     notifyListeners();
   }
 
@@ -208,7 +216,7 @@ class AuthProvider with ChangeNotifier {
         return {'success': false, 'message': 'Debes escribir ELIMINAR para confirmar'};
       }
       
-      if (confirmationText != AppConstants.deleteConfirmationText) {
+      if (confirmationText.toLowerCase() != 'eliminar') {
         return {'success': false, 'message': 'Debes escribir exactamente "ELIMINAR" para confirmar'};
       }
       
@@ -266,16 +274,16 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> _saveCredentials(String email, String password, bool rememberMe) async {
+  // Persist only the email (and session flags) for "Recuérdame".
+  // The password is intentionally never stored.
+  Future<void> _saveRememberedEmail(String email) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('bikeParking_email', email);
-      await prefs.setString('bikeParking_password', password);
       await prefs.setString('bikeParking_rememberMe', 'true');
       await prefs.setBool('bikeParking_isLoggedIn', true);
-      debugPrint('Credentials saved successfully');
     } catch (e) {
-      debugPrint('Save credentials error: $e');
+      debugPrint('Save remembered email error: $e');
     }
   }
 
@@ -290,22 +298,21 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Limpiar todas las credenciales (para cuando NO se marca "Recuérdame")
-  Future<void> _clearSavedCredentials() async {
+  // Clear the remembered email (for when "Recuérdame" is NOT checked).
+  Future<void> _clearRememberedEmail() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('bikeParking_email');
-      await prefs.remove('bikeParking_password');
       await prefs.remove('bikeParking_rememberMe');
+      await prefs.remove('bikeParking_password'); // legacy cleanup
       await prefs.setBool('bikeParking_isLoggedIn', false);
-      debugPrint('Credentials cleared successfully');
     } catch (e) {
-      debugPrint('Clear credentials error: $e');
+      debugPrint('Clear remembered email error: $e');
     }
   }
 
   bool _isValidEmail(String email) {
-    return RegExp(r'^[\w\.\-]+@[\w\-]+(\.[\w\-]+)+$').hasMatch(email);
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
 
   bool _isStrongPassword(String password) {

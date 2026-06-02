@@ -36,22 +36,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _loadSavedCredentials() async {
     try {
       final authProvider = context.read<AuthProvider>();
-      final credentials = await authProvider.getSavedCredentials();
-      
-      debugPrint('Loading saved credentials: $credentials');
-      
-      if (credentials['email'] != null && credentials['password'] != null) {
-        debugPrint('Found saved credentials, filling fields');
+      // "Recuérdame" only restores the email; the password is never stored.
+      final savedEmail = await authProvider.getSavedEmail();
+
+      if (savedEmail != null && savedEmail.isNotEmpty) {
         setState(() {
-          _emailController.text = credentials['email']!;
-          _passwordController.text = credentials['password']!;
+          _emailController.text = savedEmail;
           _rememberMe = true;
         });
-      } else {
-        debugPrint('No saved credentials found');
       }
     } catch (e) {
-      debugPrint('Load saved credentials error: $e');
+      debugPrint('Load saved email error: $e');
     }
   }
 

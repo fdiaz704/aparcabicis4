@@ -19,8 +19,11 @@ class AppConstants {
   
   // SharedPreferences Keys
   static const String prefKeyEmail = 'bikeParking_email';
-  static const String prefKeyPassword = 'bikeParking_password';
   static const String prefKeyRememberMe = 'bikeParking_rememberMe';
+  // NOTE: the password is never stored on the device. This legacy key is kept
+  // only so AuthProvider can purge it from existing installs
+  // (see AuthProvider._migrateLegacyCredentials).
+  static const String prefKeyLegacyPassword = 'bikeParking_password';
   static const String prefKeyFavorites = 'bikeParking_favorites';
   static const String prefKeyHistory = 'bikeParking_history';
   
