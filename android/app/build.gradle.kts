@@ -1,8 +1,24 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Load the Google Maps API key from a non-committed secrets file (or a
+// MAPS_API_KEY environment variable in CI). Never hardcode the key in source.
+val mapsApiKey: String = run {
+    val secretsFile = rootProject.file("secrets.properties")
+    val secrets = Properties()
+    if (secretsFile.exists()) {
+        FileInputStream(secretsFile).use { secrets.load(it) }
+    }
+    secrets.getProperty("MAPS_API_KEY")
+        ?: System.getenv("MAPS_API_KEY")
+        ?: ""
 }
 
 android {
@@ -28,6 +44,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Injected into AndroidManifest.xml as ${MAPS_API_KEY}.
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
 
     buildTypes {

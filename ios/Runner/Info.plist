@@ -58,5 +58,9 @@
 	<array>
 		<string>tel</string>
 	</array>
+
+	<!-- Google Maps API key, injected from Secrets.xcconfig at build time -->
+	<key>MapsApiKey</key>
+	<string>$(MAPS_API_KEY)</string>
 </dict>
 </plist>
