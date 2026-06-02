@@ -5,8 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:aparcabicis4/main.dart';
+import 'package:aparcabicis4/screens/splash_screen.dart';
 import 'package:aparcabicis4/providers/auth_provider.dart';
 import 'package:aparcabicis4/providers/stations_provider.dart';
 import 'package:aparcabicis4/providers/reservations_provider.dart';
@@ -15,6 +17,8 @@ import 'package:aparcabicis4/services/storage_service.dart';
 void main() {
   // Initialize storage service for tests
   setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
     await StorageService.initialize();
   });
 
@@ -25,21 +29,28 @@ void main() {
     // Verify that the splash screen is shown
     expect(find.text('Aparcabicis'), findsOneWidget);
     expect(find.text('Inicializando...'), findsOneWidget);
-    
+
     // Verify the bike icon is present
     expect(find.byType(Icon), findsWidgets);
+
+    // Drain the 2s splash delay and let navigation complete so no timer leaks.
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
   });
 
   testWidgets('Providers are properly initialized', (WidgetTester tester) async {
     // Build the app with providers
     await tester.pumpWidget(const AparcabicisApp());
 
-    // Find the providers in the widget tree
-    final authProvider = tester.widget<ChangeNotifierProvider<AuthProvider>>(
-      find.byType(ChangeNotifierProvider<AuthProvider>),
-    );
-    
-    expect(authProvider, isNotNull);
+    // The providers should be reachable from any descendant context.
+    final BuildContext context = tester.element(find.byType(SplashScreen));
+    expect(Provider.of<AuthProvider>(context, listen: false), isNotNull);
+    expect(Provider.of<StationsProvider>(context, listen: false), isNotNull);
+    expect(Provider.of<ReservationsProvider>(context, listen: false), isNotNull);
+
+    // Drain the 2s splash delay and let navigation complete so no timer leaks.
+    await tester.pump(const Duration(seconds: 2));
+    await tester.pumpAndSettle();
   });
 
   group('AuthProvider Tests', () {
