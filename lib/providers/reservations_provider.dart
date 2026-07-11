@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
-import '../models/bike_station.dart';
+import '../models/parking.dart';
 import '../models/reservation_record.dart';
 import '../utils/constants.dart';
 
 enum ReservationState { reserved, inUse }
 
 class ReservationsProvider with ChangeNotifier {
-  BikeStation? _activeReservation;
+  Parking? _activeReservation;
   DateTime? _reservationStartTime;
   ReservationState _reservationState = ReservationState.reserved;
   List<ReservationRecord> _reservationHistory = [];
@@ -20,7 +20,7 @@ class ReservationsProvider with ChangeNotifier {
   int _usageTime = 0; // Usage time in seconds
   
   // Getters
-  BikeStation? get activeReservation => _activeReservation;
+  Parking? get activeReservation => _activeReservation;
   DateTime? get reservationStartTime => _reservationStartTime;
   ReservationState get reservationState => _reservationState;
   List<ReservationRecord> get reservationHistory => _reservationHistory;
@@ -34,9 +34,9 @@ class ReservationsProvider with ChangeNotifier {
   }
 
   // Create a new reservation
-  Future<bool> createReservation(BikeStation station) async {
+  Future<bool> createReservation(Parking parking) async {
     try {
-      if (station.availableSpots <= 0) {
+      if (parking.availableSpots <= 0) {
         return false;
       }
 
@@ -44,7 +44,7 @@ class ReservationsProvider with ChangeNotifier {
         return false; // Already has an active reservation
       }
 
-      _activeReservation = station;
+      _activeReservation = parking;
       _reservationStartTime = DateTime.now();
       _reservationState = ReservationState.reserved;
       _reservationTimeLeft = AppConstants.reservationTimeoutSeconds; // 30 minutes
@@ -72,8 +72,8 @@ class ReservationsProvider with ChangeNotifier {
       // Create reservation record
       final record = ReservationRecord(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        stationName: _activeReservation!.name,
-        stationAddress: _activeReservation!.address,
+        parkingName: _activeReservation!.name,
+        parkingAddress: _activeReservation!.address,
         startTime: _reservationStartTime!,
         endTime: endTime,
         duration: duration,
@@ -138,21 +138,21 @@ class ReservationsProvider with ChangeNotifier {
     final completedReservations = _reservationHistory.where((r) => r.status == ReservationStatus.completed);
     final totalMinutes = completedReservations.fold<int>(0, (sum, r) => sum + r.duration);
     
-    // Find most frequent station
-    final stationFrequency = <String, int>{};
+    // Find most frequent parking
+    final parkingFrequency = <String, int>{};
     for (final reservation in _reservationHistory) {
-      stationFrequency[reservation.stationName] = (stationFrequency[reservation.stationName] ?? 0) + 1;
+      parkingFrequency[reservation.parkingName] = (parkingFrequency[reservation.parkingName] ?? 0) + 1;
     }
     
-    String favoriteStation = 'Ninguna aún';
-    if (stationFrequency.isNotEmpty) {
-      favoriteStation = stationFrequency.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+    String favoriteParking = 'Ninguna aún';
+    if (parkingFrequency.isNotEmpty) {
+      favoriteParking = parkingFrequency.entries.reduce((a, b) => a.value > b.value ? a : b).key;
     }
 
     return {
       'totalReservations': total,
       'totalTimeMinutes': totalMinutes,
-      'favoriteStation': favoriteStation,
+      'favoriteParking': favoriteParking,
     };
   }
 

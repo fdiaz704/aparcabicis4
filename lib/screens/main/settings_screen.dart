@@ -202,7 +202,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final faqs = [
       {
         'question': '¿Cómo reservo una plaza?',
-        'answer': 'Ve a la sección de Estaciones, selecciona una estación disponible y presiona "Reservar". Tendrás 30 minutos para llegar.',
+        'answer': 'Ve a la sección de Aparcamientos, selecciona una aparcamiento disponible y presiona "Reservar". Tendrás 30 minutos para llegar.',
       },
       {
         'question': '¿Puedo cancelar mi reserva?',

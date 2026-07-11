@@ -57,7 +57,6 @@ class PlatformIcons {
   // App-specific Icons
   static IconData get bike => Icons.directions_bike;
   static IconData get parking => Platform.isIOS ? CupertinoIcons.car_detailed : Icons.local_parking;
-  static IconData get station => Platform.isIOS ? CupertinoIcons.map_pin_ellipse : Icons.pin_drop_outlined;
   static IconData get reservation => calendar;
   static IconData get history => Platform.isIOS ? CupertinoIcons.clock : Icons.history;
   static IconData get favorite => Platform.isIOS ? CupertinoIcons.heart : Icons.favorite;

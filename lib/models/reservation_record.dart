@@ -2,8 +2,8 @@ enum ReservationStatus { completed, cancelled, expired }
 
 class ReservationRecord {
   final String id;
-  final String stationName;
-  final String stationAddress;
+  final String parkingName;
+  final String parkingAddress;
   final DateTime startTime;
   final DateTime? endTime;
   final int duration; // Duration in minutes
@@ -12,8 +12,8 @@ class ReservationRecord {
 
   ReservationRecord({
     required this.id,
-    required this.stationName,
-    required this.stationAddress,
+    required this.parkingName,
+    required this.parkingAddress,
     required this.startTime,
     this.endTime,
     required this.duration,
@@ -23,8 +23,8 @@ class ReservationRecord {
 
   ReservationRecord copyWith({
     String? id,
-    String? stationName,
-    String? stationAddress,
+    String? parkingName,
+    String? parkingAddress,
     DateTime? startTime,
     DateTime? endTime,
     int? duration,
@@ -33,8 +33,8 @@ class ReservationRecord {
   }) {
     return ReservationRecord(
       id: id ?? this.id,
-      stationName: stationName ?? this.stationName,
-      stationAddress: stationAddress ?? this.stationAddress,
+      parkingName: parkingName ?? this.parkingName,
+      parkingAddress: parkingAddress ?? this.parkingAddress,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       duration: duration ?? this.duration,
@@ -46,8 +46,8 @@ class ReservationRecord {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'stationName': stationName,
-      'stationAddress': stationAddress,
+      'parkingName': parkingName,
+      'parkingAddress': parkingAddress,
       'startTime': startTime.toIso8601String(),
       'endTime': endTime?.toIso8601String(),
       'duration': duration,
@@ -59,8 +59,8 @@ class ReservationRecord {
   factory ReservationRecord.fromJson(Map<String, dynamic> json) {
     return ReservationRecord(
       id: json['id'] as String,
-      stationName: json['stationName'] as String,
-      stationAddress: json['stationAddress'] as String,
+      parkingName: json['parkingName'] as String,
+      parkingAddress: json['parkingAddress'] as String,
       startTime: DateTime.parse(json['startTime'] as String),
       endTime: json['endTime'] != null ? DateTime.parse(json['endTime'] as String) : null,
       duration: json['duration'] as int,
@@ -83,6 +83,6 @@ class ReservationRecord {
 
   @override
   String toString() {
-    return 'ReservationRecord(id: $id, station: $stationName, duration: ${duration}m, status: ${status.name})';
+    return 'ReservationRecord(id: $id, parking: $parkingName, duration: ${duration}m, status: ${status.name})';
   }
 }

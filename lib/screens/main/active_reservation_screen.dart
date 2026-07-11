@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/reservations_provider.dart';
-import '../../providers/stations_provider.dart';
+import '../../providers/parkings_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../services/navigation_service.dart';
@@ -33,7 +33,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
           );
         }
 
-        final station = reservationsProvider.activeReservation!;
+        final parking = reservationsProvider.activeReservation!;
         final isReserved = reservationsProvider.reservationState == ReservationState.reserved;
         final isInUse = reservationsProvider.reservationState == ReservationState.inUse;
 
@@ -53,7 +53,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                   child: Column(
                     children: [
                       // Header Map
-                      _buildHeaderMap(station, isReserved, isInUse),
+                      _buildHeaderMap(parking, isReserved, isInUse),
                       
                       // Content
                       Expanded(
@@ -61,8 +61,8 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                           padding: const EdgeInsets.all(AppSpacing.lg),
                           child: Column(
                             children: [
-                              // Station Info
-                              _buildStationInfo(station),
+                              // Parking Info
+                              _buildParkingInfo(parking),
                               
                               const SizedBox(height: AppSpacing.xl),
                               
@@ -104,16 +104,16 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     );
   }
 
-  Widget _buildHeaderMap(dynamic station, bool isReserved, bool isInUse) {
-    // Get all stations to show nearby ones
-    final stationsProvider = Provider.of<StationsProvider>(context, listen: false);
+  Widget _buildHeaderMap(dynamic parking, bool isReserved, bool isInUse) {
+    // Get all parkings to show nearby ones
+    final parkingsProvider = Provider.of<ParkingsProvider>(context, listen: false);
 
-    Set<Marker> markers = stationsProvider.stations.map((s) {
-      final isTargetStation = s.id == station.id;
+    Set<Marker> markers = parkingsProvider.parkings.map((s) {
+      final isTargetParking = s.id == parking.id;
 
       // Determine marker hue
       double markerHue;
-      if (isTargetStation) {
+      if (isTargetParking) {
         markerHue = BitmapDescriptor.hueBlue; // Reserved/Target
       } else if (s.availableSpots > 0) {
         markerHue = BitmapDescriptor.hueGreen; // Available
@@ -134,7 +134,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(station.lat, station.lng),
+              target: LatLng(parking.lat, parking.lng),
               zoom: 15, // Close enough to see nearby context
             ),
             markers: markers,
@@ -181,7 +181,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     );
   }
 
-  Widget _buildStationInfo(dynamic station) {
+  Widget _buildParkingInfo(dynamic parking) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -189,7 +189,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              station.name,
+              parking.name,
               style: AppTextStyles.heading2,
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -199,7 +199,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
-                    station.address,
+                    parking.address,
                     style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
                   ),
                 ),
@@ -486,10 +486,10 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     // Cancelar reserva directamente sin modal de confirmación
 
     try {
-      // Restore station availability
-      final stationsProvider = context.read<StationsProvider>();
-      final station = reservationsProvider.activeReservation!;
-      stationsProvider.updateStationAvailability(station.id, station.availableSpots + 1);
+      // Restore parking availability
+      final parkingsProvider = context.read<ParkingsProvider>();
+      final parking = reservationsProvider.activeReservation!;
+      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
 
       // Cancel reservation
       await reservationsProvider.cancelReservation();
@@ -517,12 +517,12 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     });
 
     try {
-      // Restore station availability
+      // Restore parking availability
       final reservationsProvider = context.read<ReservationsProvider>();
-      final stationsProvider = context.read<StationsProvider>();
-      final station = reservationsProvider.activeReservation!;
+      final parkingsProvider = context.read<ParkingsProvider>();
+      final parking = reservationsProvider.activeReservation!;
       
-      stationsProvider.updateStationAvailability(station.id, station.availableSpots + 1);
+      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
 
       // Finish usage
       await reservationsProvider.finishUsage();

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/bike_station.dart';
-import '../providers/stations_provider.dart';
+import '../models/parking.dart';
+import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
 import '../utils/constants.dart';
 import '../utils/helpers.dart';
 import '../utils/platform_icons.dart';
 import '../services/navigation_service.dart';
 
-class BikeStationCard extends StatelessWidget {
-  final BikeStation station;
+class ParkingCard extends StatelessWidget {
+  final Parking parking;
   final VoidCallback? onReserve;
 
-  const BikeStationCard({
+  const ParkingCard({
     super.key,
-    required this.station,
+    required this.parking,
     this.onReserve,
   });
 
@@ -23,10 +23,10 @@ class BikeStationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
-    return Consumer2<StationsProvider, ReservationsProvider>(
-      builder: (context, stationsProvider, reservationsProvider, child) {
-        final isFavorite = stationsProvider.isFavorite(station.id);
-        final hasAvailableSpots = station.availableSpots > 0;
+    return Consumer2<ParkingsProvider, ReservationsProvider>(
+      builder: (context, parkingsProvider, reservationsProvider, child) {
+        final isFavorite = parkingsProvider.isFavorite(parking.id);
+        final hasAvailableSpots = parking.availableSpots > 0;
         final canReserve = hasAvailableSpots && !reservationsProvider.hasActiveReservation;
 
         return Card(
@@ -39,10 +39,10 @@ class BikeStationCard extends StatelessWidget {
                 // Header Row
                 Row(
                   children: [
-                    // Station Name
+                    // Parking Name
                     Expanded(
                       child: Text(
-                        station.name,
+                        parking.name,
                         style: AppTextStyles.heading3,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -51,7 +51,7 @@ class BikeStationCard extends StatelessWidget {
                     
                     // Favorite Button
                     IconButton(
-                      onPressed: () => _toggleFavorite(context, stationsProvider),
+                      onPressed: () => _toggleFavorite(context, parkingsProvider),
                       icon: Icon(
                         isFavorite ? Icons.star : Icons.star_border,
                         color: isFavorite 
@@ -72,7 +72,7 @@ class BikeStationCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                       ),
                       child: Text(
-                        AppHelpers.getAvailabilityBadge(station.availableSpots, station.totalSpots),
+                        AppHelpers.getAvailabilityBadge(parking.availableSpots, parking.totalSpots),
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class BikeStationCard extends StatelessWidget {
                     const SizedBox(width: AppSpacing.xs),
                     Expanded(
                       child: Text(
-                        station.address,
+                        parking.address,
                         style: AppTextStyles.bodySmall.copyWith(
                           color: isDark ? Colors.grey.shade200 : Colors.grey.shade800,
                           fontWeight: FontWeight.w500,
@@ -123,7 +123,7 @@ class BikeStationCard extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Text(
-                          AppHelpers.getAvailabilityText(station.availableSpots, station.totalSpots),
+                          AppHelpers.getAvailabilityText(parking.availableSpots, parking.totalSpots),
                           style: TextStyle(
                             color: hasAvailableSpots ? AppColors.available : AppColors.unavailable,
                             fontWeight: FontWeight.w500,
@@ -158,20 +158,20 @@ class BikeStationCard extends StatelessWidget {
     );
   }
 
-  void _toggleFavorite(BuildContext context, StationsProvider stationsProvider) {
-    stationsProvider.toggleFavorite(station.id);
+  void _toggleFavorite(BuildContext context, ParkingsProvider parkingsProvider) {
+    parkingsProvider.toggleFavorite(parking.id);
     
-    final isFavorite = stationsProvider.isFavorite(station.id);
+    final isFavorite = parkingsProvider.isFavorite(parking.id);
     final message = isFavorite 
-        ? '${station.name} añadido a favoritos'
-        : '${station.name} eliminado de favoritos';
+        ? '${parking.name} añadido a favoritos'
+        : '${parking.name} eliminado de favoritos';
     
     AppHelpers.showInfoSnackBar(context, message);
   }
 
   Future<void> _handleReserve(BuildContext context, ReservationsProvider reservationsProvider) async {
-    if (station.availableSpots <= 0) {
-      AppHelpers.showErrorSnackBar(context, 'No hay plazas disponibles en esta estación');
+    if (parking.availableSpots <= 0) {
+      AppHelpers.showErrorSnackBar(context, 'No hay plazas disponibles en esta aparcamiento');
       return;
     }
 
@@ -183,30 +183,30 @@ class BikeStationCard extends StatelessWidget {
     // Reservar directamente sin modal de confirmación
 
     try {
-      // Update station availability
-      final stationsProvider = context.read<StationsProvider>();
-      stationsProvider.updateStationAvailability(station.id, station.availableSpots - 1);
+      // Update parking availability
+      final parkingsProvider = context.read<ParkingsProvider>();
+      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots - 1);
 
       // Create reservation
-      final success = await reservationsProvider.createReservation(station);
+      final success = await reservationsProvider.createReservation(parking);
 
       if (success) {
         AppHelpers.showSuccessSnackBar(
           context, 
-          'Reserva creada exitosamente en ${station.name}',
+          'Reserva creada exitosamente en ${parking.name}',
         );
         
         // Navigate to active reservation screen
         NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
       } else {
-        // Restore station availability if reservation failed
-        stationsProvider.updateStationAvailability(station.id, station.availableSpots + 1);
+        // Restore parking availability if reservation failed
+        parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
         AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
       }
     } catch (e) {
-      // Restore station availability on error
-      final stationsProvider = context.read<StationsProvider>();
-      stationsProvider.updateStationAvailability(station.id, station.availableSpots + 1);
+      // Restore parking availability on error
+      final parkingsProvider = context.read<ParkingsProvider>();
+      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
       AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
     }
 

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
 import '../../providers/reservations_provider.dart';
-import '../../providers/stations_provider.dart';
+import '../../providers/parkings_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../utils/platform_icons.dart';
@@ -15,11 +15,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<AuthProvider, ReservationsProvider, StationsProvider>(
-      builder: (context, authProvider, reservationsProvider, stationsProvider, child) {
+    return Consumer3<AuthProvider, ReservationsProvider, ParkingsProvider>(
+      builder: (context, authProvider, reservationsProvider, parkingsProvider, child) {
         final user = authProvider.user;
         final stats = reservationsProvider.getStatistics();
-        final favoriteStations = stationsProvider.favoriteStations;
+        final favoriteParkings = parkingsProvider.favoriteParkings;
 
         return Container(
           decoration: const BoxDecoration(
@@ -44,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xl),
                 
                 // Detailed Statistics
-                _buildDetailedStats(stats, favoriteStations.length),
+                _buildDetailedStats(stats, favoriteParkings.length),
                 
                 const SizedBox(height: AppSpacing.xl),
                 
@@ -176,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailedStats(Map<String, dynamic> stats, int favoriteStationsCount) {
+  Widget _buildDetailedStats(Map<String, dynamic> stats, int favoriteParkingsCount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -218,8 +218,8 @@ class ProfileScreen extends StatelessWidget {
             StatCard(
               icon: PlatformIcons.star,
               title: 'Favoritos',
-              value: favoriteStationsCount.toString(),
-              subtitle: 'Estaciones marcadas',
+              value: favoriteParkingsCount.toString(),
+              subtitle: 'Aparcamientos marcadas',
               color: AppColors.favorite,
             ),
             StatCard(

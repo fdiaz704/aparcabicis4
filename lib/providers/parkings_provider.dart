@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../models/bike_station.dart';
+import '../models/parking.dart';
 
-class StationsProvider with ChangeNotifier {
-  List<BikeStation> _stations = [];
-  List<String> _favoriteStations = [];
+class ParkingsProvider with ChangeNotifier {
+  List<Parking> _parkings = [];
+  List<String> _favoriteParkings = [];
 
-  List<BikeStation> get stations => _stations;
-  List<String> get favoriteStations => _favoriteStations;
+  List<Parking> get parkings => _parkings;
+  List<String> get favoriteParkings => _favoriteParkings;
 
   // Filter State
   String _searchQuery = '';
@@ -23,17 +23,17 @@ class StationsProvider with ChangeNotifier {
 
   // Initialize with mock data and load favorites
   Future<void> initialize() async {
-    _loadMockStations();
+    _loadMockParkings();
     await _loadFavorites();
   }
 
-  // Toggle favorite station
-  Future<void> toggleFavorite(String stationId) async {
+  // Toggle favorite parking
+  Future<void> toggleFavorite(String parkingId) async {
     try {
-      if (_favoriteStations.contains(stationId)) {
-        _favoriteStations.remove(stationId);
+      if (_favoriteParkings.contains(parkingId)) {
+        _favoriteParkings.remove(parkingId);
       } else {
-        _favoriteStations.add(stationId);
+        _favoriteParkings.add(parkingId);
       }
       
       await _saveFavorites();
@@ -43,30 +43,30 @@ class StationsProvider with ChangeNotifier {
     }
   }
 
-  // Check if station is favorite
-  bool isFavorite(String stationId) {
-    return _favoriteStations.contains(stationId);
+  // Check if parking is favorite
+  bool isFavorite(String parkingId) {
+    return _favoriteParkings.contains(parkingId);
   }
 
-  // Update station availability (when making a reservation)
-  void updateStationAvailability(String stationId, int newAvailableSpots) {
+  // Update parking availability (when making a reservation)
+  void updateParkingAvailability(String parkingId, int newAvailableSpots) {
     try {
-      final stationIndex = _stations.indexWhere((station) => station.id == stationId);
-      if (stationIndex != -1) {
-        _stations[stationIndex] = _stations[stationIndex].copyWith(
+      final parkingIndex = _parkings.indexWhere((parking) => parking.id == parkingId);
+      if (parkingIndex != -1) {
+        _parkings[parkingIndex] = _parkings[parkingIndex].copyWith(
           availableSpots: newAvailableSpots,
         );
         notifyListeners();
       }
     } catch (e) {
-      debugPrint('Update station availability error: $e');
+      debugPrint('Update parking availability error: $e');
     }
   }
 
-  // Get station by ID
-  BikeStation? getStationById(String stationId) {
+  // Get parking by ID
+  Parking? getParkingById(String parkingId) {
     try {
-      return _stations.firstWhere((station) => station.id == stationId);
+      return _parkings.firstWhere((parking) => parking.id == parkingId);
     } catch (e) {
       return null;
     }
@@ -97,26 +97,26 @@ class StationsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Filter stations based on stored state
-  List<BikeStation> getFilteredStations() {
-    List<BikeStation> filtered = List.from(_stations);
+  // Filter parkings based on stored state
+  List<Parking> getFilteredParkings() {
+    List<Parking> filtered = List.from(_parkings);
 
     // Apply search filter
     if (_searchQuery.isNotEmpty) {
-      filtered = filtered.where((station) {
-        return station.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-               station.address.toLowerCase().contains(_searchQuery.toLowerCase());
+      filtered = filtered.where((parking) {
+        return parking.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+               parking.address.toLowerCase().contains(_searchQuery.toLowerCase());
       }).toList();
     }
 
     // Apply availability filter
     if (_showOnlyAvailable) {
-      filtered = filtered.where((station) => station.availableSpots > 0).toList();
+      filtered = filtered.where((parking) => parking.availableSpots > 0).toList();
     }
 
     // Apply favorites filter
     if (_showOnlyFavorites) {
-      filtered = filtered.where((station) => _favoriteStations.contains(station.id)).toList();
+      filtered = filtered.where((parking) => _favoriteParkings.contains(parking.id)).toList();
     }
 
     // Apply sorting
@@ -144,9 +144,9 @@ class StationsProvider with ChangeNotifier {
   }
 
   // Private methods
-  void _loadMockStations() {
-    _stations = [
-      BikeStation(
+  void _loadMockParkings() {
+    _parkings = [
+      Parking(
         id: '1',
         name: 'Plaza Mayor',
         address: 'Calle Mayor, 1',
@@ -155,16 +155,16 @@ class StationsProvider with ChangeNotifier {
         lat: 40.4155,
         lng: -3.7074,
       ),
-      BikeStation(
+      Parking(
         id: '2',
-        name: 'Estación Atocha',
+        name: 'Aparcamiento Atocha',
         address: 'Plaza del Emperador Carlos V',
         availableSpots: 5,
         totalSpots: 15,
         lat: 40.4064,
         lng: -3.6910,
       ),
-      BikeStation(
+      Parking(
         id: '3',
         name: 'Retiro Park',
         address: 'Paseo del Prado, 8',
@@ -173,7 +173,7 @@ class StationsProvider with ChangeNotifier {
         lat: 40.4152,
         lng: -3.6844,
       ),
-      BikeStation(
+      Parking(
         id: '4',
         name: 'Gran Vía Centro',
         address: 'Gran Vía, 32',
@@ -182,7 +182,7 @@ class StationsProvider with ChangeNotifier {
         lat: 40.4200,
         lng: -3.7038,
       ),
-      BikeStation(
+      Parking(
         id: '5',
         name: 'Malasaña',
         address: 'Calle Fuencarral, 45',
@@ -191,7 +191,7 @@ class StationsProvider with ChangeNotifier {
         lat: 40.4267,
         lng: -3.7038,
       ),
-      BikeStation(
+      Parking(
         id: '6',
         name: 'Chueca',
         address: 'Plaza de Chueca, 3',
@@ -200,7 +200,7 @@ class StationsProvider with ChangeNotifier {
         lat: 40.4239,
         lng: -3.6968,
       ),
-      BikeStation(
+      Parking(
         id: '7',
         name: 'Sol',
         address: 'Puerta del Sol, 1',
@@ -209,7 +209,7 @@ class StationsProvider with ChangeNotifier {
         lat: 40.4168,
         lng: -3.7038,
       ),
-      BikeStation(
+      Parking(
         id: '8',
         name: 'Tribunal',
         address: 'Calle Tribunal, 15',
@@ -228,7 +228,7 @@ class StationsProvider with ChangeNotifier {
       
       if (favoritesJson != null) {
         final List<dynamic> favoritesList = jsonDecode(favoritesJson);
-        _favoriteStations = favoritesList.cast<String>();
+        _favoriteParkings = favoritesList.cast<String>();
         notifyListeners();
       }
     } catch (e) {
@@ -239,7 +239,7 @@ class StationsProvider with ChangeNotifier {
   Future<void> _saveFavorites() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('bikeParking_favorites', jsonEncode(_favoriteStations));
+      await prefs.setString('bikeParking_favorites', jsonEncode(_favoriteParkings));
     } catch (e) {
       debugPrint('Save favorites error: $e');
     }

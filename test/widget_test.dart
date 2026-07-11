@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:aparcabicis4/main.dart';
 import 'package:aparcabicis4/screens/splash_screen.dart';
 import 'package:aparcabicis4/providers/auth_provider.dart';
-import 'package:aparcabicis4/providers/stations_provider.dart';
+import 'package:aparcabicis4/providers/parkings_provider.dart';
 import 'package:aparcabicis4/providers/reservations_provider.dart';
 import 'package:aparcabicis4/services/storage_service.dart';
 
@@ -45,7 +45,7 @@ void main() {
     // The providers should be reachable from any descendant context.
     final BuildContext context = tester.element(find.byType(SplashScreen));
     expect(Provider.of<AuthProvider>(context, listen: false), isNotNull);
-    expect(Provider.of<StationsProvider>(context, listen: false), isNotNull);
+    expect(Provider.of<ParkingsProvider>(context, listen: false), isNotNull);
     expect(Provider.of<ReservationsProvider>(context, listen: false), isNotNull);
 
     // Drain the 2s splash delay and let navigation complete so no timer leaks.
@@ -75,35 +75,35 @@ void main() {
     });
   });
 
-  group('StationsProvider Tests', () {
-    late StationsProvider stationsProvider;
+  group('ParkingsProvider Tests', () {
+    late ParkingsProvider parkingsProvider;
 
     setUp(() {
-      stationsProvider = StationsProvider();
+      parkingsProvider = ParkingsProvider();
     });
 
-    test('Initial state has empty stations and favorites', () {
-      expect(stationsProvider.stations, isEmpty);
-      expect(stationsProvider.favoriteStations, isEmpty);
+    test('Initial state has empty parkings and favorites', () {
+      expect(parkingsProvider.parkings, isEmpty);
+      expect(parkingsProvider.favoriteParkings, isEmpty);
     });
 
-    test('Initialize loads mock stations', () async {
-      await stationsProvider.initialize();
-      expect(stationsProvider.stations, isNotEmpty);
-      expect(stationsProvider.stations.length, 8);
+    test('Initialize loads mock parkings', () async {
+      await parkingsProvider.initialize();
+      expect(parkingsProvider.parkings, isNotEmpty);
+      expect(parkingsProvider.parkings.length, 8);
     });
 
     test('Toggle favorite works correctly', () async {
-      await stationsProvider.initialize();
-      final stationId = stationsProvider.stations.first.id;
+      await parkingsProvider.initialize();
+      final parkingId = parkingsProvider.parkings.first.id;
       
-      expect(stationsProvider.isFavorite(stationId), false);
+      expect(parkingsProvider.isFavorite(parkingId), false);
       
-      await stationsProvider.toggleFavorite(stationId);
-      expect(stationsProvider.isFavorite(stationId), true);
+      await parkingsProvider.toggleFavorite(parkingId);
+      expect(parkingsProvider.isFavorite(parkingId), true);
       
-      await stationsProvider.toggleFavorite(stationId);
-      expect(stationsProvider.isFavorite(stationId), false);
+      await parkingsProvider.toggleFavorite(parkingId);
+      expect(parkingsProvider.isFavorite(parkingId), false);
     });
   });
 

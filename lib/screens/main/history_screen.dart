@@ -377,8 +377,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
           
           const SizedBox(height: AppSpacing.lg),
           
-          // Station Info
-          _buildDetailRow('Estación', record.stationName, PlatformIcons.bike),
+          // Parking Info
+          _buildDetailRow('Aparcamiento', record.parkingName, PlatformIcons.bike),
           _buildDetailRow('Fecha', AppHelpers.formatDateTime(record.startTime), PlatformIcons.calendar),
           
           if (duration != null)

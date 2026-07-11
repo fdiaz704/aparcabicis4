@@ -5,22 +5,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
-import '../../models/bike_station.dart';
-import '../../providers/stations_provider.dart';
+import '../../models/parking.dart';
+import '../../providers/parkings_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../services/navigation_service.dart';
 
-class BikeStationsMap extends StatefulWidget {
-  const BikeStationsMap({super.key});
+class ParkingsMap extends StatefulWidget {
+  const ParkingsMap({super.key});
 
   @override
-  State<BikeStationsMap> createState() => _BikeStationsMapState();
+  State<ParkingsMap> createState() => _ParkingsMapState();
 }
 
-class _BikeStationsMapState extends State<BikeStationsMap> {
-  BikeStation? _selectedStation;
+class _ParkingsMapState extends State<ParkingsMap> {
+  Parking? _selectedParking;
   GoogleMapController? _mapController;
 
   // Madrid center (Puerta del Sol)
@@ -31,8 +31,8 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<StationsProvider, ReservationsProvider>(
-      builder: (context, stationsProvider, reservationsProvider, child) {
+    return Consumer2<ParkingsProvider, ReservationsProvider>(
+      builder: (context, parkingsProvider, reservationsProvider, child) {
         return Stack(
           children: [
             // Google Map
@@ -51,8 +51,8 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                   () => ScaleGestureRecognizer(),
                 ),
               },
-              markers: _createMarkers(stationsProvider, reservationsProvider),
-              onTap: (_) => _closeSelectedStation(),
+              markers: _createMarkers(parkingsProvider, reservationsProvider),
+              onTap: (_) => _closeSelectedParking(),
             ),
             
             // Geolocation Button
@@ -88,15 +88,15 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
               ),
             ),
             
-            // Selected Station Card
-            if (_selectedStation != null)
+            // Selected Parking Card
+            if (_selectedParking != null)
               Positioned(
                 bottom: AppSpacing.md,
                 left: AppSpacing.md,
                 right: AppSpacing.md,
-                child: _buildSelectedStationCard(
-                  _selectedStation!,
-                  stationsProvider,
+                child: _buildSelectedParkingCard(
+                  _selectedParking!,
+                  parkingsProvider,
                   reservationsProvider,
                 ),
               ),
@@ -107,12 +107,12 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
   }
 
   Set<Marker> _createMarkers(
-    StationsProvider stationsProvider,
+    ParkingsProvider parkingsProvider,
     ReservationsProvider reservationsProvider,
   ) {
-    return stationsProvider.stations.map((station) {
-      final hasAvailableSpots = station.availableSpots > 0;
-      final isActiveReservation = reservationsProvider.activeReservation?.id == station.id;
+    return parkingsProvider.parkings.map((parking) {
+      final hasAvailableSpots = parking.availableSpots > 0;
+      final isActiveReservation = reservationsProvider.activeReservation?.id == parking.id;
 
       // Determine marker hue based on status
       double markerHue;
@@ -125,25 +125,25 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
       }
 
       return Marker(
-        markerId: MarkerId(station.id),
-        position: LatLng(station.lat, station.lng),
+        markerId: MarkerId(parking.id),
+        position: LatLng(parking.lat, parking.lng),
         icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
         infoWindow: InfoWindow(
-          title: station.name,
-          snippet: '${station.availableSpots} plazas libres',
+          title: parking.name,
+          snippet: '${parking.availableSpots} plazas libres',
         ),
-        onTap: () => _selectStation(station),
+        onTap: () => _selectParking(parking),
       );
     }).toSet();
   }
 
-  Widget _buildSelectedStationCard(
-    BikeStation station,
-    StationsProvider stationsProvider,
+  Widget _buildSelectedParkingCard(
+    Parking parking,
+    ParkingsProvider parkingsProvider,
     ReservationsProvider reservationsProvider,
   ) {
-    final isFavorite = stationsProvider.isFavorite(station.id);
-    final hasAvailableSpots = station.availableSpots > 0;
+    final isFavorite = parkingsProvider.isFavorite(parking.id);
+    final hasAvailableSpots = parking.availableSpots > 0;
     final canReserve = hasAvailableSpots && !reservationsProvider.hasActiveReservation;
 
     return Card(
@@ -158,21 +158,21 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
               children: [
                 Expanded(
                   child: Text(
-                    station.name,
+                    parking.name,
                     style: AppTextStyles.heading3,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 IconButton(
-                  onPressed: () => _toggleFavorite(stationsProvider, station),
+                  onPressed: () => _toggleFavorite(parkingsProvider, parking),
                   icon: Icon(
                     isFavorite ? Icons.star : Icons.star_border,
                     color: isFavorite ? AppColors.favorite : Colors.grey,
                   ),
                 ),
                 IconButton(
-                  onPressed: () => _closeSelectedStation(),
+                  onPressed: () => _closeSelectedParking(),
                   icon: const Icon(Icons.close),
                 ),
               ],
@@ -185,7 +185,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(
                   child: Text(
-                    station.address,
+                    parking.address,
                     style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -209,7 +209,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                   ),
                   child: Text(
-                    '${station.availableSpots} de ${station.totalSpots} disponibles',
+                    '${parking.availableSpots} de ${parking.totalSpots} disponibles',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -222,7 +222,7 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
                 
                 // Reserve Button
                 ElevatedButton(
-                  onPressed: canReserve ? () => _handleReserve(station, stationsProvider, reservationsProvider) : null,
+                  onPressed: canReserve ? () => _handleReserve(parking, parkingsProvider, reservationsProvider) : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: canReserve ? AppColors.primary : Colors.grey,
                     foregroundColor: Colors.white,
@@ -241,20 +241,20 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     );
   }
 
-  void _selectStation(BikeStation station) {
+  void _selectParking(Parking parking) {
     setState(() {
-      _selectedStation = station;
+      _selectedParking = parking;
     });
 
-    // Animate camera to selected station
+    // Animate camera to selected parking
     _mapController?.animateCamera(
-      CameraUpdate.newLatLng(LatLng(station.lat, station.lng)),
+      CameraUpdate.newLatLng(LatLng(parking.lat, parking.lng)),
     );
   }
 
-  void _closeSelectedStation() {
+  void _closeSelectedParking() {
     setState(() {
-      _selectedStation = null;
+      _selectedParking = null;
     });
   }
 
@@ -277,24 +277,24 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     AppHelpers.showInfoSnackBar(context, 'Centrando en Madrid');
   }
 
-  void _toggleFavorite(StationsProvider stationsProvider, BikeStation station) {
-    stationsProvider.toggleFavorite(station.id);
+  void _toggleFavorite(ParkingsProvider parkingsProvider, Parking parking) {
+    parkingsProvider.toggleFavorite(parking.id);
     
-    final isFavorite = stationsProvider.isFavorite(station.id);
+    final isFavorite = parkingsProvider.isFavorite(parking.id);
     final message = isFavorite 
-        ? '${station.name} añadido a favoritos'
-        : '${station.name} eliminado de favoritos';
+        ? '${parking.name} añadido a favoritos'
+        : '${parking.name} eliminado de favoritos';
     
     AppHelpers.showInfoSnackBar(context, message);
   }
 
   Future<void> _handleReserve(
-    BikeStation station,
-    StationsProvider stationsProvider,
+    Parking parking,
+    ParkingsProvider parkingsProvider,
     ReservationsProvider reservationsProvider,
   ) async {
-    if (station.availableSpots <= 0) {
-      AppHelpers.showErrorSnackBar(context, 'No hay plazas disponibles en esta estación');
+    if (parking.availableSpots <= 0) {
+      AppHelpers.showErrorSnackBar(context, 'No hay plazas disponibles en esta aparcamiento');
       return;
     }
 
@@ -304,31 +304,31 @@ class _BikeStationsMapState extends State<BikeStationsMap> {
     }
 
     try {
-      // Update station availability
-      stationsProvider.updateStationAvailability(station.id, station.availableSpots - 1);
+      // Update parking availability
+      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots - 1);
 
       // Create reservation
-      final success = await reservationsProvider.createReservation(station);
+      final success = await reservationsProvider.createReservation(parking);
 
       if (success) {
         AppHelpers.showSuccessSnackBar(
           context, 
-          'Reserva creada exitosamente en ${station.name}',
+          'Reserva creada exitosamente en ${parking.name}',
         );
         
-        // Close selected station card
-        _closeSelectedStation();
+        // Close selected parking card
+        _closeSelectedParking();
         
         // Navigate to active reservation screen
         NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
       } else {
-        // Restore station availability if reservation failed
-        stationsProvider.updateStationAvailability(station.id, station.availableSpots + 1);
+        // Restore parking availability if reservation failed
+        parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
         AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
       }
     } catch (e) {
-      // Restore station availability on error
-      stationsProvider.updateStationAvailability(station.id, station.availableSpots + 1);
+      // Restore parking availability on error
+      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
       AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
     }
   }

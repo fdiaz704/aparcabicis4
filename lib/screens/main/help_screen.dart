@@ -72,8 +72,8 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
           // How to Reserve
           _buildTutorialSection(
             'Cómo hacer una reserva',
-            '1. Ve a la sección "Estaciones"\n'
-            '2. Selecciona una estación disponible\n'
+            '1. Ve a la sección "Aparcamientos"\n'
+            '2. Selecciona una aparcamiento disponible\n'
             '3. Presiona "Reservar"\n'
             '4. Tienes 30 minutos para llegar\n'
             '5. Abre la puerta para comenzar a usar la plaza',
@@ -84,9 +84,9 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
           // Using the App
           _buildTutorialSection(
             'Usando la aplicación',
-            '• Lista: Ve todas las estaciones en formato lista\n'
-            '• Mapa: Visualiza las estaciones en un mapa interactivo\n'
-            '• Favoritos: Marca tus estaciones preferidas\n'
+            '• Lista: Ve todas las aparcamientos en formato lista\n'
+            '• Mapa: Visualiza las aparcamientos en un mapa interactivo\n'
+            '• Favoritos: Marca tus aparcamientos preferidas\n'
             '• Filtros: Busca por disponibilidad o favoritos\n'
             '• Historial: Revisa tus reservas anteriores',
             Icons.apps,
@@ -108,10 +108,10 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
           // Tips
           _buildTutorialSection(
             'Consejos útiles',
-            '• Marca como favoritas las estaciones que uses frecuentemente\n'
+            '• Marca como favoritas las aparcamientos que uses frecuentemente\n'
             '• Revisa tu historial para ver estadísticas de uso\n'
             '• Activa las notificaciones para recordatorios\n'
-            '• Usa los filtros para encontrar estaciones más rápido\n'
+            '• Usa los filtros para encontrar aparcamientos más rápido\n'
             '• Cancela tu reserva si no vas a usarla',
             Icons.lightbulb,
             Colors.amber,
@@ -141,7 +141,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
     final faqs = [
       {
         'question': '¿Cómo reservo una plaza?',
-        'answer': 'Ve a la sección de Estaciones, selecciona una estación disponible y presiona "Reservar". Tendrás 30 minutos para llegar y abrir la puerta.',
+        'answer': 'Ve a la sección de Aparcamientos, selecciona una aparcamiento disponible y presiona "Reservar". Tendrás 30 minutos para llegar y abrir la puerta.',
       },
       {
         'question': '¿Puedo cancelar mi reserva?',
@@ -160,8 +160,8 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
         'answer': 'No, solo puedes tener una reserva activa a la vez. Debes finalizar tu uso actual antes de hacer una nueva reserva.',
       },
       {
-        'question': '¿Cómo marco una estación como favorita?',
-        'answer': 'Presiona el icono de estrella en cualquier estación para marcarla como favorita. Luego puedes filtrar para ver solo tus favoritas.',
+        'question': '¿Cómo marco una aparcamiento como favorita?',
+        'answer': 'Presiona el icono de estrella en cualquier aparcamiento para marcarla como favorita. Luego puedes filtrar para ver solo tus favoritas.',
       },
       {
         'question': '¿Puedo ver mi historial de reservas?',
@@ -264,7 +264,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
 
           _buildQuickAction(
             'Reportar un problema',
-            'Informa sobre estaciones dañadas o problemas técnicos',
+            'Informa sobre aparcamientos dañadas o problemas técnicos',
             Icons.report_problem,
             Colors.orange,
             _reportProblem,

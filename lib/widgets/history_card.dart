@@ -34,10 +34,10 @@ class HistoryCard extends StatelessWidget {
               // Header Row
               Row(
                 children: [
-                  // Station Name
+                  // Parking Name
                   Expanded(
                     child: Text(
-                      record.stationName,
+                      record.parkingName,
                       style: AppTextStyles.heading3.copyWith(
                         color: isDark ? Colors.white : Colors.black,
                       ),

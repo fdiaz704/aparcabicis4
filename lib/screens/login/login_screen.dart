@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/auth_provider.dart';
-import '../../providers/stations_provider.dart';
+import '../../providers/parkings_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../services/navigation_service.dart';
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         if (success) {
           // Reset filters for the new session
-          context.read<StationsProvider>().resetFilters();
+          context.read<ParkingsProvider>().resetFilters();
 
           AppHelpers.showSuccessSnackBar(context, 'Inicio de sesión exitoso');
           NavigationService.pushNamedAndClearStack(AppRoutes.main);

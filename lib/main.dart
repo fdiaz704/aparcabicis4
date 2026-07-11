@@ -10,7 +10,7 @@ import 'services/navigation_service.dart';
 
 // Providers
 import 'providers/auth_provider.dart';
-import 'providers/stations_provider.dart';
+import 'providers/parkings_provider.dart';
 import 'providers/reservations_provider.dart';
 
 // Utils
@@ -55,7 +55,7 @@ class AparcabicisApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => StationsProvider()),
+        ChangeNotifierProvider(create: (_) => ParkingsProvider()),
         ChangeNotifierProvider(create: (_) => ReservationsProvider()),
       ],
       child: Platform.isIOS ? _buildCupertinoApp() : _buildMaterialApp(),

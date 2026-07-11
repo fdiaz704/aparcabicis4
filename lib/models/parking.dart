@@ -1,4 +1,4 @@
-class BikeStation {
+class Parking {
   final String id;
   final String name;
   final String address;
@@ -7,7 +7,7 @@ class BikeStation {
   final double lat;
   final double lng;
 
-  BikeStation({
+  Parking({
     required this.id,
     required this.name,
     required this.address,
@@ -17,7 +17,7 @@ class BikeStation {
     required this.lng,
   });
 
-  BikeStation copyWith({
+  Parking copyWith({
     String? id,
     String? name,
     String? address,
@@ -26,7 +26,7 @@ class BikeStation {
     double? lat,
     double? lng,
   }) {
-    return BikeStation(
+    return Parking(
       id: id ?? this.id,
       name: name ?? this.name,
       address: address ?? this.address,
@@ -49,8 +49,8 @@ class BikeStation {
     };
   }
 
-  factory BikeStation.fromJson(Map<String, dynamic> json) {
-    return BikeStation(
+  factory Parking.fromJson(Map<String, dynamic> json) {
+    return Parking(
       id: json['id'] as String,
       name: json['name'] as String,
       address: json['address'] as String,
@@ -64,7 +64,7 @@ class BikeStation {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is BikeStation && other.id == id;
+    return other is Parking && other.id == id;
   }
 
   @override
@@ -72,6 +72,6 @@ class BikeStation {
 
   @override
   String toString() {
-    return 'BikeStation(id: $id, name: $name, availableSpots: $availableSpots/$totalSpots)';
+    return 'Parking(id: $id, name: $name, availableSpots: $availableSpots/$totalSpots)';
   }
 }

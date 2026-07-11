@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
-import '../../providers/stations_provider.dart';
+import '../../providers/parkings_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/platform_widgets.dart';
-import '../../widgets/bike_station_card.dart';
+import '../../widgets/parking_card.dart';
 
-class BikeStationsList extends StatefulWidget {
-  const BikeStationsList({super.key});
+class ParkingsList extends StatefulWidget {
+  const ParkingsList({super.key});
 
   @override
-  State<BikeStationsList> createState() => _BikeStationsListState();
+  State<ParkingsList> createState() => _ParkingsListState();
 }
 
-class _BikeStationsListState extends State<BikeStationsList> {
+class _ParkingsListState extends State<ParkingsList> {
   final _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     // Initialize search controller with stored query
-    final stationsProvider = Provider.of<StationsProvider>(context, listen: false);
-    _searchController.text = stationsProvider.searchQuery;
+    final parkingsProvider = Provider.of<ParkingsProvider>(context, listen: false);
+    _searchController.text = parkingsProvider.searchQuery;
   }
 
   @override
@@ -34,11 +34,11 @@ class _BikeStationsListState extends State<BikeStationsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<StationsProvider, ReservationsProvider>(
-      builder: (context, stationsProvider, reservationsProvider, child) {
+    return Consumer2<ParkingsProvider, ReservationsProvider>(
+      builder: (context, parkingsProvider, reservationsProvider, child) {
 
-        final filteredStations = stationsProvider.getFilteredStations();
-        final activeFilterCount = stationsProvider.getActiveFilterCount();
+        final filteredParkings = parkingsProvider.getFilteredParkings();
+        final activeFilterCount = parkingsProvider.getActiveFilterCount();
 
         return Column(
           children: [
@@ -52,13 +52,13 @@ class _BikeStationsListState extends State<BikeStationsList> {
                   TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: 'Buscar estaciones...',
+                      hintText: 'Buscar aparcamientos...',
                       prefixIcon: const Icon(LucideIcons.search),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
                                 onPressed: () {
                                   _searchController.clear();
-                                  stationsProvider.setSearchQuery('');
+                                  parkingsProvider.setSearchQuery('');
                                 },
                               icon: const Icon(Icons.clear),
                             )
@@ -72,7 +72,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                       ),
                     ),
                     onChanged: (value) {
-                      stationsProvider.setSearchQuery(value);
+                      parkingsProvider.setSearchQuery(value);
                     },
                   ),
                   
@@ -149,7 +149,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
               child: Row(
                 children: [
                   Text(
-                    '${filteredStations.length} estación${filteredStations.length != 1 ? 'es' : ''} encontrada${filteredStations.length != 1 ? 's' : ''}',
+                    '${filteredParkings.length} aparcamiento${filteredParkings.length != 1 ? 'es' : ''} encontrada${filteredParkings.length != 1 ? 's' : ''}',
                     style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
                   ),
                   if (reservationsProvider.hasActiveReservation) ...[
@@ -177,17 +177,17 @@ class _BikeStationsListState extends State<BikeStationsList> {
               ),
             ),
             
-            // Stations List
+            // Parkings List
             Expanded(
-              child: filteredStations.isEmpty
+              child: filteredParkings.isEmpty
                   ? _buildEmptyState()
                   : ListView.builder(
                       padding: const EdgeInsets.all(AppSpacing.md),
-                      itemCount: filteredStations.length,
+                      itemCount: filteredParkings.length,
                       itemBuilder: (context, index) {
-                        final station = filteredStations[index];
-                        return BikeStationCard(
-                          station: station,
+                        final parking = filteredParkings[index];
+                        return ParkingCard(
+                          parking: parking,
                           onReserve: () {
                             // Refresh the list after reservation
                             setState(() {});
@@ -216,7 +216,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              'No se encontraron estaciones',
+              'No se encontraron aparcamientos',
               style: AppTextStyles.heading3.copyWith(color: Colors.grey[600]),
             ),
             const SizedBox(height: AppSpacing.sm),
@@ -244,8 +244,8 @@ class _BikeStationsListState extends State<BikeStationsList> {
   }
 
   Widget _buildFilterDialog() {
-    return Consumer<StationsProvider>(
-      builder: (context, stationsProvider, child) {
+    return Consumer<ParkingsProvider>(
+      builder: (context, parkingsProvider, child) {
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
@@ -272,7 +272,7 @@ class _BikeStationsListState extends State<BikeStationsList> {
                       const Spacer(),
                       OutlinedButton(
                         onPressed: () {
-                          stationsProvider.resetFilters();
+                          parkingsProvider.resetFilters();
                           // Update local search controller if needed, though resetFilters clears query too
                           _searchController.clear();
                         },
@@ -309,22 +309,22 @@ class _BikeStationsListState extends State<BikeStationsList> {
                           // Available Filter
                           PlatformWidgets.buildAdaptiveSwitch(
                             title: 'Solo disponibles',
-                            subtitle: 'Mostrar solo estaciones con plazas libres',
-                            value: stationsProvider.showOnlyAvailable,
+                            subtitle: 'Mostrar solo aparcamientos con plazas libres',
+                            value: parkingsProvider.showOnlyAvailable,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
-                              stationsProvider.setFilters(showOnlyAvailable: value);
+                              parkingsProvider.setFilters(showOnlyAvailable: value);
                             },
                           ),
 
                           // Favorites Filter
                           PlatformWidgets.buildAdaptiveSwitch(
                             title: 'Solo favoritos',
-                            subtitle: 'Mostrar solo estaciones marcadas como favoritas',
-                            value: stationsProvider.showOnlyFavorites,
+                            subtitle: 'Mostrar solo aparcamientos marcadas como favoritas',
+                            value: parkingsProvider.showOnlyFavorites,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
-                              stationsProvider.setFilters(showOnlyFavorites: value);
+                              parkingsProvider.setFilters(showOnlyFavorites: value);
                             },
                           ),
 
@@ -340,30 +340,30 @@ class _BikeStationsListState extends State<BikeStationsList> {
                           RadioListTile<String>(
                             title: const Text('Sin ordenar'),
                             value: 'none',
-                            groupValue: stationsProvider.sortBy,
+                            groupValue: parkingsProvider.sortBy,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
-                              stationsProvider.setFilters(sortBy: value);
+                              parkingsProvider.setFilters(sortBy: value);
                             },
                           ),
 
                           RadioListTile<String>(
                             title: const Text('Nombre (A-Z)'),
                             value: 'name',
-                            groupValue: stationsProvider.sortBy,
+                            groupValue: parkingsProvider.sortBy,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
-                              stationsProvider.setFilters(sortBy: value);
+                              parkingsProvider.setFilters(sortBy: value);
                             },
                           ),
 
                           RadioListTile<String>(
                             title: const Text('Disponibilidad (más a menos)'),
                             value: 'availability',
-                            groupValue: stationsProvider.sortBy,
+                            groupValue: parkingsProvider.sortBy,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
-                              stationsProvider.setFilters(sortBy: value);
+                              parkingsProvider.setFilters(sortBy: value);
                             },
                           ),
                         ],
@@ -392,6 +392,6 @@ class _BikeStationsListState extends State<BikeStationsList> {
 
   void _clearAllFilters() {
     _searchController.clear();
-    context.read<StationsProvider>().resetFilters();
+    context.read<ParkingsProvider>().resetFilters();
   }
 }

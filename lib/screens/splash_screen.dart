@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
-import '../providers/stations_provider.dart';
+import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
 import '../utils/constants.dart';
 import '../services/navigation_service.dart';
@@ -58,13 +58,13 @@ class _SplashScreenState extends State<SplashScreen>
       
       // Initialize providers
       final authProvider = context.read<AuthProvider>();
-      final stationsProvider = context.read<StationsProvider>();
+      final parkingsProvider = context.read<ParkingsProvider>();
       final reservationsProvider = context.read<ReservationsProvider>();
       
       // Initialize all providers
       await Future.wait([
         authProvider.initialize(),
-        stationsProvider.initialize(),
+        parkingsProvider.initialize(),
         reservationsProvider.initialize(),
       ]);
       

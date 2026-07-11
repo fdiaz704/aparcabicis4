@@ -6,8 +6,8 @@ import '../../providers/reservations_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/platform_icons.dart';
 import '../../services/navigation_service.dart';
-import 'bike_stations_list.dart';
-import 'bike_stations_map.dart';
+import 'parkings_list.dart';
+import 'parkings_map.dart';
 import 'history_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
   }
 
   final List<Widget> _screens = [
-    const _StationsTabView(),
+    const _ParkingsTabView(),
     const HistoryScreen(),
     const ProfileScreen(),
     const SettingsScreen(),
@@ -108,7 +108,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
             items: [
               BottomNavigationBarItem(
                 icon: Icon(PlatformIcons.bike),
-                label: 'Estaciones',
+                label: 'Aparcamientos',
               ),
               BottomNavigationBarItem(
                 icon: Icon(PlatformIcons.history),
@@ -132,14 +132,14 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
   }
 }
 
-class _StationsTabView extends StatefulWidget {
-  const _StationsTabView();
+class _ParkingsTabView extends StatefulWidget {
+  const _ParkingsTabView();
 
   @override
-  State<_StationsTabView> createState() => _StationsTabViewState();
+  State<_ParkingsTabView> createState() => _ParkingsTabViewState();
 }
 
-class _StationsTabViewState extends State<_StationsTabView> with SingleTickerProviderStateMixin {
+class _ParkingsTabViewState extends State<_ParkingsTabView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -184,8 +184,8 @@ class _StationsTabViewState extends State<_StationsTabView> with SingleTickerPro
           child: TabBarView(
             controller: _tabController,
             children: const [
-              BikeStationsList(),
-              BikeStationsMap(),
+              ParkingsList(),
+              ParkingsMap(),
             ],
           ),
         ),
