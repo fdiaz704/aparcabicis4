@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:async';
 
@@ -60,10 +59,8 @@ class PlatformPerformance {
         itemExtent: itemExtent,
         itemBuilder: itemBuilder,
         // Platform-specific optimizations
-        cacheExtent: Platform.isIOS ? 250.0 : 200.0,
+        scrollCacheExtent: ScrollCacheExtent.pixels(Platform.isIOS ? 250.0 : 200.0),
         addAutomaticKeepAlives: false,
-        addRepaintBoundaries: true,
-        addSemanticIndexes: true,
       );
     }
 
@@ -75,10 +72,8 @@ class PlatformPerformance {
         itemCount: itemCount,
         itemBuilder: itemBuilder,
         separatorBuilder: separatorBuilder,
-        cacheExtent: Platform.isIOS ? 250.0 : 200.0,
+        scrollCacheExtent: ScrollCacheExtent.pixels(Platform.isIOS ? 250.0 : 200.0),
         addAutomaticKeepAlives: false,
-        addRepaintBoundaries: true,
-        addSemanticIndexes: true,
       );
     }
 
@@ -88,10 +83,8 @@ class PlatformPerformance {
       shrinkWrap: shrinkWrap,
       itemCount: itemCount,
       itemBuilder: itemBuilder,
-      cacheExtent: Platform.isIOS ? 250.0 : 200.0,
+      scrollCacheExtent: ScrollCacheExtent.pixels(Platform.isIOS ? 250.0 : 200.0),
       addAutomaticKeepAlives: false,
-      addRepaintBoundaries: true,
-      addSemanticIndexes: true,
     );
   }
 
@@ -112,10 +105,8 @@ class PlatformPerformance {
       itemCount: itemCount,
       itemBuilder: itemBuilder,
       // Platform-specific optimizations
-      cacheExtent: Platform.isIOS ? 300.0 : 250.0,
+      scrollCacheExtent: ScrollCacheExtent.pixels(Platform.isIOS ? 300.0 : 250.0),
       addAutomaticKeepAlives: false,
-      addRepaintBoundaries: true,
-      addSemanticIndexes: true,
     );
   }
 
@@ -224,7 +215,7 @@ class PlatformPerformance {
       scrollDirection: scrollDirection,
       slivers: slivers,
       // Performance optimizations
-      cacheExtent: Platform.isIOS ? 300.0 : 250.0,
+      scrollCacheExtent: ScrollCacheExtent.pixels(Platform.isIOS ? 300.0 : 250.0),
       semanticChildCount: slivers.length,
     );
   }

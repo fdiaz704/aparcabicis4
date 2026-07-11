@@ -54,7 +54,6 @@ class _ParkingsMapState extends State<ParkingsMap> {
               myLocationEnabled: true,
               myLocationButtonEnabled: false, // Custom button used below
               zoomControlsEnabled: false, // We use custom buttons
-              zoomGesturesEnabled: true,
               scrollGesturesEnabled: false,
               mapToolbarEnabled: false,
               gestureRecognizers: {
@@ -313,24 +312,27 @@ class _ParkingsMapState extends State<ParkingsMap> {
       final success = await reservationsProvider.createReservation(parking);
 
       if (success) {
+        if (!mounted) return;
         AppHelpers.showSuccessSnackBar(
           context,
           context.l10n.mapReservationCreated(parking.name),
         );
-        
+
         // Close selected parking card
         _closeSelectedParking();
-        
+
         // Navigate to active reservation screen
         NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
       } else {
         // Restore parking availability if reservation failed
         parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
+        if (!mounted) return;
         AppHelpers.showErrorSnackBar(context, context.l10n.mapReservationError);
       }
     } catch (e) {
       // Restore parking availability on error
       parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
+      if (!mounted) return;
       AppHelpers.showErrorSnackBar(context, context.l10n.mapReservationError);
     }
   }

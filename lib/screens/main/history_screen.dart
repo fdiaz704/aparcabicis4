@@ -98,10 +98,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 children: [
                   // Filter Dropdown
                   Flexible(
-                    flex: 1,
                     child: DropdownButtonFormField<ReservationStatus?>(
-                      value: _selectedFilter,
-                      isDense: true,
+                      initialValue: _selectedFilter,
                       decoration: InputDecoration(
                         labelText: context.l10n.historyStatus,
                         labelStyle: TextStyle(
@@ -110,12 +108,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         border: const OutlineInputBorder(),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.sm,
-                          vertical: 0,
                         ),
                       ),
                       items: [
                         DropdownMenuItem<ReservationStatus?>(
-                          value: null,
                           child: Text(
                             context.l10n.historyAll,
                             style: TextStyle(
@@ -147,10 +143,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   
                   // Sort Dropdown
                   Flexible(
-                    flex: 1,
                     child: DropdownButtonFormField<String>(
-                      value: _sortBy,
-                      isDense: true,
+                      initialValue: _sortBy,
                       decoration: InputDecoration(
                         labelText: context.l10n.historySortLabel,
                         labelStyle: TextStyle(
@@ -159,7 +153,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         border: const OutlineInputBorder(),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: AppSpacing.sm,
-                          vertical: 0,
                         ),
                       ),
                       items: [
@@ -349,7 +342,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void _showReservationDetails(BuildContext context, ReservationRecord record) {
     PlatformWidgets.showAdaptiveModalBottomSheet(
       context: context,
-      isScrollControlled: true,
       child: _buildReservationDetailsSheet(record),
     );
   }

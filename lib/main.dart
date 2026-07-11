@@ -124,7 +124,6 @@ class AparcabicisApp extends StatelessWidget {
       // Material Theme
       theme: AdaptiveTheme.getMaterialTheme(),
       darkTheme: AdaptiveTheme.getMaterialTheme(isDark: true),
-      themeMode: ThemeMode.system,
       
       // Routes
       initialRoute: '/',

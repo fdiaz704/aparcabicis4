@@ -109,7 +109,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     // Get all parkings to show nearby ones
     final parkingsProvider = Provider.of<ParkingsProvider>(context, listen: false);
 
-    Set<Marker> markers = parkingsProvider.parkings.map((s) {
+    final Set<Marker> markers = parkingsProvider.parkings.map((s) {
       final isTargetParking = s.id == parking.id;
 
       // Determine marker hue
@@ -129,7 +129,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
       );
     }).toSet();
 
-    return Container(
+    return SizedBox(
       height: AppDimensions.mapHeight,
       child: Stack(
         children: [
@@ -144,7 +144,6 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
             scrollGesturesEnabled: false, // Disabled as requested
             rotateGesturesEnabled: false,
             tiltGesturesEnabled: false,
-            myLocationEnabled: false, // Keep it clean
             mapToolbarEnabled: false,
           ),
           
@@ -162,7 +161,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -401,7 +400,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     return GestureDetector(
       onTap: _closeFinishModal,
       child: Container(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withValues(alpha: 0.5),
         child: Center(
           child: GestureDetector(
             onTap: _closeFinishModal,

@@ -16,7 +16,6 @@ class AdaptiveTheme {
           )
         : ColorScheme.fromSeed(
             seedColor: AppColors.primary,
-            brightness: Brightness.light,
           );
 
     return ThemeData(
@@ -40,7 +39,7 @@ class AdaptiveTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
         ),
-        color: isDark ? colorScheme.surfaceVariant : Colors.white,
+        color: isDark ? colorScheme.surfaceContainerHighest : Colors.white,
       ),
       
       // Button Themes
@@ -62,7 +61,7 @@ class AdaptiveTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
           ),
-          side: BorderSide(color: AppColors.primary),
+          side: const BorderSide(color: AppColors.primary),
         ),
       ),
       
@@ -83,14 +82,14 @@ class AdaptiveTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
-          borderSide: BorderSide(color: AppColors.primary, width: 2),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
           vertical: AppSpacing.md,
         ),
         filled: true,
-        fillColor: isDark ? colorScheme.surfaceVariant : Colors.grey[50],
+        fillColor: isDark ? colorScheme.surfaceContainerHighest : Colors.grey[50],
       ),
       
       // Bottom Navigation Bar Theme
@@ -116,15 +115,15 @@ class AdaptiveTheme {
       
       // Switch Theme
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primary;
           }
           return null;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return AppColors.primary.withOpacity(0.5);
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return AppColors.primary.withValues(alpha: 0.5);
           }
           return null;
         }),
@@ -132,8 +131,8 @@ class AdaptiveTheme {
       
       // Checkbox Theme
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primary;
           }
           return null;
@@ -145,8 +144,8 @@ class AdaptiveTheme {
       
       // Radio Theme
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primary;
           }
           return null;
@@ -195,7 +194,7 @@ class AdaptiveTheme {
           color: isDark ? CupertinoColors.label.darkColor : CupertinoColors.label.color,
           fontSize: 16,
         ),
-        actionTextStyle: TextStyle(
+        actionTextStyle: const TextStyle(
           color: AppColors.primary,
           fontSize: 16,
           fontWeight: FontWeight.w500,
@@ -276,10 +275,10 @@ class AdaptiveTheme {
       final colorScheme = Theme.of(context).colorScheme;
       return AdaptiveColors(
         primary: colorScheme.primary,
-        background: colorScheme.background,
+        background: colorScheme.surface,
         surface: colorScheme.surface,
         onPrimary: colorScheme.onPrimary,
-        onBackground: colorScheme.onBackground,
+        onBackground: colorScheme.onSurface,
         onSurface: colorScheme.onSurface,
         secondary: colorScheme.secondary,
         tertiary: colorScheme.tertiary,

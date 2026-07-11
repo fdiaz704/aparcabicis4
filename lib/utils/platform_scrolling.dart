@@ -263,6 +263,7 @@ class PlatformScrolling {
     ScrollPhysics? physics,
   }) {
     return ReorderableListView(
+      // ignore: deprecated_member_use  onReorderItem changes newIndex adjustment semantics; keep classic onReorder to preserve the callback contract.
       onReorder: onReorder,
       scrollController: controller,
       padding: padding,

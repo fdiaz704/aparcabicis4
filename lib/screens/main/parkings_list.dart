@@ -338,34 +338,30 @@ class _ParkingsListState extends State<ParkingsList> {
                           ),
                           const SizedBox(height: AppSpacing.sm),
 
-                          RadioListTile<String>(
-                            title: Text(context.l10n.parkingsListSortNone),
-                            value: 'none',
+                          RadioGroup<String>(
                             groupValue: parkingsProvider.sortBy,
-                            activeColor: AppColors.primary,
                             onChanged: (value) {
                               parkingsProvider.setFilters(sortBy: value);
                             },
-                          ),
-
-                          RadioListTile<String>(
-                            title: Text(context.l10n.parkingsListSortName),
-                            value: 'name',
-                            groupValue: parkingsProvider.sortBy,
-                            activeColor: AppColors.primary,
-                            onChanged: (value) {
-                              parkingsProvider.setFilters(sortBy: value);
-                            },
-                          ),
-
-                          RadioListTile<String>(
-                            title: Text(context.l10n.parkingsListSortAvailability),
-                            value: 'availability',
-                            groupValue: parkingsProvider.sortBy,
-                            activeColor: AppColors.primary,
-                            onChanged: (value) {
-                              parkingsProvider.setFilters(sortBy: value);
-                            },
+                            child: Column(
+                              children: [
+                                RadioListTile<String>(
+                                  title: Text(context.l10n.parkingsListSortNone),
+                                  value: 'none',
+                                  activeColor: AppColors.primary,
+                                ),
+                                RadioListTile<String>(
+                                  title: Text(context.l10n.parkingsListSortName),
+                                  value: 'name',
+                                  activeColor: AppColors.primary,
+                                ),
+                                RadioListTile<String>(
+                                  title: Text(context.l10n.parkingsListSortAvailability),
+                                  value: 'availability',
+                                  activeColor: AppColors.primary,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

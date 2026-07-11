@@ -315,7 +315,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                   ),
                   child: Icon(icon, color: color, size: 24),
@@ -347,7 +347,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
         leading: Container(
           padding: const EdgeInsets.all(AppSpacing.sm),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
           ),
           child: Icon(icon, color: color),

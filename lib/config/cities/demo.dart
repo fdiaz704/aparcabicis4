@@ -14,7 +14,6 @@ const CityConfig demoCity = CityConfig(
   apiBaseUrl: 'https://api.aparcabicis4.example/v1',
   mapCenterLat: 40.4168, // Puerta del Sol
   mapCenterLng: -3.7038,
-  mapZoom: 13,
   branding: CityBranding(
     primaryColor: Color(0xFF7AB782),
     logoAsset: 'assets/logo.png',

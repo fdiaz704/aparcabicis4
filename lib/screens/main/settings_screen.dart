@@ -153,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       subtitle: Text(subtitle),
       secondary: Icon(icon, color: AppColors.primary),
       value: value,
-      activeColor: AppColors.primary,
+      activeThumbColor: AppColors.primary,
       onChanged: onChanged,
     );
   }
@@ -194,7 +194,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showFAQ() {
     PlatformWidgets.showAdaptiveModalBottomSheet(
       context: context,
-      isScrollControlled: true,
       child: _buildFAQSheet(),
     );
   }
@@ -300,7 +299,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
     
     // If all methods failed, show error message
-    if (!success && context.mounted) {
+    if (!success && mounted) {
       AppHelpers.showErrorSnackBar(
         context,
         context.l10n.settingsCallSupportError(phoneNumber),

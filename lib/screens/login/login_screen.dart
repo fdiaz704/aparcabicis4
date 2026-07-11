@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(50),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
+                            color: AppColors.primary.withValues(alpha: 0.3),
                             blurRadius: 15,
                             offset: const Offset(0, 8),
                           ),
@@ -197,9 +197,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.grey.shade600,
                                 fontSize: 16,
                               ),
-                              prefixIcon: Icon(LucideIcons.mail, color: AppColors.primary),
+                              prefixIcon: const Icon(LucideIcons.mail, color: AppColors.primary),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.9),
+                              fillColor: Colors.white.withValues(alpha: 0.9),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                                 borderSide: BorderSide(color: Colors.grey.shade300),
@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
-                                borderSide: BorderSide(color: AppColors.primary, width: 2),
+                                borderSide: const BorderSide(color: AppColors.primary, width: 2),
                               ),
                             ),
                             validator: (value) {
@@ -247,9 +247,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.grey.shade600,
                                 fontSize: 16,
                               ),
-                              prefixIcon: Icon(LucideIcons.keyRound, color: AppColors.primary),
+                              prefixIcon: const Icon(LucideIcons.keyRound, color: AppColors.primary),
                               filled: true,
-                              fillColor: Colors.white.withOpacity(0.9),
+                              fillColor: Colors.white.withValues(alpha: 0.9),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                                 borderSide: BorderSide(color: Colors.grey.shade300),
@@ -260,7 +260,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
-                                borderSide: BorderSide(color: AppColors.primary, width: 2),
+                                borderSide: const BorderSide(color: AppColors.primary, width: 2),
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
@@ -342,7 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
             GestureDetector(
               onTap: _toggleMenu,
               child: Container(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 child: Center(
                   child: Card(
                     margin: const EdgeInsets.all(AppSpacing.xl),

@@ -60,9 +60,9 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
               children: [
                 Icon(PlatformIcons.bike),
                 const SizedBox(width: 8),
-                Text(
+                const Text(
                   AppConstants.appName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),

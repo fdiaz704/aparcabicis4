@@ -44,6 +44,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
     setState(() => _isLoading = true);
 
     try {
+      if (!mounted) return;
       final authProvider = context.read<AuthProvider>();
       final result = await authProvider.deleteUser(
         email: _emailController.text.trim(),
@@ -126,9 +127,9 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.md),
                   decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
+                    color: Colors.red.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
-                    border: Border.all(color: Colors.red.withOpacity(0.3)),
+                    border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
                   ),
                   child: Row(
                     children: [

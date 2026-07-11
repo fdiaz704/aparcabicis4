@@ -13,7 +13,7 @@ Objetivo: base limpia, multi-ciudad y sin literales de texto.
 2. [x] Renombrar dominio: `BikeStation`→`Parking`, pantallas/rutas/textos "estación"→"aparcamiento".
 3. [x] **Flavors**: `CityConfig` + `lib/config/cities/` (flavor `demo` con los 8 parkings de Madrid como seed), productFlavors Android + schemes iOS, `--dart-define=CITY=`. Cero referencias a ciudad fuera de config. _(schemes iOS pendientes: requieren macOS/Xcode; ver docs/FLAVORS.md)_
 4. [x] **i18n**: activar `flutter gen-l10n`, extraer TODOS los textos a `app_es.arb` y crear `app_ca.arb` (valencià) con claves completas (traducción inicial es→ca revisable). _(capa de vistas 100% localizada, 332 claves; los mensajes de validación de los providers y de helpers se difieren a fase 1, cuando pasan a repositorios/códigos de error)_
-5. [ ] Copiar `specs/` al repo + `CLAUDE.md` en raíz; lints estrictos y corregir avisos.
+5. [x] Copiar `specs/` al repo + `CLAUDE.md` en raíz; lints estrictos y corregir avisos. _(specs/ y CLAUDE.md ya presentes; analyze "No issues found!"; añadidas reglas estrictas)_
 
 **DoD:** app compila por flavor (`demo`), funciona igual que antes, sin literales de UI en el código, analyze limpio.
 

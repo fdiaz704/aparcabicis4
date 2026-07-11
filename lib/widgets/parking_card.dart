@@ -183,32 +183,37 @@ class ParkingCard extends StatelessWidget {
 
     // Reservar directamente sin modal de confirmación
 
+    // Update parking availability
+    final parkingsProvider = context.read<ParkingsProvider>();
     try {
-      // Update parking availability
-      final parkingsProvider = context.read<ParkingsProvider>();
       parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots - 1);
 
       // Create reservation
       final success = await reservationsProvider.createReservation(parking);
 
       if (success) {
-        AppHelpers.showSuccessSnackBar(
-          context,
-          context.l10n.parkingCardReservationCreated(parking.name),
-        );
-        
+        if (context.mounted) {
+          AppHelpers.showSuccessSnackBar(
+            context,
+            context.l10n.parkingCardReservationCreated(parking.name),
+          );
+        }
+
         // Navigate to active reservation screen
         NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
       } else {
         // Restore parking availability if reservation failed
         parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-        AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
+        if (context.mounted) {
+          AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
+        }
       }
     } catch (e) {
       // Restore parking availability on error
-      final parkingsProvider = context.read<ParkingsProvider>();
       parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-      AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
+      if (context.mounted) {
+        AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
+      }
     }
 
     // Call optional callback

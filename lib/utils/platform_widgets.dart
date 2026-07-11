@@ -17,7 +17,9 @@ class PlatformWidgets {
   }) async {
     // Add haptic feedback for modal presentation
     await PlatformHaptics.modalPresent();
-    
+
+    if (!context.mounted) return null;
+
     if (Platform.isIOS) {
       // Use centered modal dialog for iOS
       return showDialog<T>(
@@ -42,7 +44,6 @@ class PlatformWidgets {
         context: context,
         isScrollControlled: isScrollControlled,
         isDismissible: isDismissible,
-        enableDrag: true,
         useSafeArea: true,
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.9,
@@ -157,7 +158,7 @@ class PlatformWidgets {
                 PlatformHaptics.switchToggle();
                 onChanged(newValue);
               },
-              activeColor: color,
+              activeTrackColor: color,
             ),
           ],
         ),
@@ -171,7 +172,7 @@ class PlatformWidgets {
           PlatformHaptics.switchToggle();
           onChanged(newValue);
         },
-        activeColor: color,
+        activeThumbColor: color,
       );
     }
   }
@@ -230,13 +231,15 @@ class PlatformWidgets {
         ),
       );
     } else {
-      return RadioListTile<T>(
-        title: Text(title),
-        subtitle: subtitle != null ? Text(subtitle) : null,
-        value: value,
+      return RadioGroup<T>(
         groupValue: groupValue,
         onChanged: onChanged,
-        activeColor: color,
+        child: RadioListTile<T>(
+          title: Text(title),
+          subtitle: subtitle != null ? Text(subtitle) : null,
+          value: value,
+          activeColor: color,
+        ),
       );
     }
   }
