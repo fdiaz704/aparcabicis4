@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:io';
 
+// Config (flavors)
+import 'config/app_flavor.dart';
+import 'config/city_config.dart';
+
 // Services
 import 'services/storage_service.dart';
 import 'services/navigation_service.dart';
@@ -43,19 +47,30 @@ void main() async {
   
   // Apply initial system overlay
   AdaptiveTheme.applySystemOverlay();
-  
-  runApp(const AparcabicisApp());
+
+  // Resolve the active city flavor (--dart-define=CITY=<slug>, default: demo).
+  final cityConfig = resolveCityConfig();
+
+  runApp(AparcabicisApp(cityConfig: cityConfig));
 }
 
 class AparcabicisApp extends StatelessWidget {
-  const AparcabicisApp({super.key});
+  /// Configuración de la ciudad activa (flavor). Si no se pasa, se resuelve
+  /// desde `--dart-define=CITY=`.
+  final CityConfig cityConfig;
+
+  AparcabicisApp({super.key, CityConfig? cityConfig})
+      : cityConfig = cityConfig ?? resolveCityConfig();
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<CityConfig>.value(value: cityConfig),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => ParkingsProvider()),
+        ChangeNotifierProvider(
+          create: (_) => ParkingsProvider(seedParkings: cityConfig.seedParkings),
+        ),
         ChangeNotifierProvider(create: (_) => ReservationsProvider()),
       ],
       child: Platform.isIOS ? _buildCupertinoApp() : _buildMaterialApp(),

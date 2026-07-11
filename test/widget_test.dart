@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:aparcabicis4/main.dart';
+import 'package:aparcabicis4/config/cities/demo.dart';
 import 'package:aparcabicis4/screens/splash_screen.dart';
 import 'package:aparcabicis4/providers/auth_provider.dart';
 import 'package:aparcabicis4/providers/parkings_provider.dart';
@@ -24,7 +25,7 @@ void main() {
 
   testWidgets('App loads and shows splash screen', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const AparcabicisApp());
+    await tester.pumpWidget(AparcabicisApp(cityConfig: demoCity));
 
     // Verify that the splash screen is shown
     expect(find.text('Aparcabicis'), findsOneWidget);
@@ -40,7 +41,7 @@ void main() {
 
   testWidgets('Providers are properly initialized', (WidgetTester tester) async {
     // Build the app with providers
-    await tester.pumpWidget(const AparcabicisApp());
+    await tester.pumpWidget(AparcabicisApp(cityConfig: demoCity));
 
     // The providers should be reachable from any descendant context.
     final BuildContext context = tester.element(find.byType(SplashScreen));
@@ -79,7 +80,7 @@ void main() {
     late ParkingsProvider parkingsProvider;
 
     setUp(() {
-      parkingsProvider = ParkingsProvider();
+      parkingsProvider = ParkingsProvider(seedParkings: demoCity.seedParkings);
     });
 
     test('Initial state has empty parkings and favorites', () {

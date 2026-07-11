@@ -4,6 +4,13 @@ import 'dart:convert';
 import '../models/parking.dart';
 
 class ParkingsProvider with ChangeNotifier {
+  /// Aparcamientos semilla inyectados por el flavor (CityConfig). En fases
+  /// posteriores se sustituyen por los servidos por la API.
+  final List<Parking> _seedParkings;
+
+  ParkingsProvider({List<Parking> seedParkings = const []})
+      : _seedParkings = seedParkings;
+
   List<Parking> _parkings = [];
   List<String> _favoriteParkings = [];
 
@@ -21,9 +28,9 @@ class ParkingsProvider with ChangeNotifier {
   bool get showOnlyFavorites => _showOnlyFavorites;
   String get sortBy => _sortBy;
 
-  // Initialize with mock data and load favorites
+  // Initialize with the seed parkings from the city flavor and load favorites
   Future<void> initialize() async {
-    _loadMockParkings();
+    _parkings = List<Parking>.from(_seedParkings);
     await _loadFavorites();
   }
 
@@ -144,83 +151,6 @@ class ParkingsProvider with ChangeNotifier {
   }
 
   // Private methods
-  void _loadMockParkings() {
-    _parkings = [
-      Parking(
-        id: '1',
-        name: 'Plaza Mayor',
-        address: 'Calle Mayor, 1',
-        availableSpots: 3,
-        totalSpots: 10,
-        lat: 40.4155,
-        lng: -3.7074,
-      ),
-      Parking(
-        id: '2',
-        name: 'Aparcamiento Atocha',
-        address: 'Plaza del Emperador Carlos V',
-        availableSpots: 5,
-        totalSpots: 15,
-        lat: 40.4064,
-        lng: -3.6910,
-      ),
-      Parking(
-        id: '3',
-        name: 'Retiro Park',
-        address: 'Paseo del Prado, 8',
-        availableSpots: 0,
-        totalSpots: 8,
-        lat: 40.4152,
-        lng: -3.6844,
-      ),
-      Parking(
-        id: '4',
-        name: 'Gran Vía Centro',
-        address: 'Gran Vía, 32',
-        availableSpots: 2,
-        totalSpots: 12,
-        lat: 40.4200,
-        lng: -3.7038,
-      ),
-      Parking(
-        id: '5',
-        name: 'Malasaña',
-        address: 'Calle Fuencarral, 45',
-        availableSpots: 7,
-        totalSpots: 10,
-        lat: 40.4267,
-        lng: -3.7038,
-      ),
-      Parking(
-        id: '6',
-        name: 'Chueca',
-        address: 'Plaza de Chueca, 3',
-        availableSpots: 1,
-        totalSpots: 6,
-        lat: 40.4239,
-        lng: -3.6968,
-      ),
-      Parking(
-        id: '7',
-        name: 'Sol',
-        address: 'Puerta del Sol, 1',
-        availableSpots: 4,
-        totalSpots: 20,
-        lat: 40.4168,
-        lng: -3.7038,
-      ),
-      Parking(
-        id: '8',
-        name: 'Tribunal',
-        address: 'Calle Tribunal, 15',
-        availableSpots: 6,
-        totalSpots: 10,
-        lat: 40.4267,
-        lng: -3.7008,
-      ),
-    ];
-  }
-
   Future<void> _loadFavorites() async {
     try {
       final prefs = await SharedPreferences.getInstance();

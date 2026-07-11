@@ -11,7 +11,7 @@ Reglas de ejecución (para el agente de código en VSCode):
 Objetivo: base limpia, multi-ciudad y sin literales de texto.
 1. [x] Eliminar código muerto de `main_screen.dart` (`_HistoryTab`, `_ProfileTab`, `_SettingsTab`); sacar `lib/prueba.md` a `docs/`.
 2. [x] Renombrar dominio: `BikeStation`→`Parking`, pantallas/rutas/textos "estación"→"aparcamiento".
-3. [ ] **Flavors**: `CityConfig` + `lib/config/cities/` (flavor `demo` con los 8 parkings de Madrid como seed), productFlavors Android + schemes iOS, `--dart-define=CITY=`. Cero referencias a ciudad fuera de config.
+3. [x] **Flavors**: `CityConfig` + `lib/config/cities/` (flavor `demo` con los 8 parkings de Madrid como seed), productFlavors Android + schemes iOS, `--dart-define=CITY=`. Cero referencias a ciudad fuera de config. _(schemes iOS pendientes: requieren macOS/Xcode; ver docs/FLAVORS.md)_
 4. [ ] **i18n**: activar `flutter gen-l10n`, extraer TODOS los textos a `app_es.arb` y crear `app_ca.arb` (valencià) con claves completas (traducción inicial es→ca revisable).
 5. [ ] Copiar `specs/` al repo + `CLAUDE.md` en raíz; lints estrictos y corregir avisos.
 

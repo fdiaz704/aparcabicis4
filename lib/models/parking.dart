@@ -7,7 +7,7 @@ class Parking {
   final double lat;
   final double lng;
 
-  Parking({
+  const Parking({
     required this.id,
     required this.name,
     required this.address,

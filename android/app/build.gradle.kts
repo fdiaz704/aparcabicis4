@@ -56,6 +56,20 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    // Multi-ciudad (RF-0): un flavor por ciudad. Cada ciudad publica un binario
+    // con su propio applicationId. El slug de ciudad se pasa además a Dart con
+    // `--dart-define=CITY=<slug>` (ver lib/config/app_flavor.dart).
+    //   flutter run --flavor demo --dart-define=CITY=demo
+    flavorDimensions += "city"
+    productFlavors {
+        create("demo") {
+            dimension = "city"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+            resValue("string", "app_name", "Aparcabicis Demo")
+        }
+    }
 }
 
 flutter {

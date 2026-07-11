@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
+import '../../config/city_config.dart';
 import '../../models/parking.dart';
 import '../../providers/parkings_provider.dart';
 import '../../providers/reservations_provider.dart';
@@ -23,11 +24,20 @@ class _ParkingsMapState extends State<ParkingsMap> {
   Parking? _selectedParking;
   GoogleMapController? _mapController;
 
-  // Madrid center (Puerta del Sol)
-  static const CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(40.4168, -3.7038),
-    zoom: 13,
-  );
+  // Posición inicial y nombre de la ciudad, derivados del flavor (CityConfig).
+  late CameraPosition _initialPosition;
+  late String _cityName;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final city = context.read<CityConfig>();
+    _initialPosition = CameraPosition(
+      target: LatLng(city.mapCenterLat, city.mapCenterLng),
+      zoom: city.mapZoom,
+    );
+    _cityName = city.name;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -259,22 +269,13 @@ class _ParkingsMapState extends State<ParkingsMap> {
   }
 
   Future<void> _moveToUserLocation() async {
-    // In a real app, we would get the user's location here.
-    // For now, we'll just center back on Madrid or show a message
-    // since we enabled myLocationEnabled in the map widget which handles the blue dot.
-    // But to move the camera we need the location.
-
-    // Since we don't have the geolocator logic fully implemented in this file
-    // (it was just a toggle before), we will reset to initial position for now
-    // or rely on the map's built-in button if we enabled it.
-    // But we disabled the built-in button to use our custom one.
-
-    // Let's just reset to Madrid center for this demo if we can't get location easily
+    // La geolocalización real (geolocator + permisos) se implementa en la
+    // fase 2. Por ahora recentramos en el centro de la ciudad del flavor.
     _mapController?.animateCamera(
       CameraUpdate.newCameraPosition(_initialPosition),
     );
 
-    AppHelpers.showInfoSnackBar(context, 'Centrando en Madrid');
+    AppHelpers.showInfoSnackBar(context, 'Centrando en $_cityName');
   }
 
   void _toggleFavorite(ParkingsProvider parkingsProvider, Parking parking) {
