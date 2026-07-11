@@ -26,6 +26,11 @@ class AppConstants {
   static const String prefKeyLegacyPassword = 'bikeParking_password';
   static const String prefKeyFavorites = 'bikeParking_favorites';
   static const String prefKeyHistory = 'bikeParking_history';
+  // Reserva en curso del backend fake (el backend real la sirve en /bootstrap).
+  static const String prefKeyCurrentReservation =
+      'bikeParking_currentReservation';
+  // Preferencia de biometría para restaurar sesión (RF-1.6).
+  static const String prefKeyBiometricEnabled = 'bikeParking_biometricEnabled';
   
   // Validation Constants
   static const int minPasswordLength = 8;

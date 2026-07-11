@@ -19,7 +19,7 @@ Objetivo: base limpia, multi-ciudad y sin literales de texto.
 
 ## FASE 1 — Capa de repositorios + seguridad local (app)
 Objetivo: fuentes de datos tras interfaces; sesión segura con biometría; todo contra fakes.
-1. [ ] Interfaces `AuthRepository`, `ParkingsRepository`, `ReservationsRepository`, `AccessRepository`, `ConfigRepository` (bootstrap/params) + implementaciones `Fake*` (parkings del seed, params: ventana 30', uso 840', avisos {10,5}/{30,15,5}/30').
+1. [x] Interfaces `AuthRepository`, `ParkingsRepository`, `ReservationsRepository`, `AccessRepository`, `ConfigRepository` (bootstrap/params) + implementaciones `Fake*` (parkings del seed, params: ventana 30', uso 840', avisos {10,5}/{30,15,5}/30').
 2. [ ] Providers dependen solo de interfaces (inyección por constructor); `SessionProvider` consume el bootstrap fake (user + params + currentReservation).
 3. [ ] Persistencia unificada en `StorageService`; tokens en `flutter_secure_storage`; **eliminar el guardado de contraseña** ("Recuérdame" = mantener sesión).
 4. [ ] **Biometría** (local_auth): alta al activar "Recuérdame"; restauración de sesión con huella/Face ID y fallback a contraseña (HU-2).
