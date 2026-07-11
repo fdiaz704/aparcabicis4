@@ -78,6 +78,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Genera las clases de localización (AppLocalizations) a partir de los ARB
+  # en lib/l10n/ según l10n.yaml (RF-0.2 idiomas; i18n es/ca).
+  generate: true
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../utils/constants.dart';
@@ -76,9 +77,9 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                     color: AppColors.reserved,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Text(
-                    'Reserva activa',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.mainActiveReservation,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -94,7 +95,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                   }
                 },
                 icon: Icon(PlatformIcons.close),
-                tooltip: 'Cerrar sesión',
+                tooltip: context.l10n.mainLogout,
               ),
             ],
           ),
@@ -108,21 +109,21 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
             items: [
               BottomNavigationBarItem(
                 icon: Icon(PlatformIcons.bike),
-                label: 'Aparcamientos',
+                label: context.l10n.mainTabParkings,
               ),
               BottomNavigationBarItem(
                 icon: Icon(PlatformIcons.history),
-                label: 'Historial',
+                label: context.l10n.mainTabHistory,
               ),
               BottomNavigationBarItem(
                 icon: Icon(PlatformIcons.profileTab),
                 activeIcon: Icon(PlatformIcons.profileTabFilled),
-                label: 'Perfil',
+                label: context.l10n.mainTabProfile,
               ),
               BottomNavigationBarItem(
                 icon: Icon(PlatformIcons.settingsTab),
                 activeIcon: Icon(PlatformIcons.settingsTabFilled),
-                label: 'Ajustes',
+                label: context.l10n.mainTabSettings,
               ),
             ],
           ),
@@ -169,11 +170,11 @@ class _ParkingsTabViewState extends State<_ParkingsTabView> with SingleTickerPro
             tabs: [
               Tab(
                 icon: Icon(PlatformIcons.menu),
-                text: 'Lista',
+                text: context.l10n.mainTabList,
               ),
               Tab(
                 icon: Icon(PlatformIcons.location),
-                text: 'Mapa',
+                text: context.l10n.mainTabMap,
               ),
             ],
           ),

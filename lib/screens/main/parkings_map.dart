@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../config/city_config.dart';
 import '../../models/parking.dart';
 import '../../providers/parkings_provider.dart';
@@ -140,7 +141,7 @@ class _ParkingsMapState extends State<ParkingsMap> {
         icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
         infoWindow: InfoWindow(
           title: parking.name,
-          snippet: '${parking.availableSpots} plazas libres',
+          snippet: context.l10n.mapFreeSpots(parking.availableSpots),
         ),
         onTap: () => _selectParking(parking),
       );
@@ -219,7 +220,7 @@ class _ParkingsMapState extends State<ParkingsMap> {
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                   ),
                   child: Text(
-                    '${parking.availableSpots} de ${parking.totalSpots} disponibles',
+                    context.l10n.mapSpotsAvailable(parking.availableSpots, parking.totalSpots),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -239,7 +240,7 @@ class _ParkingsMapState extends State<ParkingsMap> {
                     minimumSize: const Size(80, 32),
                   ),
                   child: Text(
-                    canReserve ? 'Reservar' : 'No disponible',
+                    canReserve ? context.l10n.mapReserve : context.l10n.mapNotAvailable,
                     style: const TextStyle(fontSize: 12),
                   ),
                 ),
@@ -275,17 +276,17 @@ class _ParkingsMapState extends State<ParkingsMap> {
       CameraUpdate.newCameraPosition(_initialPosition),
     );
 
-    AppHelpers.showInfoSnackBar(context, 'Centrando en $_cityName');
+    AppHelpers.showInfoSnackBar(context, context.l10n.mapCenteringOn(_cityName));
   }
 
   void _toggleFavorite(ParkingsProvider parkingsProvider, Parking parking) {
     parkingsProvider.toggleFavorite(parking.id);
     
     final isFavorite = parkingsProvider.isFavorite(parking.id);
-    final message = isFavorite 
-        ? '${parking.name} añadido a favoritos'
-        : '${parking.name} eliminado de favoritos';
-    
+    final message = isFavorite
+        ? context.l10n.mapAddedToFavorites(parking.name)
+        : context.l10n.mapRemovedFromFavorites(parking.name);
+
     AppHelpers.showInfoSnackBar(context, message);
   }
 
@@ -295,12 +296,12 @@ class _ParkingsMapState extends State<ParkingsMap> {
     ReservationsProvider reservationsProvider,
   ) async {
     if (parking.availableSpots <= 0) {
-      AppHelpers.showErrorSnackBar(context, 'No hay plazas disponibles en esta aparcamiento');
+      AppHelpers.showErrorSnackBar(context, context.l10n.mapNoSpotsAvailable);
       return;
     }
 
     if (reservationsProvider.hasActiveReservation) {
-      AppHelpers.showErrorSnackBar(context, 'Ya tienes una reserva activa');
+      AppHelpers.showErrorSnackBar(context, context.l10n.mapAlreadyActiveReservation);
       return;
     }
 
@@ -313,8 +314,8 @@ class _ParkingsMapState extends State<ParkingsMap> {
 
       if (success) {
         AppHelpers.showSuccessSnackBar(
-          context, 
-          'Reserva creada exitosamente en ${parking.name}',
+          context,
+          context.l10n.mapReservationCreated(parking.name),
         );
         
         // Close selected parking card
@@ -325,12 +326,12 @@ class _ParkingsMapState extends State<ParkingsMap> {
       } else {
         // Restore parking availability if reservation failed
         parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-        AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
+        AppHelpers.showErrorSnackBar(context, context.l10n.mapReservationError);
       }
     } catch (e) {
       // Restore parking availability on error
       parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-      AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
+      AppHelpers.showErrorSnackBar(context, context.l10n.mapReservationError);
     }
   }
 

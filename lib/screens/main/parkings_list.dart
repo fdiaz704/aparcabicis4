@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/parkings_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../utils/constants.dart';
@@ -52,7 +53,7 @@ class _ParkingsListState extends State<ParkingsList> {
                   TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: 'Buscar aparcamientos...',
+                      hintText: context.l10n.parkingsListSearchHint,
                       prefixIcon: const Icon(LucideIcons.search),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
@@ -123,9 +124,9 @@ class _ParkingsListState extends State<ParkingsList> {
                             ],
                           ),
                           label: Text(
-                            activeFilterCount > 0 
-                                ? 'Filtros ($activeFilterCount)'
-                                : 'Filtros',
+                            activeFilterCount > 0
+                                ? context.l10n.parkingsListFiltersWithCount(activeFilterCount)
+                                : context.l10n.parkingsListFilters,
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -149,7 +150,7 @@ class _ParkingsListState extends State<ParkingsList> {
               child: Row(
                 children: [
                   Text(
-                    '${filteredParkings.length} aparcamiento${filteredParkings.length != 1 ? 'es' : ''} encontrada${filteredParkings.length != 1 ? 's' : ''}',
+                    context.l10n.parkingsListResultsCount(filteredParkings.length),
                     style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
                   ),
                   if (reservationsProvider.hasActiveReservation) ...[
@@ -163,9 +164,9 @@ class _ParkingsListState extends State<ParkingsList> {
                         color: AppColors.info,
                         borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                       ),
-                      child: const Text(
-                        'Reserva activa',
-                        style: TextStyle(
+                      child: Text(
+                        context.l10n.parkingsListActiveReservation,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -216,19 +217,19 @@ class _ParkingsListState extends State<ParkingsList> {
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              'No se encontraron aparcamientos',
+              context.l10n.parkingsListEmptyTitle,
               style: AppTextStyles.heading3.copyWith(color: Colors.grey[600]),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              'Intenta ajustar los filtros de búsqueda',
+              context.l10n.parkingsListEmptySubtitle,
               style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[500]),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.lg),
             OutlinedButton(
               onPressed: _clearAllFilters,
-              child: const Text('Limpiar filtros'),
+              child: Text(context.l10n.parkingsListClearFilters),
             ),
           ],
         ),
@@ -265,8 +266,8 @@ class _ParkingsListState extends State<ParkingsList> {
                   // Header
                   Row(
                     children: [
-                      const Text(
-                        'Filtros',
+                      Text(
+                        context.l10n.parkingsListFilters,
                         style: AppTextStyles.heading2,
                       ),
                       const Spacer(),
@@ -284,10 +285,10 @@ class _ParkingsListState extends State<ParkingsList> {
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: const Text(
-                          'Limpiar todo',
+                        child: Text(
+                          context.l10n.parkingsListClearAll,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                         ),
                       ),
                       IconButton(
@@ -308,8 +309,8 @@ class _ParkingsListState extends State<ParkingsList> {
                         children: [
                           // Available Filter
                           PlatformWidgets.buildAdaptiveSwitch(
-                            title: 'Solo disponibles',
-                            subtitle: 'Mostrar solo aparcamientos con plazas libres',
+                            title: context.l10n.parkingsListOnlyAvailable,
+                            subtitle: context.l10n.parkingsListOnlyAvailableSubtitle,
                             value: parkingsProvider.showOnlyAvailable,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
@@ -319,8 +320,8 @@ class _ParkingsListState extends State<ParkingsList> {
 
                           // Favorites Filter
                           PlatformWidgets.buildAdaptiveSwitch(
-                            title: 'Solo favoritos',
-                            subtitle: 'Mostrar solo aparcamientos marcadas como favoritas',
+                            title: context.l10n.parkingsListOnlyFavorites,
+                            subtitle: context.l10n.parkingsListOnlyFavoritesSubtitle,
                             value: parkingsProvider.showOnlyFavorites,
                             activeColor: AppColors.primary,
                             onChanged: (value) {
@@ -331,14 +332,14 @@ class _ParkingsListState extends State<ParkingsList> {
                           const SizedBox(height: AppSpacing.md),
 
                           // Sort Options
-                          const Text(
-                            'Ordenar por',
+                          Text(
+                            context.l10n.parkingsListSortBy,
                             style: AppTextStyles.heading3,
                           ),
                           const SizedBox(height: AppSpacing.sm),
 
                           RadioListTile<String>(
-                            title: const Text('Sin ordenar'),
+                            title: Text(context.l10n.parkingsListSortNone),
                             value: 'none',
                             groupValue: parkingsProvider.sortBy,
                             activeColor: AppColors.primary,
@@ -348,7 +349,7 @@ class _ParkingsListState extends State<ParkingsList> {
                           ),
 
                           RadioListTile<String>(
-                            title: const Text('Nombre (A-Z)'),
+                            title: Text(context.l10n.parkingsListSortName),
                             value: 'name',
                             groupValue: parkingsProvider.sortBy,
                             activeColor: AppColors.primary,
@@ -358,7 +359,7 @@ class _ParkingsListState extends State<ParkingsList> {
                           ),
 
                           RadioListTile<String>(
-                            title: const Text('Disponibilidad (más a menos)'),
+                            title: Text(context.l10n.parkingsListSortAvailability),
                             value: 'availability',
                             groupValue: parkingsProvider.sortBy,
                             activeColor: AppColors.primary,
@@ -378,7 +379,7 @@ class _ParkingsListState extends State<ParkingsList> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Aplicar filtros'),
+                      child: Text(context.l10n.parkingsListApplyFilters),
                     ),
                   ),
                 ],

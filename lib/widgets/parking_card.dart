@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../models/parking.dart';
 import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
@@ -58,7 +59,7 @@ class ParkingCard extends StatelessWidget {
                             ? AppColors.favorite 
                             : (isDark ? Colors.grey.shade400 : Colors.grey.shade600),
                       ),
-                      tooltip: isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos',
+                      tooltip: isFavorite ? context.l10n.parkingCardRemoveFavorite : context.l10n.parkingCardAddFavorite,
                     ),
                     
                     // Availability Badge
@@ -144,7 +145,7 @@ class ParkingCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                       ),
                       child: Text(
-                        _getButtonText(canReserve, reservationsProvider.hasActiveReservation),
+                        _getButtonText(context, canReserve, reservationsProvider.hasActiveReservation),
                         style: const TextStyle(fontSize: 14),
                       ),
                     ),
@@ -162,21 +163,21 @@ class ParkingCard extends StatelessWidget {
     parkingsProvider.toggleFavorite(parking.id);
     
     final isFavorite = parkingsProvider.isFavorite(parking.id);
-    final message = isFavorite 
-        ? '${parking.name} añadido a favoritos'
-        : '${parking.name} eliminado de favoritos';
-    
+    final message = isFavorite
+        ? context.l10n.parkingCardAddedToFavorites(parking.name)
+        : context.l10n.parkingCardRemovedFromFavorites(parking.name);
+
     AppHelpers.showInfoSnackBar(context, message);
   }
 
   Future<void> _handleReserve(BuildContext context, ReservationsProvider reservationsProvider) async {
     if (parking.availableSpots <= 0) {
-      AppHelpers.showErrorSnackBar(context, 'No hay plazas disponibles en esta aparcamiento');
+      AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardNoSpotsAvailable);
       return;
     }
 
     if (reservationsProvider.hasActiveReservation) {
-      AppHelpers.showErrorSnackBar(context, 'Ya tienes una reserva activa');
+      AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardAlreadyReserved);
       return;
     }
 
@@ -192,8 +193,8 @@ class ParkingCard extends StatelessWidget {
 
       if (success) {
         AppHelpers.showSuccessSnackBar(
-          context, 
-          'Reserva creada exitosamente en ${parking.name}',
+          context,
+          context.l10n.parkingCardReservationCreated(parking.name),
         );
         
         // Navigate to active reservation screen
@@ -201,26 +202,26 @@ class ParkingCard extends StatelessWidget {
       } else {
         // Restore parking availability if reservation failed
         parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-        AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
+        AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
       }
     } catch (e) {
       // Restore parking availability on error
       final parkingsProvider = context.read<ParkingsProvider>();
       parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-      AppHelpers.showErrorSnackBar(context, 'Error al crear la reserva');
+      AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
     }
 
     // Call optional callback
     onReserve?.call();
   }
 
-  String _getButtonText(bool canReserve, bool hasActiveReservation) {
+  String _getButtonText(BuildContext context, bool canReserve, bool hasActiveReservation) {
     if (hasActiveReservation) {
-      return 'Reserva activa';
+      return context.l10n.parkingCardActiveReservation;
     } else if (!canReserve) {
-      return 'Sin plazas';
+      return context.l10n.parkingCardNoSpots;
     } else {
-      return 'Reservar';
+      return context.l10n.parkingCardReserve;
     }
   }
 }

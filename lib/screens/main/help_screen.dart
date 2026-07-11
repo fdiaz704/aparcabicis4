@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../utils/constants.dart';
 import '../../services/navigation_service.dart';
 import '../../utils/platform_icons.dart';
@@ -30,7 +31,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ayuda y Tutorial'),
+        title: Text(context.l10n.helpTitle),
         leading: IconButton(
           onPressed: () => NavigationService.pop(),
           icon: Icon(PlatformIcons.back),
@@ -38,9 +39,9 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
         bottom: TabBar(
           controller: _tabController,
           tabs: [
-            Tab(text: 'Tutorial', icon: Icon(PlatformIcons.play)),
-            Tab(text: 'FAQ', icon: Icon(PlatformIcons.help)),
-            Tab(text: 'Contacto', icon: Icon(PlatformIcons.phone)),
+            Tab(text: context.l10n.helpTabTutorial, icon: Icon(PlatformIcons.play)),
+            Tab(text: context.l10n.helpTabFaq, icon: Icon(PlatformIcons.help)),
+            Tab(text: context.l10n.helpTabContact, icon: Icon(PlatformIcons.phone)),
           ],
         ),
       ),
@@ -63,56 +64,40 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
         children: [
           // Welcome Section
           _buildTutorialSection(
-            'Bienvenido a Aparcabicis',
-            'Tu aplicación para reservar plazas de aparcamiento para bicicletas de forma inteligente.',
+            context.l10n.helpWelcomeTitle,
+            context.l10n.helpWelcomeContent,
             PlatformIcons.bike,
             AppColors.primary,
           ),
 
           // How to Reserve
           _buildTutorialSection(
-            'Cómo hacer una reserva',
-            '1. Ve a la sección "Aparcamientos"\n'
-            '2. Selecciona una aparcamiento disponible\n'
-            '3. Presiona "Reservar"\n'
-            '4. Tienes 30 minutos para llegar\n'
-            '5. Abre la puerta para comenzar a usar la plaza',
+            context.l10n.helpReserveTitle,
+            context.l10n.helpReserveContent,
             Icons.list_alt,
             AppColors.info,
           ),
 
           // Using the App
           _buildTutorialSection(
-            'Usando la aplicación',
-            '• Lista: Ve todas las aparcamientos en formato lista\n'
-            '• Mapa: Visualiza las aparcamientos en un mapa interactivo\n'
-            '• Favoritos: Marca tus aparcamientos preferidas\n'
-            '• Filtros: Busca por disponibilidad o favoritos\n'
-            '• Historial: Revisa tus reservas anteriores',
+            context.l10n.helpUsingTitle,
+            context.l10n.helpUsingContent,
             Icons.apps,
             Colors.purple,
           ),
 
           // Active Reservation
           _buildTutorialSection(
-            'Reserva activa',
-            'Cuando tengas una reserva activa:\n\n'
-            '• Estado "Reservada": Tienes 30 minutos para llegar\n'
-            '• Estado "En uso": Puedes usar la plaza hasta 2 horas\n'
-            '• Puedes abrir la puerta tantas veces como necesites\n'
-            '• Finaliza tu uso cuando termines',
+            context.l10n.helpActiveTitle,
+            context.l10n.helpActiveContent,
             Icons.access_time,
             Colors.orange,
           ),
 
           // Tips
           _buildTutorialSection(
-            'Consejos útiles',
-            '• Marca como favoritas las aparcamientos que uses frecuentemente\n'
-            '• Revisa tu historial para ver estadísticas de uso\n'
-            '• Activa las notificaciones para recordatorios\n'
-            '• Usa los filtros para encontrar aparcamientos más rápido\n'
-            '• Cancela tu reserva si no vas a usarla',
+            context.l10n.helpTipsTitle,
+            context.l10n.helpTipsContent,
             Icons.lightbulb,
             Colors.amber,
           ),
@@ -124,7 +109,7 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
             child: ElevatedButton.icon(
               onPressed: _startInteractiveDemo,
               icon: const Icon(Icons.play_arrow),
-              label: const Text('Iniciar demo interactivo'),
+              label: Text(context.l10n.helpStartDemo),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
@@ -140,44 +125,44 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
   Widget _buildFAQTab() {
     final faqs = [
       {
-        'question': '¿Cómo reservo una plaza?',
-        'answer': 'Ve a la sección de Aparcamientos, selecciona una aparcamiento disponible y presiona "Reservar". Tendrás 30 minutos para llegar y abrir la puerta.',
+        'question': context.l10n.helpFaq1Question,
+        'answer': context.l10n.helpFaq1Answer,
       },
       {
-        'question': '¿Puedo cancelar mi reserva?',
-        'answer': 'Sí, puedes cancelar tu reserva desde la pantalla de reserva activa presionando "Cancelar reserva". Esto liberará la plaza para otros usuarios.',
+        'question': context.l10n.helpFaq2Question,
+        'answer': context.l10n.helpFaq2Answer,
       },
       {
-        'question': '¿Cuánto tiempo puedo usar una plaza?',
-        'answer': 'Puedes usar una plaza por un máximo de 2 horas. El timer comenzará cuando abras la puerta por primera vez.',
+        'question': context.l10n.helpFaq3Question,
+        'answer': context.l10n.helpFaq3Answer,
       },
       {
-        'question': '¿Qué pasa si no llego a tiempo?',
-        'answer': 'Si no abres la puerta en 30 minutos, tu reserva se cancelará automáticamente y la plaza quedará disponible para otros usuarios.',
+        'question': context.l10n.helpFaq4Question,
+        'answer': context.l10n.helpFaq4Answer,
       },
       {
-        'question': '¿Puedo tener múltiples reservas?',
-        'answer': 'No, solo puedes tener una reserva activa a la vez. Debes finalizar tu uso actual antes de hacer una nueva reserva.',
+        'question': context.l10n.helpFaq5Question,
+        'answer': context.l10n.helpFaq5Answer,
       },
       {
-        'question': '¿Cómo marco una aparcamiento como favorita?',
-        'answer': 'Presiona el icono de estrella en cualquier aparcamiento para marcarla como favorita. Luego puedes filtrar para ver solo tus favoritas.',
+        'question': context.l10n.helpFaq6Question,
+        'answer': context.l10n.helpFaq6Answer,
       },
       {
-        'question': '¿Puedo ver mi historial de reservas?',
-        'answer': 'Sí, ve a la pestaña "Historial" para ver todas tus reservas anteriores, estadísticas de uso y filtrar por estado.',
+        'question': context.l10n.helpFaq7Question,
+        'answer': context.l10n.helpFaq7Answer,
       },
       {
-        'question': '¿La aplicación funciona sin internet?',
-        'answer': 'Necesitas conexión a internet para hacer reservas y abrir puertas. Sin embargo, puedes ver tu historial y configuración sin conexión.',
+        'question': context.l10n.helpFaq8Question,
+        'answer': context.l10n.helpFaq8Answer,
       },
       {
-        'question': '¿Cómo cambio mi contraseña?',
-        'answer': 'Ve a Perfil > Configuración de cuenta > Cambiar contraseña, o desde Ajustes > Cuenta > Cambiar contraseña.',
+        'question': context.l10n.helpFaq9Question,
+        'answer': context.l10n.helpFaq9Answer,
       },
       {
-        'question': '¿Hay algún coste por usar el servicio?',
-        'answer': 'El servicio básico es gratuito. Solo pagas si excedes el tiempo máximo de uso o por servicios premium adicionales.',
+        'question': context.l10n.helpFaq10Question,
+        'answer': context.l10n.helpFaq10Answer,
       },
     ];
 
@@ -215,40 +200,40 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Contacta con nosotros',
+            context.l10n.helpContactTitle,
             style: AppTextStyles.heading2,
           ),
           const SizedBox(height: AppSpacing.lg),
 
           // Contact Methods
           _buildContactMethod(
-            'Email de soporte',
-            'soporte@aparcabicis.com',
-            'Para problemas técnicos y consultas generales',
+            context.l10n.helpContactEmailTitle,
+            context.l10n.helpContactEmailValue,
+            context.l10n.helpContactEmailDesc,
             Icons.email,
             AppColors.primary,
           ),
 
           _buildContactMethod(
-            'Teléfono de emergencia',
-            '+34 900 123 456',
-            'Disponible 24/7 para emergencias',
+            context.l10n.helpContactPhoneTitle,
+            context.l10n.helpContactPhoneValue,
+            context.l10n.helpContactPhoneDesc,
             Icons.phone,
             Colors.red,
           ),
 
           _buildContactMethod(
-            'Chat en vivo',
-            'Disponible de 9:00 a 18:00',
-            'Respuesta inmediata durante horario laboral',
+            context.l10n.helpContactChatTitle,
+            context.l10n.helpContactChatValue,
+            context.l10n.helpContactChatDesc,
             Icons.chat,
             Colors.green,
           ),
 
           _buildContactMethod(
-            'Redes sociales',
-            '@AparcabicisApp',
-            'Síguenos para novedades y actualizaciones',
+            context.l10n.helpContactSocialTitle,
+            context.l10n.helpContactSocialValue,
+            context.l10n.helpContactSocialDesc,
             Icons.share,
             Colors.blue,
           ),
@@ -257,30 +242,30 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
 
           // Quick Actions
           Text(
-            'Acciones rápidas',
+            context.l10n.helpQuickActionsTitle,
             style: AppTextStyles.heading3,
           ),
           const SizedBox(height: AppSpacing.md),
 
           _buildQuickAction(
-            'Reportar un problema',
-            'Informa sobre aparcamientos dañadas o problemas técnicos',
+            context.l10n.helpReportTitle,
+            context.l10n.helpReportDesc,
             Icons.report_problem,
             Colors.orange,
             _reportProblem,
           ),
 
           _buildQuickAction(
-            'Sugerir mejora',
-            'Comparte tus ideas para mejorar la aplicación',
+            context.l10n.helpSuggestTitle,
+            context.l10n.helpSuggestDesc,
             Icons.lightbulb_outline,
             Colors.amber,
             _suggestImprovement,
           ),
 
           _buildQuickAction(
-            'Valorar la app',
-            'Ayúdanos dejando una reseña en la tienda',
+            context.l10n.helpRateTitle,
+            context.l10n.helpRateDesc,
             Icons.star_rate,
             AppColors.favorite,
             _rateApp,
@@ -296,18 +281,18 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Oficinas centrales',
+                    context.l10n.helpOfficeTitle,
                     style: AppTextStyles.heading3,
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text('Aparcabicis S.L.'),
-                  const Text('Calle Mayor, 123'),
-                  const Text('28001 Madrid, España'),
+                  Text(context.l10n.helpOfficeName),
+                  Text(context.l10n.helpOfficeStreet),
+                  Text(context.l10n.helpOfficeCity),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text('Horario de atención:'),
-                  const Text('Lunes a Viernes: 9:00 - 18:00'),
-                  const Text('Sábados: 10:00 - 14:00'),
-                  const Text('Domingos: Cerrado'),
+                  Text(context.l10n.helpOfficeScheduleLabel),
+                  Text(context.l10n.helpOfficeWeekdays),
+                  Text(context.l10n.helpOfficeSaturday),
+                  Text(context.l10n.helpOfficeSunday),
                 ],
               ),
             ),
@@ -397,22 +382,22 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Demo interactivo'),
-        content: const Text('El demo interactivo te guiará paso a paso por todas las funciones de la aplicación.'),
+        title: Text(context.l10n.helpDemoTitle),
+        content: Text(context.l10n.helpDemoContent),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
+            child: Text(context.l10n.helpCancel),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               // Here you would start the interactive demo
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Demo interactivo - Funcionalidad en desarrollo')),
+                SnackBar(content: Text(context.l10n.helpDemoInDevelopment)),
               );
             },
-            child: const Text('Iniciar'),
+            child: Text(context.l10n.helpStart),
           ),
         ],
       ),
@@ -421,19 +406,19 @@ class _HelpScreenState extends State<HelpScreen> with SingleTickerProviderStateM
 
   void _reportProblem() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Reportar problema - Funcionalidad en desarrollo')),
+      SnackBar(content: Text(context.l10n.helpReportInDevelopment)),
     );
   }
 
   void _suggestImprovement() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Sugerir mejora - Funcionalidad en desarrollo')),
+      SnackBar(content: Text(context.l10n.helpSuggestInDevelopment)),
     );
   }
 
   void _rateApp() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Valorar app - Funcionalidad en desarrollo')),
+      SnackBar(content: Text(context.l10n.helpRateInDevelopment)),
     );
   }
 }

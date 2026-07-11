@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../utils/platform_widgets.dart';
@@ -26,25 +27,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // App Settings
-          _buildSectionHeader('Configuración de la aplicación'),
+          _buildSectionHeader(context.l10n.settingsAppSection),
           _buildSettingsCard([
             _buildSwitchTile(
-              'Notificaciones',
-              'Recibir notificaciones de reservas y recordatorios',
+              context.l10n.settingsNotifications,
+              context.l10n.settingsNotificationsSubtitle,
               PlatformIcons.notifications,
               _notificationsEnabled,
               (value) => setState(() => _notificationsEnabled = value),
             ),
             _buildSwitchTile(
-              'Modo oscuro',
-              'Usar tema oscuro en la aplicación',
+              context.l10n.settingsDarkMode,
+              context.l10n.settingsDarkModeSubtitle,
               PlatformIcons.darkMode,
               _darkModeEnabled,
               (value) => setState(() => _darkModeEnabled = value),
             ),
             _buildInfoTile(
-              'Idioma',
-              'Español',
+              context.l10n.settingsLanguage,
+              context.l10n.settingsLanguageValue,
               PlatformIcons.language,
             ),
           ]),
@@ -52,17 +53,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: AppSpacing.xl),
 
           // Account Settings
-          _buildSectionHeader('Cuenta'),
+          _buildSectionHeader(context.l10n.settingsAccountSection),
           _buildSettingsCard([
             _buildNavigationTile(
-              'Cambiar contraseña',
-              'Actualizar tu contraseña de acceso',
+              context.l10n.settingsChangePassword,
+              context.l10n.settingsChangePasswordSubtitle,
               PlatformIcons.key,
               () => NavigationService.pushNamed(AppRoutes.changePassword),
             ),
             _buildNavigationTile(
-              'Eliminar cuenta',
-              'Eliminar permanentemente tu cuenta',
+              context.l10n.settingsDeleteAccount,
+              context.l10n.settingsDeleteAccountSubtitle,
               PlatformIcons.delete,
               () => NavigationService.pushNamed(AppRoutes.deleteUser),
             ),
@@ -71,23 +72,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: AppSpacing.xl),
 
           // Help & Support
-          _buildSectionHeader('Ayuda y soporte'),
+          _buildSectionHeader(context.l10n.settingsHelpSection),
           _buildSettingsCard([
             _buildNavigationTile(
-              'Tutorial',
-              'Aprende a usar la aplicación',
+              context.l10n.settingsTutorial,
+              context.l10n.settingsTutorialSubtitle,
               PlatformIcons.help,
               () => NavigationService.pushNamed(AppRoutes.help),
             ),
             _buildNavigationTile(
-              'Preguntas frecuentes',
-              'Encuentra respuestas a dudas comunes',
+              context.l10n.settingsFaq,
+              context.l10n.settingsFaqSubtitle,
               PlatformIcons.help,
               () => _showFAQ(),
             ),
             _buildNavigationTile(
-              'Llamar a soporte',
-              'Contactar con nuestro equipo de soporte',
+              context.l10n.settingsCallSupport,
+              context.l10n.settingsCallSupportSubtitle,
               PlatformIcons.phone,
               () => _contactSupport(),
             ),
@@ -96,22 +97,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: AppSpacing.xl),
 
           // About
-          _buildSectionHeader('Acerca de'),
+          _buildSectionHeader(context.l10n.settingsAboutSection),
           _buildSettingsCard([
             _buildInfoTile(
-              'Versión',
+              context.l10n.settingsVersion,
               '1.0.0',
               PlatformIcons.info,
             ),
             _buildNavigationTile(
-              'Términos de servicio',
-              'Lee nuestros términos y condiciones',
+              context.l10n.settingsTerms,
+              context.l10n.settingsTermsSubtitle,
               PlatformIcons.info,
               () => _showTerms(),
             ),
             _buildNavigationTile(
-              'Política de privacidad',
-              'Información sobre el manejo de tus datos',
+              context.l10n.settingsPrivacy,
+              context.l10n.settingsPrivacySubtitle,
               PlatformIcons.privacy,
               () => _showPrivacyPolicy(),
             ),
@@ -201,24 +202,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildFAQSheet() {
     final faqs = [
       {
-        'question': '¿Cómo reservo una plaza?',
-        'answer': 'Ve a la sección de Aparcamientos, selecciona una aparcamiento disponible y presiona "Reservar". Tendrás 30 minutos para llegar.',
+        'question': context.l10n.settingsFaqQuestion1,
+        'answer': context.l10n.settingsFaqAnswer1,
       },
       {
-        'question': '¿Puedo cancelar mi reserva?',
-        'answer': 'Sí, puedes cancelar tu reserva desde la pantalla de reserva activa antes de 30 minutos desde el momento en que se efectuó la reserva.',
+        'question': context.l10n.settingsFaqQuestion2,
+        'answer': context.l10n.settingsFaqAnswer2,
       },
       {
-        'question': '¿Cuánto tiempo puedo usar una plaza?',
-        'answer': 'Puedes usar una plaza por un máximo de 14 horas. Después de este tiempo, la plaza se liberará automáticamente.',
+        'question': context.l10n.settingsFaqQuestion3,
+        'answer': context.l10n.settingsFaqAnswer3,
       },
       {
-        'question': '¿Qué pasa si no llego a tiempo?',
-        'answer': 'Si no abres la puerta en 30 minutos, tu reserva se cancelará automáticamente y la plaza quedará disponible.',
+        'question': context.l10n.settingsFaqQuestion4,
+        'answer': context.l10n.settingsFaqAnswer4,
       },
       {
-        'question': '¿Puedo tener múltiples reservas?',
-        'answer': 'No, solo puedes tener una reserva activa a la vez. Debes finalizar tu uso actual antes de hacer una nueva reserva.',
+        'question': context.l10n.settingsFaqQuestion5,
+        'answer': context.l10n.settingsFaqAnswer5,
       },
     ];
 
@@ -230,9 +231,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Preguntas frecuentes',
+                  context.l10n.settingsFaq,
                   style: AppTextStyles.heading2,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -302,7 +303,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (!success && context.mounted) {
       AppHelpers.showErrorSnackBar(
         context,
-        'No se puede abrir el marcador automáticamente.\nPor favor llama manualmente al $phoneNumber',
+        context.l10n.settingsCallSupportError(phoneNumber),
       );
     }
   }
@@ -310,14 +311,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _showTerms() {
     AppHelpers.showInfoSnackBar(
       context,
-      'Términos de servicio - Funcionalidad en desarrollo',
+      context.l10n.settingsTermsInDevelopment,
     );
   }
 
   void _showPrivacyPolicy() {
     AppHelpers.showInfoSnackBar(
       context,
-      'Política de privacidad - Funcionalidad en desarrollo',
+      context.l10n.settingsPrivacyInDevelopment,
     );
   }
 

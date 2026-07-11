@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/parkings_provider.dart';
 import '../../utils/constants.dart';
@@ -68,15 +69,15 @@ class _LoginScreenState extends State<LoginScreen> {
           // Reset filters for the new session
           context.read<ParkingsProvider>().resetFilters();
 
-          AppHelpers.showSuccessSnackBar(context, 'Inicio de sesión exitoso');
+          AppHelpers.showSuccessSnackBar(context, context.l10n.loginSuccess);
           NavigationService.pushNamedAndClearStack(AppRoutes.main);
         } else {
-          AppHelpers.showErrorSnackBar(context, 'Email o contraseña incorrectos');
+          AppHelpers.showErrorSnackBar(context, context.l10n.loginInvalidCredentials);
         }
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al iniciar sesión');
+        AppHelpers.showErrorSnackBar(context, context.l10n.loginError);
       }
     } finally {
       if (mounted) {
@@ -160,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: AppSpacing.xl),
                     
                     Text(
-                      AppConstants.appName,
+                      context.l10n.appName,
                       style: AppTextStyles.heading1.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
@@ -185,13 +186,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                             decoration: InputDecoration(
-                              labelText: 'Email',
+                              labelText: context.l10n.loginEmailLabel,
                               labelStyle: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
-                              hintText: 'ejemplo@correo.com',
+                              hintText: context.l10n.loginEmailHint,
                               hintStyle: TextStyle(
                                 color: Colors.grey.shade600,
                                 fontSize: 16,
@@ -214,17 +215,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu email';
+                                return context.l10n.loginEmailRequired;
                               }
                               if (!AppHelpers.isValidEmail(value)) {
-                                return 'Por favor ingresa un email válido';
+                                return context.l10n.loginEmailInvalid;
                               }
                               return null;
                             },
                           ),
-                          
+
                           const SizedBox(height: AppSpacing.md),
-                          
+
                           // Password Field
                           TextFormField(
                             controller: _passwordController,
@@ -235,13 +236,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                             decoration: InputDecoration(
-                              labelText: 'Contraseña',
+                              labelText: context.l10n.loginPasswordLabel,
                               labelStyle: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
-                              hintText: 'Mínimo 8 caracteres',
+                              hintText: context.l10n.loginPasswordHint,
                               hintStyle: TextStyle(
                                 color: Colors.grey.shade600,
                                 fontSize: 16,
@@ -273,17 +274,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu contraseña';
+                                return context.l10n.loginPasswordRequired;
                               }
                               if (value.length < AppConstants.minPasswordLength) {
-                                return 'La contraseña debe tener al menos ${AppConstants.minPasswordLength} caracteres';
+                                return context.l10n.loginPasswordTooShort(AppConstants.minPasswordLength);
                               }
                               return null;
                             },
                           ),
-                          
+
                           const SizedBox(height: AppSpacing.md),
-                          
+
                           // Remember Me Checkbox
                           Row(
                             children: [
@@ -295,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 activeColor: AppColors.primary,
                               ),
                               Text(
-                                'Recuérdame',
+                                context.l10n.loginRememberMe,
                                 style: TextStyle(
                                   color: Colors.grey.shade700,
                                   fontSize: 16,
@@ -321,7 +322,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                       ),
                                     )
-                                  : const Text('Iniciar sesión'),
+                                  : Text(context.l10n.loginSignInButton),
                             ),
                           ),
                         ],
@@ -352,7 +353,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           ListTile(
                             leading: const Icon(LucideIcons.userPlus),
-                            title: const Text('Crear usuario'),
+                            title: Text(context.l10n.loginMenuCreateUser),
                             onTap: () {
                               _toggleMenu();
                               NavigationService.pushNamed(AppRoutes.createUser);
@@ -360,7 +361,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           ListTile(
                             leading: const Icon(LucideIcons.userMinus),
-                            title: const Text('Eliminar usuario'),
+                            title: Text(context.l10n.loginMenuDeleteUser),
                             onTap: () {
                               _toggleMenu();
                               NavigationService.pushNamed(AppRoutes.deleteUser);
@@ -368,7 +369,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           ListTile(
                             leading: const Icon(LucideIcons.key),
-                            title: const Text('Cambiar contraseña'),
+                            title: Text(context.l10n.loginMenuChangePassword),
                             onTap: () {
                               _toggleMenu();
                               NavigationService.pushNamed(AppRoutes.changePassword);
@@ -376,7 +377,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           ListTile(
                             leading: const Icon(LucideIcons.mail),
-                            title: const Text('Recuperar contraseña'),
+                            title: Text(context.l10n.loginMenuRecoverPassword),
                             onTap: () {
                               _toggleMenu();
                               NavigationService.pushNamed(AppRoutes.sendPassword);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../models/reservation_record.dart';
 import '../utils/constants.dart';
 import '../utils/helpers.dart';
@@ -66,7 +67,7 @@ class HistoryCard extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         Text(
-                          _getStatusText(record.status),
+                          _getStatusText(context, record.status),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -115,7 +116,7 @@ class HistoryCard extends StatelessWidget {
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       Text(
-                        _getDurationText(),
+                        _getDurationText(context),
                         style: AppTextStyles.bodySmall.copyWith(
                           color: Colors.grey.shade800,
                           fontWeight: FontWeight.w500,
@@ -138,7 +139,7 @@ class HistoryCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                       ),
                       child: Text(
-                        '€${record.cost.toStringAsFixed(2)}',
+                        context.l10n.historyCardCost(record.cost.toStringAsFixed(2)),
                         style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,
@@ -178,23 +179,23 @@ class HistoryCard extends StatelessWidget {
     }
   }
 
-  String _getStatusText(ReservationStatus status) {
+  String _getStatusText(BuildContext context, ReservationStatus status) {
     switch (status) {
       case ReservationStatus.completed:
-        return 'Completada';
+        return context.l10n.historyCardCompleted;
       case ReservationStatus.cancelled:
-        return 'Cancelada';
+        return context.l10n.historyCardCancelled;
       case ReservationStatus.expired:
-        return 'Expirada';
+        return context.l10n.historyCardExpired;
     }
   }
 
-  String _getDurationText() {
+  String _getDurationText(BuildContext context) {
     if (record.endTime != null) {
       final duration = record.endTime!.difference(record.startTime);
       return AppHelpers.formatDuration(duration);
     } else {
-      return 'Sin finalizar';
+      return context.l10n.historyCardUnfinished;
     }
   }
 }

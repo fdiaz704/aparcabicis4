@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/reservations_provider.dart';
 import '../../providers/parkings_provider.dart';
 import '../../utils/constants.dart';
@@ -168,7 +169,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                 ],
               ),
               child: Text(
-                isReserved ? 'Reservada' : 'En uso',
+                isReserved ? context.l10n.activeStatusReserved : context.l10n.activeStatusInUse,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -221,7 +222,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
         child: Column(
           children: [
             Text(
-              'Tiempo restante de reserva',
+              context.l10n.activeReservationTimeLeft,
               style: AppTextStyles.heading3,
             ),
             const SizedBox(height: AppSpacing.md),
@@ -270,7 +271,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
         child: Column(
           children: [
             Text(
-              'Tiempo de uso',
+              context.l10n.activeUsageTime,
               style: AppTextStyles.heading3,
             ),
             const SizedBox(height: AppSpacing.md),
@@ -295,7 +296,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
             const SizedBox(height: AppSpacing.sm),
             
             Text(
-              'Tiempo máximo: ${reservationsProvider.formatTime(AppConstants.maxUsageTimeSeconds)}',
+              context.l10n.activeMaxTime(reservationsProvider.formatTime(AppConstants.maxUsageTimeSeconds)),
               style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
             ),
             
@@ -334,8 +335,8 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
           Expanded(
             child: Text(
               isReserved
-                  ? 'Abre la puerta para comenzar a usar la plaza. Tienes 30 minutos para llegar.'
-                  : 'Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.',
+                  ? context.l10n.activeInstructionsReserved
+                  : context.l10n.activeInstructionsInUse,
               style: TextStyle(
                 color: Colors.blue[700],
                 fontWeight: FontWeight.w500,
@@ -361,9 +362,9 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
           child: ElevatedButton.icon(
             onPressed: () => _handleOpenDoor(reservationsProvider),
             icon: const Icon(Icons.lock_open, size: 24),
-            label: const Text(
-              'Abrir puerta',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            label: Text(
+              context.l10n.activeOpenDoor,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -388,7 +389,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
               ),
             ),
             child: Text(
-              isReserved ? 'Cancelar reserva' : 'Finalizar uso',
+              isReserved ? context.l10n.activeCancelReservation : context.l10n.activeFinishUsage,
             ),
           ),
         ),
@@ -412,7 +413,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Instrucciones finales',
+                      context.l10n.activeFinalInstructions,
                       style: AppTextStyles.heading2,
                       textAlign: TextAlign.center,
                     ),
@@ -420,16 +421,16 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
                     const SizedBox(height: AppSpacing.xl),
                     
                     // Instructions List
-                    _buildInstructionItem(1, 'Retire todas sus pertenencias'),
+                    _buildInstructionItem(1, context.l10n.activeInstructionRemoveBelongings),
                     const SizedBox(height: AppSpacing.lg),
-                    _buildInstructionItem(2, 'Cierre la puerta'),
+                    _buildInstructionItem(2, context.l10n.activeInstructionCloseDoor),
                     const SizedBox(height: AppSpacing.lg),
-                    _buildInstructionItem(3, 'La plaza quedará disponible\npara otros usuarios'),
+                    _buildInstructionItem(3, context.l10n.activeInstructionSpotAvailable),
                     
                     const SizedBox(height: AppSpacing.xl),
                     
                     Text(
-                      'Toca en cualquier parte para\ncontinuar',
+                      context.l10n.activeTapToContinue,
                       style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
                       textAlign: TextAlign.center,
                     ),
@@ -479,7 +480,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     reservationsProvider.openDoor();
     
     // Show success message
-    AppHelpers.showSuccessSnackBar(context, 'Puerta abierta correctamente');
+    AppHelpers.showSuccessSnackBar(context, context.l10n.activeDoorOpenedSuccess);
   }
 
   Future<void> _handleCancelReservation(ReservationsProvider reservationsProvider) async {
@@ -495,12 +496,12 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
       await reservationsProvider.cancelReservation();
 
       if (mounted) {
-        AppHelpers.showInfoSnackBar(context, 'Reserva cancelada');
+        AppHelpers.showInfoSnackBar(context, context.l10n.activeReservationCancelled);
         NavigationService.pushNamedAndClearStack(AppRoutes.main);
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al cancelar la reserva');
+        AppHelpers.showErrorSnackBar(context, context.l10n.activeCancelReservationError);
       }
     }
   }
@@ -528,12 +529,12 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
       await reservationsProvider.finishUsage();
 
       if (mounted) {
-        AppHelpers.showSuccessSnackBar(context, 'Uso finalizado correctamente');
+        AppHelpers.showSuccessSnackBar(context, context.l10n.activeUsageFinishedSuccess);
         NavigationService.pushNamedAndClearStack(AppRoutes.main);
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al finalizar el uso');
+        AppHelpers.showErrorSnackBar(context, context.l10n.activeFinishUsageError);
       }
     }
   }

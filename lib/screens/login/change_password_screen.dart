@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
@@ -50,7 +51,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al cambiar la contraseña');
+        AppHelpers.showErrorSnackBar(context, context.l10n.changePasswordError);
       }
     } finally {
       if (mounted) {
@@ -92,10 +93,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       icon: const Icon(Icons.arrow_back),
                       color: AppColors.primary,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'Cambiar Contraseña',
-                        style: TextStyle(
+                        context.l10n.changePasswordTitle,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -119,17 +120,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: Icon(Icons.mail),
-                              hintText: 'Tu email actual',
+                            decoration: InputDecoration(
+                              labelText: context.l10n.changePasswordEmailLabel,
+                              prefixIcon: const Icon(Icons.mail),
+                              hintText: context.l10n.changePasswordEmailHint,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu email';
+                                return context.l10n.changePasswordEmailRequired;
                               }
                               if (!AppHelpers.isValidEmail(value)) {
-                                return 'Por favor ingresa un email válido';
+                                return context.l10n.changePasswordEmailInvalid;
                               }
                               return null;
                             },
@@ -142,9 +143,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             controller: _currentPasswordController,
                             obscureText: !_showCurrentPassword,
                             decoration: InputDecoration(
-                              labelText: 'Contraseña actual',
+                              labelText: context.l10n.changePasswordCurrentLabel,
                               prefixIcon: const Icon(Icons.vpn_key),
-                              hintText: 'Tu contraseña actual',
+                              hintText: context.l10n.changePasswordCurrentHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showCurrentPassword = !_showCurrentPassword);
@@ -156,7 +157,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu contraseña actual';
+                                return context.l10n.changePasswordCurrentRequired;
                               }
                               return null;
                             },
@@ -169,9 +170,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             controller: _newPasswordController,
                             obscureText: !_showNewPassword,
                             decoration: InputDecoration(
-                              labelText: 'Nueva contraseña',
+                              labelText: context.l10n.changePasswordNewLabel,
                               prefixIcon: const Icon(Icons.vpn_key),
-                              hintText: 'Mínimo 8 caracteres',
+                              hintText: context.l10n.changePasswordNewHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showNewPassword = !_showNewPassword);
@@ -183,13 +184,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa una nueva contraseña';
+                                return context.l10n.changePasswordNewRequired;
                               }
                               if (value.length < AppConstants.minPasswordLength) {
-                                return 'La contraseña debe tener al menos ${AppConstants.minPasswordLength} caracteres';
+                                return context.l10n.changePasswordTooShort(AppConstants.minPasswordLength);
                               }
                               if (value == _currentPasswordController.text) {
-                                return 'La nueva contraseña debe ser diferente a la actual';
+                                return context.l10n.changePasswordSameAsCurrent;
                               }
                               return null;
                             },
@@ -202,9 +203,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             controller: _confirmNewPasswordController,
                             obscureText: !_showConfirmNewPassword,
                             decoration: InputDecoration(
-                              labelText: 'Confirmar nueva contraseña',
+                              labelText: context.l10n.changePasswordConfirmNewLabel,
                               prefixIcon: const Icon(Icons.vpn_key),
-                              hintText: 'Repite la nueva contraseña',
+                              hintText: context.l10n.changePasswordConfirmNewHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showConfirmNewPassword = !_showConfirmNewPassword);
@@ -216,10 +217,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor confirma tu nueva contraseña';
+                                return context.l10n.changePasswordConfirmNewRequired;
                               }
                               if (value != _newPasswordController.text) {
-                                return 'Las contraseñas nuevas no coinciden';
+                                return context.l10n.changePasswordMismatch;
                               }
                               return null;
                             },
@@ -233,7 +234,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: _isLoading ? null : () => NavigationService.pop(),
-                                  child: const Text('Cancelar'),
+                                  child: Text(context.l10n.changePasswordCancelButton),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.md),
@@ -249,8 +250,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                           ),
                                         )
-                                      : const Text(
-                                          'Cambiar contraseña',
+                                      : Text(
+                                          context.l10n.changePasswordSubmitButton,
                                           textAlign: TextAlign.center,
                                         ),
                                 ),

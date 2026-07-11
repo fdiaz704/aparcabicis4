@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/reservations_provider.dart';
 import '../../models/reservation_record.dart';
 import '../../utils/constants.dart';
@@ -43,7 +44,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Estadísticas',
+                    context.l10n.historyStatistics,
                     style: AppTextStyles.heading3.copyWith(
                       color: isDark ? Colors.white : Colors.black,
                     ),
@@ -61,20 +62,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     children: [
                       StatCard(
                         icon: PlatformIcons.bike,
-                        title: 'Total reservas',
+                        title: context.l10n.historyTotalReservations,
                         value: stats['totalReservations'].toString(),
                         color: AppColors.primary,
                       ),
                       StatCard(
                         icon: PlatformIcons.checkmarkCircle,
-                        title: 'Completadas',
+                        title: context.l10n.historyCompleted,
                         value: stats['completedReservations'].toString(),
-                        subtitle: '${stats['completionRate']}% éxito',
+                        subtitle: context.l10n.historySuccessRate(stats['completionRate']),
                         color: AppColors.success,
                       ),
                       StatCard(
                         icon: PlatformIcons.clock,
-                        title: 'Tiempo total',
+                        title: context.l10n.historyTotalTime,
                         value: AppHelpers.formatDuration(
                           Duration(seconds: stats['totalUsageTime']),
                         ),
@@ -102,7 +103,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       value: _selectedFilter,
                       isDense: true,
                       decoration: InputDecoration(
-                        labelText: 'Estado',
+                        labelText: context.l10n.historyStatus,
                         labelStyle: TextStyle(
                           color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
                         ),
@@ -116,7 +117,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         DropdownMenuItem<ReservationStatus?>(
                           value: null,
                           child: Text(
-                            'Todos',
+                            context.l10n.historyAll,
                             style: TextStyle(
                               color: isDark ? Colors.white : Colors.black,
                             ),
@@ -151,7 +152,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       value: _sortBy,
                       isDense: true,
                       decoration: InputDecoration(
-                        labelText: 'Ordenar',
+                        labelText: context.l10n.historySortLabel,
                         labelStyle: TextStyle(
                           color: isDark ? Colors.grey.shade300 : Colors.grey.shade700,
                         ),
@@ -165,7 +166,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         DropdownMenuItem(
                           value: 'date_desc',
                           child: Text(
-                            'Reciente',
+                            context.l10n.historySortRecent,
                             style: TextStyle(
                               color: isDark ? Colors.white : Colors.black,
                             ),
@@ -174,7 +175,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         DropdownMenuItem(
                           value: 'date_asc',
                           child: Text(
-                            'Antiguo',
+                            context.l10n.historySortOldest,
                             style: TextStyle(
                               color: isDark ? Colors.white : Colors.black,
                             ),
@@ -183,7 +184,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         DropdownMenuItem(
                           value: 'duration_desc',
                           child: Text(
-                            '+ Duración',
+                            context.l10n.historySortDurationDesc,
                             style: TextStyle(
                               color: isDark ? Colors.white : Colors.black,
                             ),
@@ -192,7 +193,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         DropdownMenuItem(
                           value: 'duration_asc',
                           child: Text(
-                            '- Duración',
+                            context.l10n.historySortDurationAsc,
                             style: TextStyle(
                               color: isDark ? Colors.white : Colors.black,
                             ),
@@ -220,7 +221,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               child: Row(
                 children: [
                   Text(
-                    '${filteredHistory.length} reserva${filteredHistory.length != 1 ? 's' : ''} encontrada${filteredHistory.length != 1 ? 's' : ''}',
+                    context.l10n.historyResultsCount(filteredHistory.length),
                     style: AppTextStyles.bodySmall.copyWith(
                       color: isDark ? Colors.grey.shade300 : Colors.grey.shade800,
                       fontWeight: FontWeight.w500,
@@ -300,8 +301,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             const SizedBox(height: AppSpacing.md),
             Text(
               _selectedFilter != null
-                  ? 'No hay reservas ${_getStatusText(_selectedFilter!).toLowerCase()}'
-                  : 'No hay reservas en el historial',
+                  ? context.l10n.historyNoReservationsFiltered(_getStatusText(_selectedFilter!).toLowerCase())
+                  : context.l10n.historyNoReservations,
               style: AppTextStyles.heading3.copyWith(
                 color: isDark ? Colors.grey.shade300 : Colors.grey.shade600,
               ),
@@ -310,8 +311,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             const SizedBox(height: AppSpacing.sm),
             Text(
               _selectedFilter != null
-                  ? 'Intenta cambiar el filtro para ver más reservas'
-                  : 'Tus reservas aparecerán aquí una vez que las completes',
+                  ? context.l10n.historyTryChangeFilter
+                  : context.l10n.historyReservationsWillAppear,
               style: AppTextStyles.bodySmall.copyWith(
                 color: isDark ? Colors.grey.shade400 : Colors.grey.shade500,
               ),
@@ -325,7 +326,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     _selectedFilter = null;
                   });
                 },
-                child: const Text('Mostrar todas'),
+                child: Text(context.l10n.historyShowAll),
               ),
             ],
           ],
@@ -337,11 +338,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
   String _getStatusText(ReservationStatus status) {
     switch (status) {
       case ReservationStatus.completed:
-        return 'Completadas';
+        return context.l10n.historyStatusCompleted;
       case ReservationStatus.cancelled:
-        return 'Canceladas';
+        return context.l10n.historyStatusCancelled;
       case ReservationStatus.expired:
-        return 'Expiradas';
+        return context.l10n.historyStatusExpired;
     }
   }
 
@@ -367,7 +368,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             children: [
               Expanded(
                 child: Text(
-                  'Detalles de la reserva',
+                  context.l10n.historyReservationDetails,
                   style: AppTextStyles.heading2,
                 ),
               ),
@@ -378,16 +379,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: AppSpacing.lg),
           
           // Parking Info
-          _buildDetailRow('Aparcamiento', record.parkingName, PlatformIcons.bike),
-          _buildDetailRow('Fecha', AppHelpers.formatDateTime(record.startTime), PlatformIcons.calendar),
-          
+          _buildDetailRow(context.l10n.historyLabelParking, record.parkingName, PlatformIcons.bike),
+          _buildDetailRow(context.l10n.historyLabelDate, AppHelpers.formatDateTime(record.startTime), PlatformIcons.calendar),
+
           if (duration != null)
-            _buildDetailRow('Duración', AppHelpers.formatDuration(duration), PlatformIcons.clock),
-          
+            _buildDetailRow(context.l10n.historyLabelDuration, AppHelpers.formatDuration(duration), PlatformIcons.clock),
+
           if (record.cost > 0)
-            _buildDetailRow('Coste', '€${record.cost.toStringAsFixed(2)}', Icons.euro),
-          
-          _buildDetailRow('Estado', _getStatusText(record.status), Icons.info),
+            _buildDetailRow(context.l10n.historyLabelCost, '€${record.cost.toStringAsFixed(2)}', Icons.euro),
+
+          _buildDetailRow(context.l10n.historyStatus, _getStatusText(record.status), Icons.info),
           
           const SizedBox(height: AppSpacing.lg),
           
@@ -396,7 +397,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cerrar'),
+              child: Text(context.l10n.historyClose),
             ),
           ),
           

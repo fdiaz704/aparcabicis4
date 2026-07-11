@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/reservations_provider.dart';
 import '../../providers/parkings_provider.dart';
@@ -34,17 +35,17 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 // Profile Header
-                _buildProfileHeader(user),
-                
+                _buildProfileHeader(context, user),
+
                 const SizedBox(height: AppSpacing.xl),
-                
+
                 // Quick Stats
-                _buildQuickStats(stats),
-                
+                _buildQuickStats(context, stats),
+
                 const SizedBox(height: AppSpacing.xl),
-                
+
                 // Detailed Statistics
-                _buildDetailedStats(stats, favoriteParkings.length),
+                _buildDetailedStats(context, stats, favoriteParkings.length),
                 
                 const SizedBox(height: AppSpacing.xl),
                 
@@ -58,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader(dynamic user) {
+  Widget _buildProfileHeader(BuildContext context, dynamic user) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -90,15 +91,15 @@ class ProfileScreen extends StatelessWidget {
             
             // User Info
             Text(
-              user?.email ?? 'Usuario',
+              user?.email ?? context.l10n.profileDefaultUser,
               style: AppTextStyles.heading2,
               textAlign: TextAlign.center,
             ),
-            
+
             const SizedBox(height: AppSpacing.sm),
-            
+
             Text(
-              'Miembro desde ${AppHelpers.formatDate(DateTime.now().subtract(const Duration(days: 30)))}',
+              context.l10n.profileMemberSince(AppHelpers.formatDate(DateTime.now().subtract(const Duration(days: 30)))),
               style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
               textAlign: TextAlign.center,
             ),
@@ -108,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickStats(Map<String, dynamic> stats) {
+  Widget _buildQuickStats(BuildContext context, Map<String, dynamic> stats) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.lg),
@@ -117,17 +118,17 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                'Resumen de actividad',
+                context.l10n.profileActivitySummary,
                 style: AppTextStyles.heading3,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            
+
             Row(
               children: [
                 Expanded(
                   child: _buildQuickStatItem(
-                    'Reservas totales',
+                    context.l10n.profileTotalReservations,
                     stats['totalReservations'].toString(),
                     PlatformIcons.bike,
                     AppColors.primary,
@@ -140,7 +141,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: _buildQuickStatItem(
-                    'Tiempo total',
+                    context.l10n.profileTotalTime,
                     AppHelpers.formatDuration(Duration(seconds: stats['totalUsageTime'])),
                     PlatformIcons.clock,
                     AppColors.info,
@@ -176,16 +177,16 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailedStats(Map<String, dynamic> stats, int favoriteParkingsCount) {
+  Widget _buildDetailedStats(BuildContext context, Map<String, dynamic> stats, int favoriteParkingsCount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Estadísticas detalladas',
+          context.l10n.profileDetailedStats,
           style: AppTextStyles.heading3,
         ),
         const SizedBox(height: AppSpacing.md),
-        
+
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -196,37 +197,37 @@ class ProfileScreen extends StatelessWidget {
           children: [
             _buildCustomStatCard(
               icon: PlatformIcons.checkmarkCircle,
-              title: 'Completadas',
+              title: context.l10n.profileCompleted,
               value: stats['completedReservations'].toString(),
-              subtitle: '${stats['completionRate']}% éxito',
+              subtitle: context.l10n.profileSuccessRate(stats['completionRate'].toString()),
               color: AppColors.success,
             ),
             StatCard(
               icon: PlatformIcons.close,
-              title: 'Canceladas',
+              title: context.l10n.profileCancelled,
               value: stats['cancelledReservations'].toString(),
-              subtitle: '${stats['cancellationRate']}% del total',
+              subtitle: context.l10n.profileCancellationRate(stats['cancellationRate'].toString()),
               color: AppColors.error,
             ),
             StatCard(
               icon: Icons.access_time,
-              title: 'Expiradas',
+              title: context.l10n.profileExpired,
               value: stats['expiredReservations'].toString(),
-              subtitle: 'Por timeout',
+              subtitle: context.l10n.profileByTimeout,
               color: Colors.orange,
             ),
             StatCard(
               icon: PlatformIcons.star,
-              title: 'Favoritos',
+              title: context.l10n.profileFavorites,
               value: favoriteParkingsCount.toString(),
-              subtitle: 'Aparcamientos marcadas',
+              subtitle: context.l10n.profileMarkedParkings,
               color: AppColors.favorite,
             ),
             StatCard(
               icon: PlatformIcons.clock,
-              title: 'Tiempo promedio',
+              title: context.l10n.profileAverageTime,
               value: AppHelpers.formatDuration(Duration(seconds: stats['averageUsageTime'])),
-              subtitle: 'Por reserva',
+              subtitle: context.l10n.profilePerReservation,
               color: AppColors.info,
             ),
           ],
@@ -241,34 +242,34 @@ class ProfileScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Configuración de cuenta',
+          context.l10n.profileAccountSettings,
           style: AppTextStyles.heading3,
         ),
         const SizedBox(height: AppSpacing.md),
-        
+
         Card(
           child: Column(
             children: [
               ListTile(
                 leading: Icon(PlatformIcons.key),
-                title: const Text('Cambiar contraseña'),
-                subtitle: const Text('Actualiza tu contraseña de acceso'),
+                title: Text(context.l10n.profileChangePassword),
+                subtitle: Text(context.l10n.profileChangePasswordSubtitle),
                 trailing: Icon(PlatformIcons.chevronRight),
                 onTap: () => NavigationService.pushNamed(AppRoutes.changePassword),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: Icon(PlatformIcons.delete),
-                title: const Text('Eliminar cuenta'),
-                subtitle: const Text('Eliminar permanentemente tu cuenta'),
+                title: Text(context.l10n.profileDeleteAccount),
+                subtitle: Text(context.l10n.profileDeleteAccountSubtitle),
                 trailing: Icon(PlatformIcons.chevronRight),
                 onTap: () => NavigationService.pushNamed(AppRoutes.deleteUser),
               ),
               const Divider(height: 1),
               ListTile(
                 leading: Icon(PlatformIcons.close),
-                title: const Text('Cerrar sesión'),
-                subtitle: const Text('Salir de tu cuenta'),
+                title: Text(context.l10n.profileLogout),
+                subtitle: Text(context.l10n.profileLogoutSubtitle),
                 trailing: Icon(PlatformIcons.chevronRight),
                 onTap: () => _handleLogout(context, authProvider),
               ),
@@ -283,10 +284,10 @@ class ProfileScreen extends StatelessWidget {
   Future<void> _handleLogout(BuildContext context, AuthProvider authProvider) async {
     final confirmed = await AppHelpers.showConfirmationDialog(
       context,
-      title: '¿Cerrar sesión?',
-      content: '¿Estás seguro de que quieres cerrar tu sesión?',
-      confirmText: 'Cerrar sesión',
-      cancelText: 'Cancelar',
+      title: context.l10n.profileLogoutConfirmTitle,
+      content: context.l10n.profileLogoutConfirmContent,
+      confirmText: context.l10n.profileLogout,
+      cancelText: context.l10n.profileCancel,
     );
 
     if (!confirmed) return;
@@ -298,7 +299,7 @@ class ProfileScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al cerrar sesión');
+        AppHelpers.showErrorSnackBar(context, context.l10n.profileLogoutError);
       }
     }
   }

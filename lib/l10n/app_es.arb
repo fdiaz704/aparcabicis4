@@ -1,0 +1,1449 @@
+{
+  "@@locale": "es",
+  "activeCancelReservation": "Cancelar reserva",
+  "@activeCancelReservation": {
+    "description": "Boton para cancelar la reserva"
+  },
+  "activeCancelReservationError": "Error al cancelar la reserva",
+  "@activeCancelReservationError": {
+    "description": "SnackBar de error al cancelar la reserva"
+  },
+  "activeDoorOpenedSuccess": "Puerta abierta correctamente",
+  "@activeDoorOpenedSuccess": {
+    "description": "SnackBar de exito al abrir la puerta"
+  },
+  "activeFinalInstructions": "Instrucciones finales",
+  "@activeFinalInstructions": {
+    "description": "Titulo del modal de finalizacion"
+  },
+  "activeFinishUsage": "Finalizar uso",
+  "@activeFinishUsage": {
+    "description": "Boton para finalizar el uso"
+  },
+  "activeFinishUsageError": "Error al finalizar el uso",
+  "@activeFinishUsageError": {
+    "description": "SnackBar de error al finalizar el uso"
+  },
+  "activeInstructionCloseDoor": "Cierre la puerta",
+  "@activeInstructionCloseDoor": {
+    "description": "Paso 2 de finalizacion"
+  },
+  "activeInstructionRemoveBelongings": "Retire todas sus pertenencias",
+  "@activeInstructionRemoveBelongings": {
+    "description": "Paso 1 de finalizacion"
+  },
+  "activeInstructionSpotAvailable": "La plaza quedará disponible\npara otros usuarios",
+  "@activeInstructionSpotAvailable": {
+    "description": "Paso 3 de finalizacion"
+  },
+  "activeInstructionsInUse": "Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.",
+  "@activeInstructionsInUse": {
+    "description": "Instrucciones cuando la plaza esta en uso"
+  },
+  "activeInstructionsReserved": "Abre la puerta para comenzar a usar la plaza. Tienes 30 minutos para llegar.",
+  "@activeInstructionsReserved": {
+    "description": "Instrucciones cuando la reserva esta activa"
+  },
+  "activeMaxTime": "Tiempo máximo: {time}",
+  "@activeMaxTime": {
+    "description": "Tiempo maximo de uso permitido, ya formateado",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOpenDoor": "Abrir puerta",
+  "@activeOpenDoor": {
+    "description": "Boton para abrir la puerta"
+  },
+  "activeReservationCancelled": "Reserva cancelada",
+  "@activeReservationCancelled": {
+    "description": "SnackBar informativo al cancelar la reserva"
+  },
+  "activeReservationTimeLeft": "Tiempo restante de reserva",
+  "@activeReservationTimeLeft": {
+    "description": "Titulo del temporizador de reserva"
+  },
+  "activeStatusInUse": "En uso",
+  "@activeStatusInUse": {
+    "description": "Insignia de estado: plaza en uso"
+  },
+  "activeStatusReserved": "Reservada",
+  "@activeStatusReserved": {
+    "description": "Insignia de estado: reserva activa sin usar todavia"
+  },
+  "activeTapToContinue": "Toca en cualquier parte para\ncontinuar",
+  "@activeTapToContinue": {
+    "description": "Indicacion para cerrar el modal"
+  },
+  "activeUsageFinishedSuccess": "Uso finalizado correctamente",
+  "@activeUsageFinishedSuccess": {
+    "description": "SnackBar de exito al finalizar el uso"
+  },
+  "activeUsageTime": "Tiempo de uso",
+  "@activeUsageTime": {
+    "description": "Titulo del temporizador de uso"
+  },
+  "appName": "Aparcabicis",
+  "@appName": {
+    "description": "Nombre de la aplicación"
+  },
+  "changePasswordCancelButton": "Cancelar",
+  "@changePasswordCancelButton": {
+    "description": "Botón cancelar en cambiar contraseña"
+  },
+  "changePasswordConfirmNewHint": "Repite la nueva contraseña",
+  "@changePasswordConfirmNewHint": {
+    "description": "Placeholder del campo confirmar nueva contraseña"
+  },
+  "changePasswordConfirmNewLabel": "Confirmar nueva contraseña",
+  "@changePasswordConfirmNewLabel": {
+    "description": "Etiqueta del campo confirmar nueva contraseña"
+  },
+  "changePasswordConfirmNewRequired": "Por favor confirma tu nueva contraseña",
+  "@changePasswordConfirmNewRequired": {
+    "description": "Validación: confirmación de nueva contraseña vacía"
+  },
+  "changePasswordCurrentHint": "Tu contraseña actual",
+  "@changePasswordCurrentHint": {
+    "description": "Placeholder del campo contraseña actual"
+  },
+  "changePasswordCurrentLabel": "Contraseña actual",
+  "@changePasswordCurrentLabel": {
+    "description": "Etiqueta del campo contraseña actual"
+  },
+  "changePasswordCurrentRequired": "Por favor ingresa tu contraseña actual",
+  "@changePasswordCurrentRequired": {
+    "description": "Validación: contraseña actual vacía"
+  },
+  "changePasswordEmailHint": "Tu email actual",
+  "@changePasswordEmailHint": {
+    "description": "Placeholder del campo email en cambiar contraseña"
+  },
+  "changePasswordEmailInvalid": "Por favor ingresa un email válido",
+  "@changePasswordEmailInvalid": {
+    "description": "Validación: email inválido en cambiar contraseña"
+  },
+  "changePasswordEmailLabel": "Email",
+  "@changePasswordEmailLabel": {
+    "description": "Etiqueta del campo email en cambiar contraseña"
+  },
+  "changePasswordEmailRequired": "Por favor ingresa tu email",
+  "@changePasswordEmailRequired": {
+    "description": "Validación: email vacío en cambiar contraseña"
+  },
+  "changePasswordError": "Error al cambiar la contraseña",
+  "@changePasswordError": {
+    "description": "SnackBar de error al cambiar contraseña"
+  },
+  "changePasswordMismatch": "Las contraseñas nuevas no coinciden",
+  "@changePasswordMismatch": {
+    "description": "Validación: nuevas contraseñas no coinciden"
+  },
+  "changePasswordNewHint": "Mínimo 8 caracteres",
+  "@changePasswordNewHint": {
+    "description": "Placeholder del campo nueva contraseña"
+  },
+  "changePasswordNewLabel": "Nueva contraseña",
+  "@changePasswordNewLabel": {
+    "description": "Etiqueta del campo nueva contraseña"
+  },
+  "changePasswordNewRequired": "Por favor ingresa una nueva contraseña",
+  "@changePasswordNewRequired": {
+    "description": "Validación: nueva contraseña vacía"
+  },
+  "changePasswordSameAsCurrent": "La nueva contraseña debe ser diferente a la actual",
+  "@changePasswordSameAsCurrent": {
+    "description": "Validación: nueva contraseña igual a la actual"
+  },
+  "changePasswordSubmitButton": "Cambiar contraseña",
+  "@changePasswordSubmitButton": {
+    "description": "Botón enviar en cambiar contraseña"
+  },
+  "changePasswordTitle": "Cambiar Contraseña",
+  "@changePasswordTitle": {
+    "description": "Título de la pantalla cambiar contraseña"
+  },
+  "changePasswordTooShort": "La contraseña debe tener al menos {count} caracteres",
+  "@changePasswordTooShort": {
+    "description": "Validación: nueva contraseña demasiado corta",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "createUserCancelButton": "Cancelar",
+  "@createUserCancelButton": {
+    "description": "Botón cancelar en crear usuario"
+  },
+  "createUserConfirmPasswordHint": "Repite la contraseña",
+  "@createUserConfirmPasswordHint": {
+    "description": "Placeholder del campo confirmar contraseña en crear usuario"
+  },
+  "createUserConfirmPasswordLabel": "Confirmar contraseña",
+  "@createUserConfirmPasswordLabel": {
+    "description": "Etiqueta del campo confirmar contraseña en crear usuario"
+  },
+  "createUserConfirmPasswordRequired": "Por favor confirma tu contraseña",
+  "@createUserConfirmPasswordRequired": {
+    "description": "Validación: confirmación vacía en crear usuario"
+  },
+  "createUserEmailHint": "ejemplo@correo.com",
+  "@createUserEmailHint": {
+    "description": "Placeholder del campo email en crear usuario"
+  },
+  "createUserEmailInvalid": "Por favor ingresa un email válido",
+  "@createUserEmailInvalid": {
+    "description": "Validación: email inválido en crear usuario"
+  },
+  "createUserEmailLabel": "Email",
+  "@createUserEmailLabel": {
+    "description": "Etiqueta del campo email en crear usuario"
+  },
+  "createUserEmailRequired": "Por favor ingresa tu email",
+  "@createUserEmailRequired": {
+    "description": "Validación: email vacío en crear usuario"
+  },
+  "createUserError": "Error al crear el usuario",
+  "@createUserError": {
+    "description": "SnackBar de error al crear usuario"
+  },
+  "createUserPasswordHint": "Mínimo 8 caracteres",
+  "@createUserPasswordHint": {
+    "description": "Placeholder del campo contraseña en crear usuario"
+  },
+  "createUserPasswordLabel": "Contraseña",
+  "@createUserPasswordLabel": {
+    "description": "Etiqueta del campo contraseña en crear usuario"
+  },
+  "createUserPasswordMismatch": "Las contraseñas no coinciden",
+  "@createUserPasswordMismatch": {
+    "description": "Validación: contraseñas no coinciden en crear usuario"
+  },
+  "createUserPasswordRequired": "Por favor ingresa una contraseña",
+  "@createUserPasswordRequired": {
+    "description": "Validación: contraseña vacía en crear usuario"
+  },
+  "createUserPasswordTooShort": "La contraseña debe tener al menos {count} caracteres",
+  "@createUserPasswordTooShort": {
+    "description": "Validación: contraseña demasiado corta en crear usuario",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "createUserSubmitButton": "Crear usuario",
+  "@createUserSubmitButton": {
+    "description": "Botón enviar en crear usuario"
+  },
+  "createUserTitle": "Crear Usuario",
+  "@createUserTitle": {
+    "description": "Título de la pantalla crear usuario"
+  },
+  "deleteUserCancelButton": "Cancelar",
+  "@deleteUserCancelButton": {
+    "description": "Botón cancelar (diálogo y formulario) de eliminar cuenta"
+  },
+  "deleteUserConfirmButton": "Eliminar",
+  "@deleteUserConfirmButton": {
+    "description": "Botón confirmar del diálogo de eliminar cuenta"
+  },
+  "deleteUserConfirmContent": "Esta acción eliminará permanentemente tu cuenta y no se puede deshacer.",
+  "@deleteUserConfirmContent": {
+    "description": "Contenido del diálogo de confirmación de eliminar cuenta"
+  },
+  "deleteUserConfirmPasswordHint": "Repite tu contraseña",
+  "@deleteUserConfirmPasswordHint": {
+    "description": "Placeholder del campo confirmar contraseña en eliminar cuenta"
+  },
+  "deleteUserConfirmPasswordLabel": "Confirmar contraseña",
+  "@deleteUserConfirmPasswordLabel": {
+    "description": "Etiqueta del campo confirmar contraseña en eliminar cuenta"
+  },
+  "deleteUserConfirmPasswordRequired": "Por favor confirma tu contraseña",
+  "@deleteUserConfirmPasswordRequired": {
+    "description": "Validación: confirmación vacía en eliminar cuenta"
+  },
+  "deleteUserConfirmTitle": "¿Estás seguro?",
+  "@deleteUserConfirmTitle": {
+    "description": "Título del diálogo de confirmación de eliminar cuenta"
+  },
+  "deleteUserConfirmationInvalid": "Debes escribir exactamente \"ELIMINAR\"",
+  "@deleteUserConfirmationInvalid": {
+    "description": "Validación: texto de confirmación incorrecto"
+  },
+  "deleteUserConfirmationLabel": "Escribir \"ELIMINAR\" para confirmar",
+  "@deleteUserConfirmationLabel": {
+    "description": "Etiqueta del campo de texto de confirmación de borrado"
+  },
+  "deleteUserConfirmationRequired": "Por favor escribe ELIMINAR para confirmar",
+  "@deleteUserConfirmationRequired": {
+    "description": "Validación: texto de confirmación vacío"
+  },
+  "deleteUserEmailHint": "Tu email actual",
+  "@deleteUserEmailHint": {
+    "description": "Placeholder del campo email en eliminar cuenta"
+  },
+  "deleteUserEmailInvalid": "Por favor ingresa un email válido",
+  "@deleteUserEmailInvalid": {
+    "description": "Validación: email inválido en eliminar cuenta"
+  },
+  "deleteUserEmailLabel": "Email",
+  "@deleteUserEmailLabel": {
+    "description": "Etiqueta del campo email en eliminar cuenta"
+  },
+  "deleteUserEmailRequired": "Por favor ingresa tu email",
+  "@deleteUserEmailRequired": {
+    "description": "Validación: email vacío en eliminar cuenta"
+  },
+  "deleteUserError": "Error al eliminar la cuenta",
+  "@deleteUserError": {
+    "description": "SnackBar de error al eliminar cuenta"
+  },
+  "deleteUserPasswordHint": "Tu contraseña actual",
+  "@deleteUserPasswordHint": {
+    "description": "Placeholder del campo contraseña en eliminar cuenta"
+  },
+  "deleteUserPasswordLabel": "Contraseña",
+  "@deleteUserPasswordLabel": {
+    "description": "Etiqueta del campo contraseña en eliminar cuenta"
+  },
+  "deleteUserPasswordMismatch": "Las contraseñas no coinciden",
+  "@deleteUserPasswordMismatch": {
+    "description": "Validación: contraseñas no coinciden en eliminar cuenta"
+  },
+  "deleteUserPasswordRequired": "Por favor ingresa tu contraseña",
+  "@deleteUserPasswordRequired": {
+    "description": "Validación: contraseña vacía en eliminar cuenta"
+  },
+  "deleteUserSubmitButton": "Eliminar cuenta",
+  "@deleteUserSubmitButton": {
+    "description": "Botón enviar en eliminar cuenta"
+  },
+  "deleteUserTitle": "Eliminar Cuenta",
+  "@deleteUserTitle": {
+    "description": "Título de la pantalla eliminar cuenta"
+  },
+  "deleteUserWarning": "Esta acción es permanente y no se puede deshacer",
+  "@deleteUserWarning": {
+    "description": "Aviso destacado en eliminar cuenta"
+  },
+  "helpActiveContent": "Cuando tengas una reserva activa:\n\n• Estado \"Reservada\": Tienes 30 minutos para llegar\n• Estado \"En uso\": Puedes usar la plaza hasta 2 horas\n• Puedes abrir la puerta tantas veces como necesites\n• Finaliza tu uso cuando termines",
+  "@helpActiveContent": {
+    "description": "Explicación del estado de reserva activa"
+  },
+  "helpActiveTitle": "Reserva activa",
+  "@helpActiveTitle": {
+    "description": "Título de la sección de reserva activa"
+  },
+  "helpCancel": "Cancelar",
+  "@helpCancel": {
+    "description": "Botón cancelar"
+  },
+  "helpContactChatDesc": "Respuesta inmediata durante horario laboral",
+  "@helpContactChatDesc": {
+    "description": "Descripción del chat en vivo"
+  },
+  "helpContactChatTitle": "Chat en vivo",
+  "@helpContactChatTitle": {
+    "description": "Título del método de contacto por chat"
+  },
+  "helpContactChatValue": "Disponible de 9:00 a 18:00",
+  "@helpContactChatValue": {
+    "description": "Horario del chat en vivo"
+  },
+  "helpContactEmailDesc": "Para problemas técnicos y consultas generales",
+  "@helpContactEmailDesc": {
+    "description": "Descripción del email de soporte"
+  },
+  "helpContactEmailTitle": "Email de soporte",
+  "@helpContactEmailTitle": {
+    "description": "Título del método de contacto por email"
+  },
+  "helpContactEmailValue": "soporte@aparcabicis.com",
+  "@helpContactEmailValue": {
+    "description": "Dirección de email de soporte (dato fijo)"
+  },
+  "helpContactPhoneDesc": "Disponible 24/7 para emergencias",
+  "@helpContactPhoneDesc": {
+    "description": "Descripción del teléfono de emergencia"
+  },
+  "helpContactPhoneTitle": "Teléfono de emergencia",
+  "@helpContactPhoneTitle": {
+    "description": "Título del método de contacto por teléfono"
+  },
+  "helpContactPhoneValue": "+34 900 123 456",
+  "@helpContactPhoneValue": {
+    "description": "Número de teléfono de emergencia (dato fijo)"
+  },
+  "helpContactSocialDesc": "Síguenos para novedades y actualizaciones",
+  "@helpContactSocialDesc": {
+    "description": "Descripción de redes sociales"
+  },
+  "helpContactSocialTitle": "Redes sociales",
+  "@helpContactSocialTitle": {
+    "description": "Título del método de contacto por redes sociales"
+  },
+  "helpContactSocialValue": "@AparcabicisApp",
+  "@helpContactSocialValue": {
+    "description": "Usuario de redes sociales (dato fijo)"
+  },
+  "helpContactTitle": "Contacta con nosotros",
+  "@helpContactTitle": {
+    "description": "Título de la sección de contacto"
+  },
+  "helpDemoContent": "El demo interactivo te guiará paso a paso por todas las funciones de la aplicación.",
+  "@helpDemoContent": {
+    "description": "Contenido del diálogo de demo interactivo"
+  },
+  "helpDemoInDevelopment": "Demo interactivo - Funcionalidad en desarrollo",
+  "@helpDemoInDevelopment": {
+    "description": "SnackBar demo en desarrollo"
+  },
+  "helpDemoTitle": "Demo interactivo",
+  "@helpDemoTitle": {
+    "description": "Título del diálogo de demo interactivo"
+  },
+  "helpFaq10Answer": "El servicio básico es gratuito. Solo pagas si excedes el tiempo máximo de uso o por servicios premium adicionales.",
+  "@helpFaq10Answer": {
+    "description": "Respuesta FAQ 10"
+  },
+  "helpFaq10Question": "¿Hay algún coste por usar el servicio?",
+  "@helpFaq10Question": {
+    "description": "Pregunta FAQ 10"
+  },
+  "helpFaq1Answer": "Ve a la sección de Aparcamientos, selecciona un aparcamiento disponible y presiona \"Reservar\". Tendrás 30 minutos para llegar y abrir la puerta.",
+  "@helpFaq1Answer": {
+    "description": "Respuesta FAQ 1"
+  },
+  "helpFaq1Question": "¿Cómo reservo una plaza?",
+  "@helpFaq1Question": {
+    "description": "Pregunta FAQ 1"
+  },
+  "helpFaq2Answer": "Sí, puedes cancelar tu reserva desde la pantalla de reserva activa presionando \"Cancelar reserva\". Esto liberará la plaza para otros usuarios.",
+  "@helpFaq2Answer": {
+    "description": "Respuesta FAQ 2"
+  },
+  "helpFaq2Question": "¿Puedo cancelar mi reserva?",
+  "@helpFaq2Question": {
+    "description": "Pregunta FAQ 2"
+  },
+  "helpFaq3Answer": "Puedes usar una plaza por un máximo de 2 horas. El timer comenzará cuando abras la puerta por primera vez.",
+  "@helpFaq3Answer": {
+    "description": "Respuesta FAQ 3"
+  },
+  "helpFaq3Question": "¿Cuánto tiempo puedo usar una plaza?",
+  "@helpFaq3Question": {
+    "description": "Pregunta FAQ 3"
+  },
+  "helpFaq4Answer": "Si no abres la puerta en 30 minutos, tu reserva se cancelará automáticamente y la plaza quedará disponible para otros usuarios.",
+  "@helpFaq4Answer": {
+    "description": "Respuesta FAQ 4"
+  },
+  "helpFaq4Question": "¿Qué pasa si no llego a tiempo?",
+  "@helpFaq4Question": {
+    "description": "Pregunta FAQ 4"
+  },
+  "helpFaq5Answer": "No, solo puedes tener una reserva activa a la vez. Debes finalizar tu uso actual antes de hacer una nueva reserva.",
+  "@helpFaq5Answer": {
+    "description": "Respuesta FAQ 5"
+  },
+  "helpFaq5Question": "¿Puedo tener múltiples reservas?",
+  "@helpFaq5Question": {
+    "description": "Pregunta FAQ 5"
+  },
+  "helpFaq6Answer": "Presiona el icono de estrella en cualquier aparcamiento para marcarlo como favorito. Luego puedes filtrar para ver solo tus favoritos.",
+  "@helpFaq6Answer": {
+    "description": "Respuesta FAQ 6"
+  },
+  "helpFaq6Question": "¿Cómo marco un aparcamiento como favorito?",
+  "@helpFaq6Question": {
+    "description": "Pregunta FAQ 6"
+  },
+  "helpFaq7Answer": "Sí, ve a la pestaña \"Historial\" para ver todas tus reservas anteriores, estadísticas de uso y filtrar por estado.",
+  "@helpFaq7Answer": {
+    "description": "Respuesta FAQ 7"
+  },
+  "helpFaq7Question": "¿Puedo ver mi historial de reservas?",
+  "@helpFaq7Question": {
+    "description": "Pregunta FAQ 7"
+  },
+  "helpFaq8Answer": "Necesitas conexión a internet para hacer reservas y abrir puertas. Sin embargo, puedes ver tu historial y configuración sin conexión.",
+  "@helpFaq8Answer": {
+    "description": "Respuesta FAQ 8"
+  },
+  "helpFaq8Question": "¿La aplicación funciona sin internet?",
+  "@helpFaq8Question": {
+    "description": "Pregunta FAQ 8"
+  },
+  "helpFaq9Answer": "Ve a Perfil > Configuración de cuenta > Cambiar contraseña, o desde Ajustes > Cuenta > Cambiar contraseña.",
+  "@helpFaq9Answer": {
+    "description": "Respuesta FAQ 9"
+  },
+  "helpFaq9Question": "¿Cómo cambio mi contraseña?",
+  "@helpFaq9Question": {
+    "description": "Pregunta FAQ 9"
+  },
+  "helpOfficeCity": "28001 Madrid, España",
+  "@helpOfficeCity": {
+    "description": "Ciudad de la oficina (dato fijo, sin traducir)"
+  },
+  "helpOfficeName": "Aparcabicis S.L.",
+  "@helpOfficeName": {
+    "description": "Nombre de la empresa (nombre propio, sin traducir)"
+  },
+  "helpOfficeSaturday": "Sábados: 10:00 - 14:00",
+  "@helpOfficeSaturday": {
+    "description": "Horario de sábados"
+  },
+  "helpOfficeScheduleLabel": "Horario de atención:",
+  "@helpOfficeScheduleLabel": {
+    "description": "Etiqueta del horario de atención"
+  },
+  "helpOfficeStreet": "Calle Mayor, 123",
+  "@helpOfficeStreet": {
+    "description": "Dirección de la oficina (dato fijo, sin traducir)"
+  },
+  "helpOfficeSunday": "Domingos: Cerrado",
+  "@helpOfficeSunday": {
+    "description": "Horario de domingos"
+  },
+  "helpOfficeTitle": "Oficinas centrales",
+  "@helpOfficeTitle": {
+    "description": "Título del bloque de oficinas"
+  },
+  "helpOfficeWeekdays": "Lunes a Viernes: 9:00 - 18:00",
+  "@helpOfficeWeekdays": {
+    "description": "Horario de lunes a viernes"
+  },
+  "helpQuickActionsTitle": "Acciones rápidas",
+  "@helpQuickActionsTitle": {
+    "description": "Título de la sección de acciones rápidas"
+  },
+  "helpRateDesc": "Ayúdanos dejando una reseña en la tienda",
+  "@helpRateDesc": {
+    "description": "Descripción de la acción de valorar la app"
+  },
+  "helpRateInDevelopment": "Valorar app - Funcionalidad en desarrollo",
+  "@helpRateInDevelopment": {
+    "description": "SnackBar valorar app en desarrollo"
+  },
+  "helpRateTitle": "Valorar la app",
+  "@helpRateTitle": {
+    "description": "Título de la acción de valorar la app"
+  },
+  "helpReportDesc": "Informa sobre aparcamientos dañados o problemas técnicos",
+  "@helpReportDesc": {
+    "description": "Descripción de la acción de reportar problema"
+  },
+  "helpReportInDevelopment": "Reportar problema - Funcionalidad en desarrollo",
+  "@helpReportInDevelopment": {
+    "description": "SnackBar reportar problema en desarrollo"
+  },
+  "helpReportTitle": "Reportar un problema",
+  "@helpReportTitle": {
+    "description": "Título de la acción de reportar problema"
+  },
+  "helpReserveContent": "1. Ve a la sección \"Aparcamientos\"\n2. Selecciona un aparcamiento disponible\n3. Presiona \"Reservar\"\n4. Tienes 30 minutos para llegar\n5. Abre la puerta para comenzar a usar la plaza",
+  "@helpReserveContent": {
+    "description": "Pasos para hacer una reserva"
+  },
+  "helpReserveTitle": "Cómo hacer una reserva",
+  "@helpReserveTitle": {
+    "description": "Título de la sección de reserva"
+  },
+  "helpStart": "Iniciar",
+  "@helpStart": {
+    "description": "Botón iniciar"
+  },
+  "helpStartDemo": "Iniciar demo interactivo",
+  "@helpStartDemo": {
+    "description": "Botón para iniciar el demo interactivo"
+  },
+  "helpSuggestDesc": "Comparte tus ideas para mejorar la aplicación",
+  "@helpSuggestDesc": {
+    "description": "Descripción de la acción de sugerir mejora"
+  },
+  "helpSuggestInDevelopment": "Sugerir mejora - Funcionalidad en desarrollo",
+  "@helpSuggestInDevelopment": {
+    "description": "SnackBar sugerir mejora en desarrollo"
+  },
+  "helpSuggestTitle": "Sugerir mejora",
+  "@helpSuggestTitle": {
+    "description": "Título de la acción de sugerir mejora"
+  },
+  "helpTabContact": "Contacto",
+  "@helpTabContact": {
+    "description": "Pestaña de contacto"
+  },
+  "helpTabFaq": "FAQ",
+  "@helpTabFaq": {
+    "description": "Pestaña de preguntas frecuentes"
+  },
+  "helpTabTutorial": "Tutorial",
+  "@helpTabTutorial": {
+    "description": "Pestaña de tutorial"
+  },
+  "helpTipsContent": "• Marca como favoritos los aparcamientos que uses frecuentemente\n• Revisa tu historial para ver estadísticas de uso\n• Activa las notificaciones para recordatorios\n• Usa los filtros para encontrar aparcamientos más rápido\n• Cancela tu reserva si no vas a usarla",
+  "@helpTipsContent": {
+    "description": "Lista de consejos útiles"
+  },
+  "helpTipsTitle": "Consejos útiles",
+  "@helpTipsTitle": {
+    "description": "Título de la sección de consejos"
+  },
+  "helpTitle": "Ayuda y Tutorial",
+  "@helpTitle": {
+    "description": "Título de la pantalla de ayuda"
+  },
+  "helpUsingContent": "• Lista: Ve todos los aparcamientos en formato lista\n• Mapa: Visualiza los aparcamientos en un mapa interactivo\n• Favoritos: Marca tus aparcamientos preferidos\n• Filtros: Busca por disponibilidad o favoritos\n• Historial: Revisa tus reservas anteriores",
+  "@helpUsingContent": {
+    "description": "Descripción de las funciones de la app"
+  },
+  "helpUsingTitle": "Usando la aplicación",
+  "@helpUsingTitle": {
+    "description": "Título de la sección de uso de la app"
+  },
+  "helpWelcomeContent": "Tu aplicación para reservar plazas de aparcamiento para bicicletas de forma inteligente.",
+  "@helpWelcomeContent": {
+    "description": "Texto de bienvenida"
+  },
+  "helpWelcomeTitle": "Bienvenido a Aparcabicis",
+  "@helpWelcomeTitle": {
+    "description": "Título de la sección de bienvenida"
+  },
+  "historyAll": "Todos",
+  "@historyAll": {
+    "description": "Opcion de filtro: todos los estados"
+  },
+  "historyCardCancelled": "Cancelada",
+  "@historyCardCancelled": {
+    "description": "Estado de reserva cancelada"
+  },
+  "historyCardCompleted": "Completada",
+  "@historyCardCompleted": {
+    "description": "Estado de reserva completada"
+  },
+  "historyCardCost": "€{cost}",
+  "@historyCardCost": {
+    "description": "Coste de la reserva con símbolo de euro",
+    "placeholders": {
+      "cost": {
+        "type": "String"
+      }
+    }
+  },
+  "historyCardExpired": "Expirada",
+  "@historyCardExpired": {
+    "description": "Estado de reserva expirada"
+  },
+  "historyCardUnfinished": "Sin finalizar",
+  "@historyCardUnfinished": {
+    "description": "Texto para duración sin finalizar"
+  },
+  "historyClose": "Cerrar",
+  "@historyClose": {
+    "description": "Boton para cerrar el panel de detalles"
+  },
+  "historyCompleted": "Completadas",
+  "@historyCompleted": {
+    "description": "Titulo de tarjeta: reservas completadas"
+  },
+  "historyLabelCost": "Coste",
+  "@historyLabelCost": {
+    "description": "Etiqueta de detalle: coste"
+  },
+  "historyLabelDate": "Fecha",
+  "@historyLabelDate": {
+    "description": "Etiqueta de detalle: fecha"
+  },
+  "historyLabelDuration": "Duración",
+  "@historyLabelDuration": {
+    "description": "Etiqueta de detalle: duracion"
+  },
+  "historyLabelParking": "Aparcamiento",
+  "@historyLabelParking": {
+    "description": "Etiqueta de detalle: nombre del aparcamiento"
+  },
+  "historyNoReservations": "No hay reservas en el historial",
+  "@historyNoReservations": {
+    "description": "Estado vacio sin filtro"
+  },
+  "historyNoReservationsFiltered": "No hay reservas {status}",
+  "@historyNoReservationsFiltered": {
+    "description": "Estado vacio con filtro aplicado; status es el estado en minusculas",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "historyReservationDetails": "Detalles de la reserva",
+  "@historyReservationDetails": {
+    "description": "Titulo del panel de detalles"
+  },
+  "historyReservationsWillAppear": "Tus reservas aparecerán aquí una vez que las completes",
+  "@historyReservationsWillAppear": {
+    "description": "Sugerencia en estado vacio sin filtro"
+  },
+  "historyResultsCount": "{count, plural, =1{{count} reserva encontrada} other{{count} reservas encontradas}}",
+  "@historyResultsCount": {
+    "description": "Contador de reservas filtradas encontradas",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "historyShowAll": "Mostrar todas",
+  "@historyShowAll": {
+    "description": "Boton para quitar el filtro"
+  },
+  "historySortDurationAsc": "- Duración",
+  "@historySortDurationAsc": {
+    "description": "Opcion de orden: menor duracion"
+  },
+  "historySortDurationDesc": "+ Duración",
+  "@historySortDurationDesc": {
+    "description": "Opcion de orden: mayor duracion"
+  },
+  "historySortLabel": "Ordenar",
+  "@historySortLabel": {
+    "description": "Etiqueta del desplegable de ordenacion"
+  },
+  "historySortOldest": "Antiguo",
+  "@historySortOldest": {
+    "description": "Opcion de orden: mas antiguo primero"
+  },
+  "historySortRecent": "Reciente",
+  "@historySortRecent": {
+    "description": "Opcion de orden: mas reciente primero"
+  },
+  "historyStatistics": "Estadísticas",
+  "@historyStatistics": {
+    "description": "Titulo de la seccion de estadisticas"
+  },
+  "historyStatus": "Estado",
+  "@historyStatus": {
+    "description": "Etiqueta de estado (filtro y detalle)"
+  },
+  "historyStatusCancelled": "Canceladas",
+  "@historyStatusCancelled": {
+    "description": "Texto de estado: canceladas"
+  },
+  "historyStatusCompleted": "Completadas",
+  "@historyStatusCompleted": {
+    "description": "Texto de estado: completadas"
+  },
+  "historyStatusExpired": "Expiradas",
+  "@historyStatusExpired": {
+    "description": "Texto de estado: expiradas"
+  },
+  "historySuccessRate": "{rate}% éxito",
+  "@historySuccessRate": {
+    "description": "Subtitulo de tarjeta: porcentaje de exito",
+    "placeholders": {
+      "rate": {
+        "type": "Object"
+      }
+    }
+  },
+  "historyTotalReservations": "Total reservas",
+  "@historyTotalReservations": {
+    "description": "Titulo de tarjeta: total de reservas"
+  },
+  "historyTotalTime": "Tiempo total",
+  "@historyTotalTime": {
+    "description": "Titulo de tarjeta: tiempo total de uso"
+  },
+  "historyTryChangeFilter": "Intenta cambiar el filtro para ver más reservas",
+  "@historyTryChangeFilter": {
+    "description": "Sugerencia en estado vacio con filtro"
+  },
+  "loginEmailHint": "ejemplo@correo.com",
+  "@loginEmailHint": {
+    "description": "Placeholder del campo email en login"
+  },
+  "loginEmailInvalid": "Por favor ingresa un email válido",
+  "@loginEmailInvalid": {
+    "description": "Validación: email inválido en login"
+  },
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Etiqueta del campo email en login"
+  },
+  "loginEmailRequired": "Por favor ingresa tu email",
+  "@loginEmailRequired": {
+    "description": "Validación: email vacío en login"
+  },
+  "loginError": "Error al iniciar sesión",
+  "@loginError": {
+    "description": "SnackBar de error genérico al iniciar sesión"
+  },
+  "loginInvalidCredentials": "Email o contraseña incorrectos",
+  "@loginInvalidCredentials": {
+    "description": "SnackBar de credenciales inválidas"
+  },
+  "loginMenuChangePassword": "Cambiar contraseña",
+  "@loginMenuChangePassword": {
+    "description": "Opción de menú: cambiar contraseña"
+  },
+  "loginMenuCreateUser": "Crear usuario",
+  "@loginMenuCreateUser": {
+    "description": "Opción de menú: crear usuario"
+  },
+  "loginMenuDeleteUser": "Eliminar usuario",
+  "@loginMenuDeleteUser": {
+    "description": "Opción de menú: eliminar usuario"
+  },
+  "loginMenuRecoverPassword": "Recuperar contraseña",
+  "@loginMenuRecoverPassword": {
+    "description": "Opción de menú: recuperar contraseña"
+  },
+  "loginPasswordHint": "Mínimo 8 caracteres",
+  "@loginPasswordHint": {
+    "description": "Placeholder del campo contraseña en login"
+  },
+  "loginPasswordLabel": "Contraseña",
+  "@loginPasswordLabel": {
+    "description": "Etiqueta del campo contraseña en login"
+  },
+  "loginPasswordRequired": "Por favor ingresa tu contraseña",
+  "@loginPasswordRequired": {
+    "description": "Validación: contraseña vacía en login"
+  },
+  "loginPasswordTooShort": "La contraseña debe tener al menos {count} caracteres",
+  "@loginPasswordTooShort": {
+    "description": "Validación: contraseña demasiado corta en login",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loginRememberMe": "Recuérdame",
+  "@loginRememberMe": {
+    "description": "Etiqueta del checkbox recordar sesión"
+  },
+  "loginSignInButton": "Iniciar sesión",
+  "@loginSignInButton": {
+    "description": "Botón principal de login"
+  },
+  "loginSuccess": "Inicio de sesión exitoso",
+  "@loginSuccess": {
+    "description": "SnackBar de éxito al iniciar sesión"
+  },
+  "mainActiveReservation": "Reserva activa",
+  "@mainActiveReservation": {
+    "description": "Insignia en la barra superior cuando hay una reserva en curso"
+  },
+  "mainLogout": "Cerrar sesión",
+  "@mainLogout": {
+    "description": "Tooltip del botón de cerrar sesión"
+  },
+  "mainTabHistory": "Historial",
+  "@mainTabHistory": {
+    "description": "Etiqueta de pestaña inferior de historial"
+  },
+  "mainTabList": "Lista",
+  "@mainTabList": {
+    "description": "Etiqueta de la pestaña de vista en lista"
+  },
+  "mainTabMap": "Mapa",
+  "@mainTabMap": {
+    "description": "Etiqueta de la pestaña de vista en mapa"
+  },
+  "mainTabParkings": "Aparcamientos",
+  "@mainTabParkings": {
+    "description": "Etiqueta de pestaña inferior de aparcamientos"
+  },
+  "mainTabProfile": "Perfil",
+  "@mainTabProfile": {
+    "description": "Etiqueta de pestaña inferior de perfil"
+  },
+  "mainTabSettings": "Ajustes",
+  "@mainTabSettings": {
+    "description": "Etiqueta de pestaña inferior de ajustes"
+  },
+  "mapAddedToFavorites": "{name} añadido a favoritos",
+  "@mapAddedToFavorites": {
+    "description": "Mensaje al marcar un aparcamiento como favorito",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mapAlreadyActiveReservation": "Ya tienes una reserva activa",
+  "@mapAlreadyActiveReservation": {
+    "description": "Error cuando ya existe una reserva activa"
+  },
+  "mapCenteringOn": "Centrando en {city}",
+  "@mapCenteringOn": {
+    "description": "Mensaje al recentrar el mapa en la ciudad",
+    "placeholders": {
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFreeSpots": "{count} plazas libres",
+  "@mapFreeSpots": {
+    "description": "Fragmento del marcador con plazas libres",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mapNoSpotsAvailable": "No hay plazas disponibles en este aparcamiento",
+  "@mapNoSpotsAvailable": {
+    "description": "Error cuando no quedan plazas para reservar"
+  },
+  "mapNotAvailable": "No disponible",
+  "@mapNotAvailable": {
+    "description": "Botón deshabilitado cuando no hay plazas"
+  },
+  "mapRemovedFromFavorites": "{name} eliminado de favoritos",
+  "@mapRemovedFromFavorites": {
+    "description": "Mensaje al desmarcar un aparcamiento como favorito",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mapReservationCreated": "Reserva creada exitosamente en {name}",
+  "@mapReservationCreated": {
+    "description": "Mensaje de éxito al crear la reserva",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "mapReservationError": "Error al crear la reserva",
+  "@mapReservationError": {
+    "description": "Error genérico al crear la reserva"
+  },
+  "mapReserve": "Reservar",
+  "@mapReserve": {
+    "description": "Botón de reservar en la tarjeta del mapa"
+  },
+  "mapSpotsAvailable": "{available} de {total} disponibles",
+  "@mapSpotsAvailable": {
+    "description": "Etiqueta de disponibilidad en la tarjeta del aparcamiento",
+    "placeholders": {
+      "available": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "parkingCardActiveReservation": "Reserva activa",
+  "@parkingCardActiveReservation": {
+    "description": "Texto del botón cuando hay una reserva activa"
+  },
+  "parkingCardAddFavorite": "Agregar a favoritos",
+  "@parkingCardAddFavorite": {
+    "description": "Tooltip para agregar a favoritos"
+  },
+  "parkingCardAddedToFavorites": "{name} añadido a favoritos",
+  "@parkingCardAddedToFavorites": {
+    "description": "SnackBar al añadir un aparcamiento a favoritos",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "parkingCardAlreadyReserved": "Ya tienes una reserva activa",
+  "@parkingCardAlreadyReserved": {
+    "description": "Error cuando ya existe una reserva activa"
+  },
+  "parkingCardNoSpots": "Sin plazas",
+  "@parkingCardNoSpots": {
+    "description": "Texto del botón cuando no hay plazas"
+  },
+  "parkingCardNoSpotsAvailable": "No hay plazas disponibles en este aparcamiento",
+  "@parkingCardNoSpotsAvailable": {
+    "description": "Error cuando no hay plazas disponibles"
+  },
+  "parkingCardRemoveFavorite": "Quitar de favoritos",
+  "@parkingCardRemoveFavorite": {
+    "description": "Tooltip para quitar de favoritos"
+  },
+  "parkingCardRemovedFromFavorites": "{name} eliminado de favoritos",
+  "@parkingCardRemovedFromFavorites": {
+    "description": "SnackBar al eliminar un aparcamiento de favoritos",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "parkingCardReservationCreated": "Reserva creada exitosamente en {name}",
+  "@parkingCardReservationCreated": {
+    "description": "SnackBar de reserva creada con éxito",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "parkingCardReservationError": "Error al crear la reserva",
+  "@parkingCardReservationError": {
+    "description": "Error al crear la reserva"
+  },
+  "parkingCardReserve": "Reservar",
+  "@parkingCardReserve": {
+    "description": "Texto del botón para reservar"
+  },
+  "parkingsListActiveReservation": "Reserva activa",
+  "@parkingsListActiveReservation": {
+    "description": "Insignia de reserva activa en la lista"
+  },
+  "parkingsListApplyFilters": "Aplicar filtros",
+  "@parkingsListApplyFilters": {
+    "description": "Botón para aplicar filtros y cerrar el diálogo"
+  },
+  "parkingsListClearAll": "Limpiar todo",
+  "@parkingsListClearAll": {
+    "description": "Botón para restablecer todos los filtros del diálogo"
+  },
+  "parkingsListClearFilters": "Limpiar filtros",
+  "@parkingsListClearFilters": {
+    "description": "Botón para limpiar filtros en el estado vacío"
+  },
+  "parkingsListEmptySubtitle": "Intenta ajustar los filtros de búsqueda",
+  "@parkingsListEmptySubtitle": {
+    "description": "Subtítulo del estado vacío"
+  },
+  "parkingsListEmptyTitle": "No se encontraron aparcamientos",
+  "@parkingsListEmptyTitle": {
+    "description": "Título del estado vacío de la lista"
+  },
+  "parkingsListFilters": "Filtros",
+  "@parkingsListFilters": {
+    "description": "Botón/título de filtros sin filtros activos"
+  },
+  "parkingsListFiltersWithCount": "Filtros ({count})",
+  "@parkingsListFiltersWithCount": {
+    "description": "Botón de filtros con número de filtros activos",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "parkingsListOnlyAvailable": "Solo disponibles",
+  "@parkingsListOnlyAvailable": {
+    "description": "Título del filtro de solo disponibles"
+  },
+  "parkingsListOnlyAvailableSubtitle": "Mostrar solo aparcamientos con plazas libres",
+  "@parkingsListOnlyAvailableSubtitle": {
+    "description": "Subtítulo del filtro de solo disponibles"
+  },
+  "parkingsListOnlyFavorites": "Solo favoritos",
+  "@parkingsListOnlyFavorites": {
+    "description": "Título del filtro de solo favoritos"
+  },
+  "parkingsListOnlyFavoritesSubtitle": "Mostrar solo aparcamientos marcados como favoritos",
+  "@parkingsListOnlyFavoritesSubtitle": {
+    "description": "Subtítulo del filtro de solo favoritos"
+  },
+  "parkingsListResultsCount": "{count, plural, =1{{count} aparcamiento encontrado} other{{count} aparcamientos encontrados}}",
+  "@parkingsListResultsCount": {
+    "description": "Número de aparcamientos encontrados",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "parkingsListSearchHint": "Buscar aparcamientos...",
+  "@parkingsListSearchHint": {
+    "description": "Texto de sugerencia del campo de búsqueda"
+  },
+  "parkingsListSortAvailability": "Disponibilidad (más a menos)",
+  "@parkingsListSortAvailability": {
+    "description": "Opción de orden: por disponibilidad"
+  },
+  "parkingsListSortBy": "Ordenar por",
+  "@parkingsListSortBy": {
+    "description": "Encabezado de opciones de orden"
+  },
+  "parkingsListSortName": "Nombre (A-Z)",
+  "@parkingsListSortName": {
+    "description": "Opción de orden: por nombre"
+  },
+  "parkingsListSortNone": "Sin ordenar",
+  "@parkingsListSortNone": {
+    "description": "Opción de orden: ninguno"
+  },
+  "profileAccountSettings": "Configuración de cuenta",
+  "@profileAccountSettings": {
+    "description": "Título de la sección de acciones de cuenta"
+  },
+  "profileActivitySummary": "Resumen de actividad",
+  "@profileActivitySummary": {
+    "description": "Título de la tarjeta de estadísticas rápidas"
+  },
+  "profileAverageTime": "Tiempo promedio",
+  "@profileAverageTime": {
+    "description": "Título de tarjeta de tiempo promedio por reserva"
+  },
+  "profileByTimeout": "Por timeout",
+  "@profileByTimeout": {
+    "description": "Subtítulo de reservas expiradas por tiempo agotado"
+  },
+  "profileCancel": "Cancelar",
+  "@profileCancel": {
+    "description": "Botón de cancelar en el diálogo de cierre de sesión"
+  },
+  "profileCancellationRate": "{rate}% del total",
+  "@profileCancellationRate": {
+    "description": "Porcentaje de reservas canceladas respecto al total",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "profileCancelled": "Canceladas",
+  "@profileCancelled": {
+    "description": "Título de tarjeta de reservas canceladas"
+  },
+  "profileChangePassword": "Cambiar contraseña",
+  "@profileChangePassword": {
+    "description": "Acción para cambiar la contraseña"
+  },
+  "profileChangePasswordSubtitle": "Actualiza tu contraseña de acceso",
+  "@profileChangePasswordSubtitle": {
+    "description": "Subtítulo de la acción cambiar contraseña"
+  },
+  "profileCompleted": "Completadas",
+  "@profileCompleted": {
+    "description": "Título de tarjeta de reservas completadas"
+  },
+  "profileDefaultUser": "Usuario",
+  "@profileDefaultUser": {
+    "description": "Nombre por defecto cuando el usuario no tiene email"
+  },
+  "profileDeleteAccount": "Eliminar cuenta",
+  "@profileDeleteAccount": {
+    "description": "Acción para eliminar la cuenta"
+  },
+  "profileDeleteAccountSubtitle": "Eliminar permanentemente tu cuenta",
+  "@profileDeleteAccountSubtitle": {
+    "description": "Subtítulo de la acción eliminar cuenta"
+  },
+  "profileDetailedStats": "Estadísticas detalladas",
+  "@profileDetailedStats": {
+    "description": "Título de la sección de estadísticas detalladas"
+  },
+  "profileExpired": "Expiradas",
+  "@profileExpired": {
+    "description": "Título de tarjeta de reservas expiradas"
+  },
+  "profileFavorites": "Favoritos",
+  "@profileFavorites": {
+    "description": "Título de tarjeta de aparcamientos favoritos"
+  },
+  "profileLogout": "Cerrar sesión",
+  "@profileLogout": {
+    "description": "Acción y botón para cerrar sesión"
+  },
+  "profileLogoutConfirmContent": "¿Estás seguro de que quieres cerrar tu sesión?",
+  "@profileLogoutConfirmContent": {
+    "description": "Contenido del diálogo de confirmación de cierre de sesión"
+  },
+  "profileLogoutConfirmTitle": "¿Cerrar sesión?",
+  "@profileLogoutConfirmTitle": {
+    "description": "Título del diálogo de confirmación de cierre de sesión"
+  },
+  "profileLogoutError": "Error al cerrar sesión",
+  "@profileLogoutError": {
+    "description": "Mensaje de error al fallar el cierre de sesión"
+  },
+  "profileLogoutSubtitle": "Salir de tu cuenta",
+  "@profileLogoutSubtitle": {
+    "description": "Subtítulo de la acción cerrar sesión"
+  },
+  "profileMarkedParkings": "Aparcamientos marcados",
+  "@profileMarkedParkings": {
+    "description": "Subtítulo de aparcamientos favoritos"
+  },
+  "profileMemberSince": "Miembro desde {date}",
+  "@profileMemberSince": {
+    "description": "Fecha de alta del usuario en el perfil",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "profilePerReservation": "Por reserva",
+  "@profilePerReservation": {
+    "description": "Subtítulo del tiempo promedio por reserva"
+  },
+  "profileSuccessRate": "{rate}% éxito",
+  "@profileSuccessRate": {
+    "description": "Porcentaje de reservas completadas con éxito",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "profileTotalReservations": "Reservas totales",
+  "@profileTotalReservations": {
+    "description": "Etiqueta de estadística de reservas totales"
+  },
+  "profileTotalTime": "Tiempo total",
+  "@profileTotalTime": {
+    "description": "Etiqueta de estadística de tiempo total de uso"
+  },
+  "sendPasswordAdditionalTitle": "Instrucciones adicionales:",
+  "@sendPasswordAdditionalTitle": {
+    "description": "Título de la lista de instrucciones adicionales"
+  },
+  "sendPasswordBackToLoginButton": "Volver al login",
+  "@sendPasswordBackToLoginButton": {
+    "description": "Botón para volver a la pantalla de login"
+  },
+  "sendPasswordCancelButton": "Cancelar",
+  "@sendPasswordCancelButton": {
+    "description": "Botón cancelar en recuperar contraseña"
+  },
+  "sendPasswordConfirmationMessage": "Hemos enviado las instrucciones para restablecer tu contraseña a:",
+  "@sendPasswordConfirmationMessage": {
+    "description": "Mensaje de confirmación de envío"
+  },
+  "sendPasswordEmailHint": "ejemplo@correo.com",
+  "@sendPasswordEmailHint": {
+    "description": "Placeholder del campo email en recuperar contraseña"
+  },
+  "sendPasswordEmailInvalid": "Por favor ingresa un email válido",
+  "@sendPasswordEmailInvalid": {
+    "description": "Validación: email inválido en recuperar contraseña"
+  },
+  "sendPasswordEmailLabel": "Email",
+  "@sendPasswordEmailLabel": {
+    "description": "Etiqueta del campo email en recuperar contraseña"
+  },
+  "sendPasswordEmailRequired": "Por favor ingresa tu email",
+  "@sendPasswordEmailRequired": {
+    "description": "Validación: email vacío en recuperar contraseña"
+  },
+  "sendPasswordError": "Error al enviar el email",
+  "@sendPasswordError": {
+    "description": "SnackBar de error al enviar email de recuperación"
+  },
+  "sendPasswordInstructions": "Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña.",
+  "@sendPasswordInstructions": {
+    "description": "Instrucciones del formulario de recuperar contraseña"
+  },
+  "sendPasswordSendAgainButton": "Enviar de nuevo",
+  "@sendPasswordSendAgainButton": {
+    "description": "Botón para reenviar el email de recuperación"
+  },
+  "sendPasswordSubmitButton": "Recibir email",
+  "@sendPasswordSubmitButton": {
+    "description": "Botón enviar email de recuperación"
+  },
+  "sendPasswordSuccessAlert": "Email enviado exitosamente",
+  "@sendPasswordSuccessAlert": {
+    "description": "Aviso de éxito tras enviar email de recuperación"
+  },
+  "sendPasswordTip1": "• Revisa tu bandeja de entrada",
+  "@sendPasswordTip1": {
+    "description": "Instrucción adicional 1"
+  },
+  "sendPasswordTip2": "• Si no encuentras el email, revisa la carpeta de spam",
+  "@sendPasswordTip2": {
+    "description": "Instrucción adicional 2"
+  },
+  "sendPasswordTip3": "• El enlace expirará en 24 horas",
+  "@sendPasswordTip3": {
+    "description": "Instrucción adicional 3"
+  },
+  "sendPasswordTip4": "• Si no recibes el email, puedes enviarlo de nuevo",
+  "@sendPasswordTip4": {
+    "description": "Instrucción adicional 4"
+  },
+  "sendPasswordTitle": "Recuperar Contraseña",
+  "@sendPasswordTitle": {
+    "description": "Título de la pantalla recuperar contraseña"
+  },
+  "settingsAboutSection": "Acerca de",
+  "@settingsAboutSection": {
+    "description": "Encabezado de la sección acerca de"
+  },
+  "settingsAccountSection": "Cuenta",
+  "@settingsAccountSection": {
+    "description": "Encabezado de la sección de cuenta"
+  },
+  "settingsAppSection": "Configuración de la aplicación",
+  "@settingsAppSection": {
+    "description": "Encabezado de la sección de ajustes de la app"
+  },
+  "settingsCallSupport": "Llamar a soporte",
+  "@settingsCallSupport": {
+    "description": "Título de la acción de llamar a soporte"
+  },
+  "settingsCallSupportError": "No se puede abrir el marcador automáticamente.\nPor favor llama manualmente al {phone}",
+  "@settingsCallSupportError": {
+    "description": "Error al no poder abrir el marcador telefónico",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsCallSupportSubtitle": "Contactar con nuestro equipo de soporte",
+  "@settingsCallSupportSubtitle": {
+    "description": "Subtítulo de la acción de llamar a soporte"
+  },
+  "settingsChangePassword": "Cambiar contraseña",
+  "@settingsChangePassword": {
+    "description": "Título de la acción cambiar contraseña"
+  },
+  "settingsChangePasswordSubtitle": "Actualizar tu contraseña de acceso",
+  "@settingsChangePasswordSubtitle": {
+    "description": "Subtítulo de la acción cambiar contraseña"
+  },
+  "settingsDarkMode": "Modo oscuro",
+  "@settingsDarkMode": {
+    "description": "Título del ajuste de modo oscuro"
+  },
+  "settingsDarkModeSubtitle": "Usar tema oscuro en la aplicación",
+  "@settingsDarkModeSubtitle": {
+    "description": "Subtítulo del ajuste de modo oscuro"
+  },
+  "settingsDeleteAccount": "Eliminar cuenta",
+  "@settingsDeleteAccount": {
+    "description": "Título de la acción eliminar cuenta"
+  },
+  "settingsDeleteAccountSubtitle": "Eliminar permanentemente tu cuenta",
+  "@settingsDeleteAccountSubtitle": {
+    "description": "Subtítulo de la acción eliminar cuenta"
+  },
+  "settingsFaq": "Preguntas frecuentes",
+  "@settingsFaq": {
+    "description": "Título de la sección de preguntas frecuentes"
+  },
+  "settingsFaqAnswer1": "Ve a la sección de Aparcamientos, selecciona un aparcamiento disponible y presiona \"Reservar\". Tendrás 30 minutos para llegar.",
+  "@settingsFaqAnswer1": {
+    "description": "Respuesta FAQ 1"
+  },
+  "settingsFaqAnswer2": "Sí, puedes cancelar tu reserva desde la pantalla de reserva activa antes de 30 minutos desde el momento en que se efectuó la reserva.",
+  "@settingsFaqAnswer2": {
+    "description": "Respuesta FAQ 2"
+  },
+  "settingsFaqAnswer3": "Puedes usar una plaza por un máximo de 14 horas. Después de este tiempo, la plaza se liberará automáticamente.",
+  "@settingsFaqAnswer3": {
+    "description": "Respuesta FAQ 3"
+  },
+  "settingsFaqAnswer4": "Si no abres la puerta en 30 minutos, tu reserva se cancelará automáticamente y la plaza quedará disponible.",
+  "@settingsFaqAnswer4": {
+    "description": "Respuesta FAQ 4"
+  },
+  "settingsFaqAnswer5": "No, solo puedes tener una reserva activa a la vez. Debes finalizar tu uso actual antes de hacer una nueva reserva.",
+  "@settingsFaqAnswer5": {
+    "description": "Respuesta FAQ 5"
+  },
+  "settingsFaqQuestion1": "¿Cómo reservo una plaza?",
+  "@settingsFaqQuestion1": {
+    "description": "Pregunta FAQ 1"
+  },
+  "settingsFaqQuestion2": "¿Puedo cancelar mi reserva?",
+  "@settingsFaqQuestion2": {
+    "description": "Pregunta FAQ 2"
+  },
+  "settingsFaqQuestion3": "¿Cuánto tiempo puedo usar una plaza?",
+  "@settingsFaqQuestion3": {
+    "description": "Pregunta FAQ 3"
+  },
+  "settingsFaqQuestion4": "¿Qué pasa si no llego a tiempo?",
+  "@settingsFaqQuestion4": {
+    "description": "Pregunta FAQ 4"
+  },
+  "settingsFaqQuestion5": "¿Puedo tener múltiples reservas?",
+  "@settingsFaqQuestion5": {
+    "description": "Pregunta FAQ 5"
+  },
+  "settingsFaqSubtitle": "Encuentra respuestas a dudas comunes",
+  "@settingsFaqSubtitle": {
+    "description": "Subtítulo de la acción de preguntas frecuentes"
+  },
+  "settingsHelpSection": "Ayuda y soporte",
+  "@settingsHelpSection": {
+    "description": "Encabezado de la sección de ayuda y soporte"
+  },
+  "settingsLanguage": "Idioma",
+  "@settingsLanguage": {
+    "description": "Título del ajuste de idioma"
+  },
+  "settingsLanguageValue": "Español",
+  "@settingsLanguageValue": {
+    "description": "Valor mostrado del idioma seleccionado"
+  },
+  "settingsNotifications": "Notificaciones",
+  "@settingsNotifications": {
+    "description": "Título del ajuste de notificaciones"
+  },
+  "settingsNotificationsSubtitle": "Recibir notificaciones de reservas y recordatorios",
+  "@settingsNotificationsSubtitle": {
+    "description": "Subtítulo del ajuste de notificaciones"
+  },
+  "settingsPrivacy": "Política de privacidad",
+  "@settingsPrivacy": {
+    "description": "Título de la acción de política de privacidad"
+  },
+  "settingsPrivacyInDevelopment": "Política de privacidad - Funcionalidad en desarrollo",
+  "@settingsPrivacyInDevelopment": {
+    "description": "Aviso de que la política de privacidad está en desarrollo"
+  },
+  "settingsPrivacySubtitle": "Información sobre el manejo de tus datos",
+  "@settingsPrivacySubtitle": {
+    "description": "Subtítulo de la acción de política de privacidad"
+  },
+  "settingsTerms": "Términos de servicio",
+  "@settingsTerms": {
+    "description": "Título de la acción de términos de servicio"
+  },
+  "settingsTermsInDevelopment": "Términos de servicio - Funcionalidad en desarrollo",
+  "@settingsTermsInDevelopment": {
+    "description": "Aviso de que los términos de servicio están en desarrollo"
+  },
+  "settingsTermsSubtitle": "Lee nuestros términos y condiciones",
+  "@settingsTermsSubtitle": {
+    "description": "Subtítulo de la acción de términos de servicio"
+  },
+  "settingsTutorial": "Tutorial",
+  "@settingsTutorial": {
+    "description": "Título de la acción tutorial"
+  },
+  "settingsTutorialSubtitle": "Aprende a usar la aplicación",
+  "@settingsTutorialSubtitle": {
+    "description": "Subtítulo de la acción tutorial"
+  },
+  "settingsVersion": "Versión",
+  "@settingsVersion": {
+    "description": "Etiqueta de la versión de la aplicación"
+  },
+  "splashDescription": "Sistema de reserva de plazas\ninteligentes para bicicletas",
+  "@splashDescription": {
+    "description": "Descripción de la app en la pantalla splash"
+  },
+  "splashInitializing": "Inicializando...",
+  "@splashInitializing": {
+    "description": "Mensaje mostrado en el arranque mientras se inicializa"
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
@@ -31,10 +32,10 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
     // Show confirmation dialog
     final confirmed = await AppHelpers.showConfirmationDialog(
       context,
-      title: '¿Estás seguro?',
-      content: 'Esta acción eliminará permanentemente tu cuenta y no se puede deshacer.',
-      confirmText: 'Eliminar',
-      cancelText: 'Cancelar',
+      title: context.l10n.deleteUserConfirmTitle,
+      content: context.l10n.deleteUserConfirmContent,
+      confirmText: context.l10n.deleteUserConfirmButton,
+      cancelText: context.l10n.deleteUserCancelButton,
       isDestructive: true,
     );
 
@@ -62,7 +63,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al eliminar la cuenta');
+        AppHelpers.showErrorSnackBar(context, context.l10n.deleteUserError);
       }
     } finally {
       if (mounted) {
@@ -104,10 +105,10 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                       icon: Icon(PlatformIcons.chevronLeft),
                       color: AppColors.primary,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'Eliminar Cuenta',
-                        style: TextStyle(
+                        context.l10n.deleteUserTitle,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -129,14 +130,14 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                     border: Border.all(color: Colors.red.withOpacity(0.3)),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.warning, color: Colors.red),
-                      SizedBox(width: AppSpacing.sm),
+                      const Icon(Icons.warning, color: Colors.red),
+                      const SizedBox(width: AppSpacing.sm),
                       Expanded(
                         child: Text(
-                          'Esta acción es permanente y no se puede deshacer',
-                          style: TextStyle(
+                          context.l10n.deleteUserWarning,
+                          style: const TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.w500,
                           ),
@@ -159,16 +160,16 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              labelText: 'Email',
+                              labelText: context.l10n.deleteUserEmailLabel,
                               prefixIcon: Icon(PlatformIcons.mail),
-                              hintText: 'Tu email actual',
+                              hintText: context.l10n.deleteUserEmailHint,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu email';
+                                return context.l10n.deleteUserEmailRequired;
                               }
                               if (!AppHelpers.isValidEmail(value)) {
-                                return 'Por favor ingresa un email válido';
+                                return context.l10n.deleteUserEmailInvalid;
                               }
                               return null;
                             },
@@ -181,9 +182,9 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             controller: _passwordController,
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
-                              labelText: 'Contraseña',
+                              labelText: context.l10n.deleteUserPasswordLabel,
                               prefixIcon: Icon(PlatformIcons.key),
-                              hintText: 'Tu contraseña actual',
+                              hintText: context.l10n.deleteUserPasswordHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showPassword = !_showPassword);
@@ -195,7 +196,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu contraseña';
+                                return context.l10n.deleteUserPasswordRequired;
                               }
                               return null;
                             },
@@ -208,9 +209,9 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             controller: _confirmPasswordController,
                             obscureText: !_showConfirmPassword,
                             decoration: InputDecoration(
-                              labelText: 'Confirmar contraseña',
+                              labelText: context.l10n.deleteUserConfirmPasswordLabel,
                               prefixIcon: Icon(PlatformIcons.key),
-                              hintText: 'Repite tu contraseña',
+                              hintText: context.l10n.deleteUserConfirmPasswordHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showConfirmPassword = !_showConfirmPassword);
@@ -222,10 +223,10 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor confirma tu contraseña';
+                                return context.l10n.deleteUserConfirmPasswordRequired;
                               }
                               if (value != _passwordController.text) {
-                                return 'Las contraseñas no coinciden';
+                                return context.l10n.deleteUserPasswordMismatch;
                               }
                               return null;
                             },
@@ -236,17 +237,17 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                           // Confirmation Text Field
                           TextFormField(
                             controller: _confirmationController,
-                            decoration: const InputDecoration(
-                              labelText: 'Escribir "ELIMINAR" para confirmar',
-                              prefixIcon: Icon(Icons.edit),
+                            decoration: InputDecoration(
+                              labelText: context.l10n.deleteUserConfirmationLabel,
+                              prefixIcon: const Icon(Icons.edit),
                               hintText: 'ELIMINAR',
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor escribe ELIMINAR para confirmar';
+                                return context.l10n.deleteUserConfirmationRequired;
                               }
                               if (!AppHelpers.isValidDeletionConfirmation(value)) {
-                                return 'Debes escribir exactamente "ELIMINAR"';
+                                return context.l10n.deleteUserConfirmationInvalid;
                               }
                               return null;
                             },
@@ -260,7 +261,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: _isLoading ? null : () => NavigationService.pop(),
-                                  child: const Text('Cancelar'),
+                                  child: Text(context.l10n.deleteUserCancelButton),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.md),
@@ -279,7 +280,7 @@ class _DeleteUserScreenState extends State<DeleteUserScreen> {
                                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                           ),
                                         )
-                                      : const Text('Eliminar cuenta'),
+                                      : Text(context.l10n.deleteUserSubmitButton),
                                 ),
                               ),
                             ],

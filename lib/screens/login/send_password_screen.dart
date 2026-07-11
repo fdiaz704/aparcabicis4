@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
@@ -40,7 +41,7 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al enviar el email');
+        AppHelpers.showErrorSnackBar(context, context.l10n.sendPasswordError);
       }
     } finally {
       if (mounted) {
@@ -84,10 +85,10 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                       icon: Icon(PlatformIcons.chevronLeft),
                       color: AppColors.primary,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'Recuperar Contraseña',
-                        style: TextStyle(
+                        context.l10n.sendPasswordTitle,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -130,8 +131,8 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    'Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña.',
-                    style: TextStyle(
+                    context.l10n.sendPasswordInstructions,
+                    style: const TextStyle(
                       color: Colors.blue,
                     ),
                   ),
@@ -151,16 +152,16 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: context.l10n.sendPasswordEmailLabel,
                     prefixIcon: Icon(PlatformIcons.mail),
-                    hintText: 'ejemplo@correo.com',
+                    hintText: context.l10n.sendPasswordEmailHint,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingresa tu email';
+                      return context.l10n.sendPasswordEmailRequired;
                     }
                     if (!AppHelpers.isValidEmail(value)) {
-                      return 'Por favor ingresa un email válido';
+                      return context.l10n.sendPasswordEmailInvalid;
                     }
                     return null;
                   },
@@ -174,7 +175,7 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                     Expanded(
                       child: OutlinedButton(
                         onPressed: _isLoading ? null : () => NavigationService.pop(),
-                        child: const Text('Cancelar'),
+                        child: Text(context.l10n.sendPasswordCancelButton),
                       ),
                     ),
                     const SizedBox(width: AppSpacing.md),
@@ -190,7 +191,7 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
                                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                 ),
                               )
-                            : const Text('Recibir email'),
+                            : Text(context.l10n.sendPasswordSubmitButton),
                       ),
                     ),
                   ],
@@ -215,14 +216,14 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
               borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
               border: Border.all(color: Colors.green.withOpacity(0.3)),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.green),
-                SizedBox(width: AppSpacing.sm),
+                const Icon(Icons.check_circle, color: Colors.green),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Text(
-                    'Email enviado exitosamente',
-                    style: TextStyle(
+                    context.l10n.sendPasswordSuccessAlert,
+                    style: const TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.w500,
                     ),
@@ -235,9 +236,9 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
           const SizedBox(height: AppSpacing.xl),
           
           // Confirmation Message
-          const Text(
-            'Hemos enviado las instrucciones para restablecer tu contraseña a:',
-            style: TextStyle(fontSize: 16),
+          Text(
+            context.l10n.sendPasswordConfirmationMessage,
+            style: const TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
           
@@ -262,21 +263,21 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
               color: Colors.grey.withOpacity(0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Instrucciones adicionales:',
-                  style: TextStyle(
+                  context.l10n.sendPasswordAdditionalTitle,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: AppSpacing.sm),
-                Text('• Revisa tu bandeja de entrada'),
-                Text('• Si no encuentras el email, revisa la carpeta de spam'),
-                Text('• El enlace expirará en 24 horas'),
-                Text('• Si no recibes el email, puedes enviarlo de nuevo'),
+                const SizedBox(height: AppSpacing.sm),
+                Text(context.l10n.sendPasswordTip1),
+                Text(context.l10n.sendPasswordTip2),
+                Text(context.l10n.sendPasswordTip3),
+                Text(context.l10n.sendPasswordTip4),
               ],
             ),
           ),
@@ -289,14 +290,14 @@ class _SendPasswordScreenState extends State<SendPasswordScreen> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: _handleSendAgain,
-                  child: const Text('Enviar de nuevo'),
+                  child: Text(context.l10n.sendPasswordSendAgainButton),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: ElevatedButton(
                   onPressed: () => NavigationService.pop(),
-                  child: const Text('Volver al login'),
+                  child: Text(context.l10n.sendPasswordBackToLoginButton),
                 ),
               ),
             ],

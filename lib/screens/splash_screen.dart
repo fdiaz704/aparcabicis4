@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../providers/auth_provider.dart';
 import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
@@ -147,7 +148,7 @@ class _SplashScreenState extends State<SplashScreen>
                       
                       // App Name
                       Text(
-                        AppConstants.appName,
+                        context.l10n.appName,
                         style: AppTextStyles.heading1.copyWith(
                           color: AppColors.primary,
                           fontWeight: FontWeight.bold,
@@ -160,7 +161,7 @@ class _SplashScreenState extends State<SplashScreen>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
                         child: Text(
-                          'Sistema de reserva de plazas\ninteligentes para bicicletas',
+                          context.l10n.splashDescription,
                           textAlign: TextAlign.center,
                           style: AppTextStyles.body.copyWith(
                             color: Colors.grey[600],
@@ -184,7 +185,7 @@ class _SplashScreenState extends State<SplashScreen>
                       
                       // Loading Text
                       Text(
-                        'Inicializando...',
+                        context.l10n.splashInitializing,
                         style: AppTextStyles.bodySmall.copyWith(
                           color: Colors.grey[600],
                         ),

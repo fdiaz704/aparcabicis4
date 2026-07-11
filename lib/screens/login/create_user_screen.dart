@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
@@ -48,7 +49,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
       }
     } catch (e) {
       if (mounted) {
-        AppHelpers.showErrorSnackBar(context, 'Error al crear el usuario');
+        AppHelpers.showErrorSnackBar(context, context.l10n.createUserError);
       }
     } finally {
       if (mounted) {
@@ -89,10 +90,10 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                       icon: Icon(PlatformIcons.chevronLeft),
                       color: AppColors.primary,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'Crear Usuario',
-                        style: TextStyle(
+                        context.l10n.createUserTitle,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.primary,
@@ -117,16 +118,16 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              labelText: 'Email',
+                              labelText: context.l10n.createUserEmailLabel,
                               prefixIcon: Icon(PlatformIcons.mail),
-                              hintText: 'ejemplo@correo.com',
+                              hintText: context.l10n.createUserEmailHint,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa tu email';
+                                return context.l10n.createUserEmailRequired;
                               }
                               if (!AppHelpers.isValidEmail(value)) {
-                                return 'Por favor ingresa un email válido';
+                                return context.l10n.createUserEmailInvalid;
                               }
                               return null;
                             },
@@ -139,9 +140,9 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                             controller: _passwordController,
                             obscureText: !_showPassword,
                             decoration: InputDecoration(
-                              labelText: 'Contraseña',
+                              labelText: context.l10n.createUserPasswordLabel,
                               prefixIcon: Icon(PlatformIcons.key),
-                              hintText: 'Mínimo 8 caracteres',
+                              hintText: context.l10n.createUserPasswordHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showPassword = !_showPassword);
@@ -153,10 +154,10 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor ingresa una contraseña';
+                                return context.l10n.createUserPasswordRequired;
                               }
                               if (value.length < AppConstants.minPasswordLength) {
-                                return 'La contraseña debe tener al menos ${AppConstants.minPasswordLength} caracteres';
+                                return context.l10n.createUserPasswordTooShort(AppConstants.minPasswordLength);
                               }
                               return null;
                             },
@@ -169,9 +170,9 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                             controller: _confirmPasswordController,
                             obscureText: !_showConfirmPassword,
                             decoration: InputDecoration(
-                              labelText: 'Confirmar contraseña',
+                              labelText: context.l10n.createUserConfirmPasswordLabel,
                               prefixIcon: Icon(PlatformIcons.key),
-                              hintText: 'Repite la contraseña',
+                              hintText: context.l10n.createUserConfirmPasswordHint,
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() => _showConfirmPassword = !_showConfirmPassword);
@@ -183,10 +184,10 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Por favor confirma tu contraseña';
+                                return context.l10n.createUserConfirmPasswordRequired;
                               }
                               if (value != _passwordController.text) {
-                                return 'Las contraseñas no coinciden';
+                                return context.l10n.createUserPasswordMismatch;
                               }
                               return null;
                             },
@@ -200,7 +201,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: _isLoading ? null : () => NavigationService.pop(),
-                                  child: const Text('Cancelar'),
+                                  child: Text(context.l10n.createUserCancelButton),
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.md),
@@ -216,7 +217,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                           ),
                                         )
-                                      : const Text('Crear usuario'),
+                                      : Text(context.l10n.createUserSubmitButton),
                                 ),
                               ),
                             ],
