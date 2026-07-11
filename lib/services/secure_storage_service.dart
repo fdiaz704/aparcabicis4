@@ -1,34 +1,43 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// Wrapper around the platform's secure storage:
-/// Keychain on iOS and Keystore-backed encrypted storage on Android.
+/// Almacenamiento seguro de la plataforma: Keychain en iOS y almacenamiento
+/// cifrado respaldado por Keystore en Android.
 ///
-/// Use this ONLY for short-lived secrets such as the session token returned by
-/// the backend. Never store passwords here — passwords must not persist on the
-/// device at all.
+/// Aquí van SOLO los secretos de sesión (tokens JWT). La **contraseña nunca se
+/// persiste** en el dispositivo, ni aquí ni en SharedPreferences (RF-1.3).
 class SecureStorageService {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  // Keys
-  static const String _sessionTokenKey = 'session_token';
+  static const String _accessTokenKey = 'session_token';
+  static const String _refreshTokenKey = 'refresh_token';
 
-  /// Persist the session token (e.g. a JWT) returned by the backend on login.
+  /// Guarda el par de tokens devuelto por la API en el login.
+  static Future<void> saveSession({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await _storage.write(key: _accessTokenKey, value: accessToken);
+    await _storage.write(key: _refreshTokenKey, value: refreshToken);
+  }
+
+  /// Guarda solo el access token (renovación silenciosa, RF-1.4).
   static Future<void> saveSessionToken(String token) async {
-    await _storage.write(key: _sessionTokenKey, value: token);
+    await _storage.write(key: _accessTokenKey, value: token);
   }
 
-  /// Read the stored session token, or null if there is none.
-  static Future<String?> getSessionToken() async {
-    return _storage.read(key: _sessionTokenKey);
+  static Future<String?> getSessionToken() => _storage.read(key: _accessTokenKey);
+
+  static Future<String?> getRefreshToken() => _storage.read(key: _refreshTokenKey);
+
+  /// Elimina la sesión completa (logout, borrado de cuenta o "Recuérdame" off).
+  static Future<void> clearSession() async {
+    await _storage.delete(key: _accessTokenKey);
+    await _storage.delete(key: _refreshTokenKey);
   }
 
-  /// Remove the session token (on logout or account deletion).
-  static Future<void> deleteSessionToken() async {
-    await _storage.delete(key: _sessionTokenKey);
-  }
+  /// Alias histórico de [clearSession].
+  static Future<void> deleteSessionToken() => clearSession();
 
-  /// Whether a session token is currently stored.
-  static Future<bool> hasSessionToken() async {
-    return await getSessionToken() != null;
-  }
+  static Future<bool> hasSessionToken() async =>
+      await getSessionToken() != null;
 }

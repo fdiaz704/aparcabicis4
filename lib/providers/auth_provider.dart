@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
 import '../repositories/auth_repository.dart';
 import '../repositories/repository_exception.dart';
 import '../services/secure_storage_service.dart';
+import '../services/storage_service.dart';
 import '../utils/constants.dart';
 
 /// Estado de autenticación.
@@ -23,55 +23,38 @@ class AuthProvider with ChangeNotifier {
   User? get user => _user;
   bool get isLoggedIn => _isLoggedIn;
 
-  /// Purga credenciales heredadas y restaura el estado de sesión guardado.
+  /// Restaura la sesión si procede.
+  ///
+  /// "Recuérdame" significa **mantener la sesión** entre arranques: si está
+  /// activo y hay tokens en almacenamiento seguro, se restaura al usuario. Si
+  /// NO está activo, se destruye cualquier sesión persistida.
   Future<void> initialize() async {
-    await _migrateLegacyCredentials();
-    await _loadSavedSession();
-  }
+    // La contraseña heredada en claro ya se purga en StorageService.initialize().
+    final rememberMe =
+        StorageService.getString(AppConstants.prefKeyRememberMe) == 'true';
 
-  /// Limpieza única: versiones antiguas guardaban la contraseña en claro en
-  /// SharedPreferences. Se elimina de cualquier instalación existente.
-  Future<void> _migrateLegacyCredentials() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      if (prefs.containsKey(AppConstants.prefKeyLegacyPassword)) {
-        await prefs.remove(AppConstants.prefKeyLegacyPassword);
-        debugPrint('Eliminada contraseña heredada en texto plano');
-      }
-    } catch (e) {
-      debugPrint('Legacy credential migration error: $e');
+    if (!rememberMe) {
+      await SecureStorageService.clearSession();
+      await _clearRememberedEmail();
+      return;
+    }
+
+    final hasToken = await SecureStorageService.hasSessionToken();
+    final email = StorageService.getString(AppConstants.prefKeyEmail);
+
+    if (hasToken && email != null && email.isNotEmpty) {
+      _user = User(email: email);
+      _isLoggedIn = true;
+      notifyListeners();
     }
   }
 
   /// Email recordado para prellenar el formulario (nunca la contraseña).
   Future<String?> getSavedEmail() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      if (prefs.getString(AppConstants.prefKeyRememberMe) == 'true') {
-        return prefs.getString(AppConstants.prefKeyEmail);
-      }
-      return null;
-    } catch (e) {
-      debugPrint('Get saved email error: $e');
+    if (StorageService.getString(AppConstants.prefKeyRememberMe) != 'true') {
       return null;
     }
-  }
-
-  Future<void> _loadSavedSession() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      if (prefs.getString(AppConstants.prefKeyRememberMe) != 'true') return;
-
-      final email = prefs.getString(AppConstants.prefKeyEmail);
-      final wasLoggedIn = prefs.getBool('bikeParking_isLoggedIn') ?? false;
-      if (email != null && email.isNotEmpty && wasLoggedIn) {
-        _user = User(email: email);
-        _isLoggedIn = true;
-        notifyListeners();
-      }
-    } catch (e) {
-      debugPrint('Load session error: $e');
-    }
+    return StorageService.getString(AppConstants.prefKeyEmail);
   }
 
   Future<bool> login(String email, String password, bool rememberMe) async {
@@ -84,8 +67,12 @@ class AuthProvider with ChangeNotifier {
       _user = session.user;
       _isLoggedIn = true;
 
-      // Solo se persisten los tokens (nunca la contraseña).
-      await SecureStorageService.saveSessionToken(session.accessToken);
+      // Solo se persisten los tokens, y en almacenamiento seguro. La contraseña
+      // no se guarda en ningún sitio (RF-1.3).
+      await SecureStorageService.saveSession(
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
+      );
 
       if (rememberMe) {
         await _saveRememberedEmail(session.user.email);
@@ -114,8 +101,9 @@ class AuthProvider with ChangeNotifier {
     _user = null;
     _isLoggedIn = false;
 
-    await _clearLoginState();
-    await SecureStorageService.deleteSessionToken();
+    // Se destruyen los tokens; el email recordado se conserva solo para
+    // prellenar el formulario si "Recuérdame" seguía activo.
+    await SecureStorageService.clearSession();
     notifyListeners();
   }
 
@@ -197,30 +185,17 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> _saveRememberedEmail(String email) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(AppConstants.prefKeyEmail, email);
-      await prefs.setString(AppConstants.prefKeyRememberMe, 'true');
-      await prefs.setBool('bikeParking_isLoggedIn', true);
+      await StorageService.setString(AppConstants.prefKeyEmail, email);
+      await StorageService.setString(AppConstants.prefKeyRememberMe, 'true');
     } catch (e) {
       debugPrint('Save remembered email error: $e');
     }
   }
 
-  Future<void> _clearLoginState() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('bikeParking_isLoggedIn', false);
-    } catch (e) {
-      debugPrint('Clear login state error: $e');
-    }
-  }
-
   Future<void> _clearRememberedEmail() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(AppConstants.prefKeyEmail);
-      await prefs.remove(AppConstants.prefKeyRememberMe);
-      await prefs.setBool('bikeParking_isLoggedIn', false);
+      await StorageService.remove(AppConstants.prefKeyEmail);
+      await StorageService.remove(AppConstants.prefKeyRememberMe);
     } catch (e) {
       debugPrint('Clear remembered email error: $e');
     }

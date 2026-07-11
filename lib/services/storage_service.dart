@@ -1,11 +1,30 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import '../utils/constants.dart';
+
+/// Único punto de persistencia local no sensible (preferencias, favoritos,
+/// historial). Los secretos (tokens) NUNCA pasan por aquí: van a
+/// [SecureStorageService]. Las contraseñas no se persisten en absoluto.
 class StorageService {
   static SharedPreferences? _prefs;
 
   static Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
+    await purgeLegacySecrets();
+  }
+
+  /// Limpieza de arranque: versiones antiguas guardaban la contraseña en claro
+  /// en SharedPreferences. Se elimina de cualquier instalación existente, para
+  /// que no quede ni un valor residual en dispositivos ya actualizados.
+  static Future<void> purgeLegacySecrets() async {
+    final store = _prefs;
+    if (store == null) return;
+    if (store.containsKey(AppConstants.prefKeyLegacyPassword)) {
+      await store.remove(AppConstants.prefKeyLegacyPassword);
+      debugPrint('Purgada contraseña heredada en texto plano de SharedPreferences');
+    }
   }
 
   static SharedPreferences get prefs {
