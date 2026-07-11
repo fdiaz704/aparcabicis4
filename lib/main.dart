@@ -11,6 +11,7 @@ import 'config/city_config.dart';
 import 'l10n/app_localizations.dart';
 
 // Services
+import 'services/biometric_service.dart';
 import 'services/storage_service.dart';
 import 'services/navigation_service.dart';
 
@@ -69,6 +70,7 @@ class AparcabicisApp extends StatelessWidget {
   const AparcabicisApp._({
     required this.cityConfig,
     required this.backend,
+    this.biometricAuthenticator,
     super.key,
   });
 
@@ -80,12 +82,14 @@ class AparcabicisApp extends StatelessWidget {
     Key? key,
     CityConfig? cityConfig,
     FakeBackend? backend,
+    BiometricAuthenticator? biometricAuthenticator,
   }) {
     final city = cityConfig ?? resolveCityConfig();
     return AparcabicisApp._(
       key: key,
       cityConfig: city,
       backend: backend ?? FakeBackend(seedParkings: city.seedParkings),
+      biometricAuthenticator: biometricAuthenticator,
     );
   }
 
@@ -95,6 +99,10 @@ class AparcabicisApp extends StatelessWidget {
   /// Backend simulado compartido por todos los repositorios fake.
   final FakeBackend backend;
 
+  /// Biometría. En producción se resuelve sola (local_auth); en tests se
+  /// inyecta una falsa, porque el emulador no tiene huella registrada.
+  final BiometricAuthenticator? biometricAuthenticator;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -103,6 +111,7 @@ class AparcabicisApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(
             authRepository: FakeAuthRepository(backend),
+            biometricAuthenticator: biometricAuthenticator,
           ),
         ),
         ChangeNotifierProvider(

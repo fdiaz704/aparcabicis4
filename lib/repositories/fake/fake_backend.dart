@@ -24,13 +24,19 @@ class FakeBackend {
     required List<Parking> seedParkings,
     this.params = AppParams.defaults,
     this.latency = const Duration(milliseconds: 300),
-  }) : _parkings = List<Parking>.from(seedParkings);
+    DateTime Function()? clock,
+  })  : _parkings = List<Parking>.from(seedParkings),
+        _clock = clock ?? DateTime.now;
 
   /// Parámetros del sistema que sirve el bootstrap.
   final AppParams params;
 
   /// Latencia simulada de red.
   final Duration latency;
+
+  /// Reloj del "servidor". Inyectable para poder probar el vencimiento de la
+  /// ventana de llegada sin esperar en tiempo real.
+  final DateTime Function() _clock;
 
   final List<Parking> _parkings;
   final Set<String> _favoriteIds = <String>{};
@@ -158,7 +164,7 @@ class FakeBackend {
     if (current == null) return;
     if (current.status != ReservationStatus.pending) return;
 
-    if (!DateTime.now().isBefore(current.expiresAt)) {
+    if (!_clock().isBefore(current.expiresAt)) {
       final expired = current.copyWith(status: ReservationStatus.expired);
       _history.insert(0, expired);
       _currentReservation = null;
@@ -198,7 +204,7 @@ class FakeBackend {
       );
     }
 
-    final now = DateTime.now();
+    final now = _clock();
     final reservation = Reservation(
       id: 'res-${now.microsecondsSinceEpoch}',
       parkingId: parking.id,
@@ -230,7 +236,7 @@ class FakeBackend {
     }
 
     if (current.status == ReservationStatus.pending) {
-      final now = DateTime.now();
+      final now = _clock();
       _currentReservation = current.copyWith(
         status: ReservationStatus.active,
         checkinAt: now,
@@ -281,7 +287,7 @@ class FakeBackend {
 
     final completed = current.copyWith(
       status: ReservationStatus.completed,
-      checkoutAt: DateTime.now(),
+      checkoutAt: _clock(),
     );
     _history.insert(0, completed);
     _currentReservation = null;
