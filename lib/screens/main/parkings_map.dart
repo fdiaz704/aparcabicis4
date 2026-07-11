@@ -10,6 +10,7 @@ import '../../config/city_config.dart';
 import '../../models/parking.dart';
 import '../../providers/parkings_provider.dart';
 import '../../providers/reservations_provider.dart';
+import '../../repositories/repository_exception.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../services/navigation_service.dart';
@@ -304,37 +305,32 @@ class _ParkingsMapState extends State<ParkingsMap> {
       return;
     }
 
-    try {
-      // Update parking availability
-      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots - 1);
+    // La ocupación de plazas la calcula el backend: solo resincronizamos.
+    final errorCode = await reservationsProvider.createReservation(parking);
+    await parkingsProvider.refresh();
 
-      // Create reservation
-      final success = await reservationsProvider.createReservation(parking);
+    if (!mounted) return;
 
-      if (success) {
-        if (!mounted) return;
-        AppHelpers.showSuccessSnackBar(
-          context,
-          context.l10n.mapReservationCreated(parking.name),
-        );
-
-        // Close selected parking card
-        _closeSelectedParking();
-
-        // Navigate to active reservation screen
-        NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
-      } else {
-        // Restore parking availability if reservation failed
-        parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-        if (!mounted) return;
-        AppHelpers.showErrorSnackBar(context, context.l10n.mapReservationError);
-      }
-    } catch (e) {
-      // Restore parking availability on error
-      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-      if (!mounted) return;
-      AppHelpers.showErrorSnackBar(context, context.l10n.mapReservationError);
+    if (errorCode == null) {
+      AppHelpers.showSuccessSnackBar(
+        context,
+        context.l10n.mapReservationCreated(parking.name),
+      );
+      _closeSelectedParking();
+      NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
+    } else {
+      AppHelpers.showErrorSnackBar(context, _reserveErrorMessage(errorCode));
     }
+  }
+
+  /// Traduce el código de error del contrato al mensaje de UI.
+  String _reserveErrorMessage(String code) {
+    return switch (code) {
+      RepositoryErrorCodes.parkingFull => context.l10n.mapNoSpotsAvailable,
+      RepositoryErrorCodes.reservationConflict =>
+        context.l10n.mapAlreadyActiveReservation,
+      _ => context.l10n.mapReservationError,
+    };
   }
 
   Future<void> _zoomIn() async {

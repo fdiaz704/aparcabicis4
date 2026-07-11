@@ -1,15 +1,17 @@
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+
 import '../models/parking.dart';
+import '../repositories/parkings_repository.dart';
 
+/// Aparcamientos, favoritos, filtros y orden.
+///
+/// No conoce la fuente de datos ni la persistencia: todo pasa por
+/// [ParkingsRepository].
 class ParkingsProvider with ChangeNotifier {
-  /// Aparcamientos semilla inyectados por el flavor (CityConfig). En fases
-  /// posteriores se sustituyen por los servidos por la API.
-  final List<Parking> _seedParkings;
+  ParkingsProvider({required ParkingsRepository parkingsRepository})
+      : _parkingsRepository = parkingsRepository;
 
-  ParkingsProvider({List<Parking> seedParkings = const []})
-      : _seedParkings = seedParkings;
+  final ParkingsRepository _parkingsRepository;
 
   List<Parking> _parkings = [];
   List<String> _favoriteParkings = [];
@@ -17,7 +19,7 @@ class ParkingsProvider with ChangeNotifier {
   List<Parking> get parkings => _parkings;
   List<String> get favoriteParkings => _favoriteParkings;
 
-  // Filter State
+  // Estado de filtros
   String _searchQuery = '';
   bool _showOnlyAvailable = false;
   bool _showOnlyFavorites = false;
@@ -28,58 +30,43 @@ class ParkingsProvider with ChangeNotifier {
   bool get showOnlyFavorites => _showOnlyFavorites;
   String get sortBy => _sortBy;
 
-  // Initialize with the seed parkings from the city flavor and load favorites
+  /// Carga aparcamientos y favoritos desde el repositorio.
   Future<void> initialize() async {
-    _parkings = List<Parking>.from(_seedParkings);
-    await _loadFavorites();
+    await refresh();
   }
 
-  // Toggle favorite parking
+  /// Resincroniza con el repositorio (la ocupación la calcula el backend).
+  Future<void> refresh() async {
+    try {
+      _parkings = await _parkingsRepository.getParkings();
+      _favoriteParkings = await _parkingsRepository.getFavoriteIds();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Refresh parkings error: $e');
+    }
+  }
+
   Future<void> toggleFavorite(String parkingId) async {
     try {
-      if (_favoriteParkings.contains(parkingId)) {
-        _favoriteParkings.remove(parkingId);
-      } else {
-        _favoriteParkings.add(parkingId);
-      }
-      
-      await _saveFavorites();
+      final isNowFavorite = !_favoriteParkings.contains(parkingId);
+      await _parkingsRepository.setFavorite(parkingId, favorite: isNowFavorite);
+      _favoriteParkings = await _parkingsRepository.getFavoriteIds();
       notifyListeners();
     } catch (e) {
       debugPrint('Toggle favorite error: $e');
     }
   }
 
-  // Check if parking is favorite
-  bool isFavorite(String parkingId) {
-    return _favoriteParkings.contains(parkingId);
-  }
+  bool isFavorite(String parkingId) => _favoriteParkings.contains(parkingId);
 
-  // Update parking availability (when making a reservation)
-  void updateParkingAvailability(String parkingId, int newAvailableSpots) {
-    try {
-      final parkingIndex = _parkings.indexWhere((parking) => parking.id == parkingId);
-      if (parkingIndex != -1) {
-        _parkings[parkingIndex] = _parkings[parkingIndex].copyWith(
-          availableSpots: newAvailableSpots,
-        );
-        notifyListeners();
-      }
-    } catch (e) {
-      debugPrint('Update parking availability error: $e');
-    }
-  }
-
-  // Get parking by ID
   Parking? getParkingById(String parkingId) {
-    try {
-      return _parkings.firstWhere((parking) => parking.id == parkingId);
-    } catch (e) {
-      return null;
+    for (final parking in _parkings) {
+      if (parking.id == parkingId) return parking;
     }
+    return null;
   }
 
-  // Setters for filters
+  // Filtros
   void setSearchQuery(String query) {
     _searchQuery = query;
     notifyListeners();
@@ -104,74 +91,44 @@ class ParkingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Filter parkings based on stored state
   List<Parking> getFilteredParkings() {
-    List<Parking> filtered = List.from(_parkings);
+    var filtered = List<Parking>.from(_parkings);
 
-    // Apply search filter
     if (_searchQuery.isNotEmpty) {
-      filtered = filtered.where((parking) {
-        return parking.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-               parking.address.toLowerCase().contains(_searchQuery.toLowerCase());
-      }).toList();
+      final query = _searchQuery.toLowerCase();
+      filtered = filtered
+          .where((parking) =>
+              parking.name.toLowerCase().contains(query) ||
+              parking.address.toLowerCase().contains(query))
+          .toList();
     }
 
-    // Apply availability filter
     if (_showOnlyAvailable) {
       filtered = filtered.where((parking) => parking.availableSpots > 0).toList();
     }
 
-    // Apply favorites filter
     if (_showOnlyFavorites) {
-      filtered = filtered.where((parking) => _favoriteParkings.contains(parking.id)).toList();
+      filtered = filtered
+          .where((parking) => _favoriteParkings.contains(parking.id))
+          .toList();
     }
 
-    // Apply sorting
     switch (_sortBy) {
       case 'name':
         filtered.sort((a, b) => a.name.compareTo(b.name));
-        break;
       case 'availability':
         filtered.sort((a, b) => b.availableSpots.compareTo(a.availableSpots));
-        break;
       default:
-        // No sorting
         break;
     }
 
     return filtered;
   }
 
-  // Get active filter count
   int getActiveFilterCount() {
-    int count = 0;
+    var count = 0;
     if (_showOnlyAvailable) count++;
     if (_showOnlyFavorites) count++;
     return count;
-  }
-
-  // Private methods
-  Future<void> _loadFavorites() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final favoritesJson = prefs.getString('bikeParking_favorites');
-      
-      if (favoritesJson != null) {
-        final List<dynamic> favoritesList = jsonDecode(favoritesJson);
-        _favoriteParkings = favoritesList.cast<String>();
-        notifyListeners();
-      }
-    } catch (e) {
-      debugPrint('Load favorites error: $e');
-    }
-  }
-
-  Future<void> _saveFavorites() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('bikeParking_favorites', jsonEncode(_favoriteParkings));
-    } catch (e) {
-      debugPrint('Save favorites error: $e');
-    }
   }
 }

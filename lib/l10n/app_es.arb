@@ -1,5 +1,4 @@
 {
-  "@@locale": "es",
   "activeCancelReservation": "Cancelar reserva",
   "@activeCancelReservation": {
     "description": "Boton para cancelar la reserva"
@@ -8,9 +7,17 @@
   "@activeCancelReservationError": {
     "description": "SnackBar de error al cancelar la reserva"
   },
+  "activeDoorOpenError": "No se ha podido abrir la puerta",
+  "@activeDoorOpenError": {
+    "description": "Error cuando la pasarela no consigue abrir la puerta"
+  },
   "activeDoorOpenedSuccess": "Puerta abierta correctamente",
   "@activeDoorOpenedSuccess": {
     "description": "SnackBar de exito al abrir la puerta"
+  },
+  "activeDoorUnavailable": "La puerta no responde. Inténtalo de nuevo o contacta con soporte.",
+  "@activeDoorUnavailable": {
+    "description": "Modo degradado: la pasarela hardware no responde (RF-4.7)"
   },
   "activeFinalInstructions": "Instrucciones finales",
   "@activeFinalInstructions": {
@@ -763,6 +770,7 @@
   "@historyTryChangeFilter": {
     "description": "Sugerencia en estado vacio con filtro"
   },
+  "@@locale": "es",
   "loginEmailHint": "ejemplo@correo.com",
   "@loginEmailHint": {
     "description": "Placeholder del campo email en login"

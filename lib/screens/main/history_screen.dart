@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/reservations_provider.dart';
-import '../../models/reservation_record.dart';
+import '../../models/reservation.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../utils/platform_icons.dart';
@@ -119,7 +119,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             ),
                           ),
                         ),
-                        ...ReservationStatus.values.map((status) {
+                        ..._historyStatuses.map((status) {
                           return DropdownMenuItem<ReservationStatus?>(
                             value: status,
                             child: Text(
@@ -246,12 +246,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  List<ReservationRecord> _getFilteredHistory(List<ReservationRecord> history) {
-    var filtered = history;
+  /// Estados finalizados: los únicos que se muestran en el historial.
+  static const List<ReservationStatus> _historyStatuses = [
+    ReservationStatus.completed,
+    ReservationStatus.cancelled,
+    ReservationStatus.expired,
+  ];
+
+  List<Reservation> _getFilteredHistory(List<Reservation> history) {
+    var filtered = List<Reservation>.of(history);
 
     // Apply status filter
     if (_selectedFilter != null) {
-      filtered = filtered.where((record) => record.status == _selectedFilter).toList();
+      filtered = filtered
+          .where((record) => record.status == _selectedFilter)
+          .toList();
     }
 
     // Apply sorting
@@ -330,6 +339,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   String _getStatusText(ReservationStatus status) {
     switch (status) {
+      case ReservationStatus.pending:
+      case ReservationStatus.active:
+        return context.l10n.historyCardUnfinished;
       case ReservationStatus.completed:
         return context.l10n.historyStatusCompleted;
       case ReservationStatus.cancelled:
@@ -339,14 +351,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
-  void _showReservationDetails(BuildContext context, ReservationRecord record) {
+  void _showReservationDetails(BuildContext context, Reservation record) {
     PlatformWidgets.showAdaptiveModalBottomSheet(
       context: context,
       child: _buildReservationDetailsSheet(record),
     );
   }
 
-  Widget _buildReservationDetailsSheet(ReservationRecord record) {
+  Widget _buildReservationDetailsSheet(Reservation record) {
     final duration = record.endTime?.difference(record.startTime);
     
     return Container(

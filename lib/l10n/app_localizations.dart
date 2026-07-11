@@ -110,11 +110,23 @@ abstract class AppLocalizations {
   /// **'Error al cancelar la reserva'**
   String get activeCancelReservationError;
 
+  /// Error cuando la pasarela no consigue abrir la puerta
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido abrir la puerta'**
+  String get activeDoorOpenError;
+
   /// SnackBar de exito al abrir la puerta
   ///
   /// In es, this message translates to:
   /// **'Puerta abierta correctamente'**
   String get activeDoorOpenedSuccess;
+
+  /// Modo degradado: la pasarela hardware no responde (RF-4.7)
+  ///
+  /// In es, this message translates to:
+  /// **'La puerta no responde. Inténtalo de nuevo o contacta con soporte.'**
+  String get activeDoorUnavailable;
 
   /// Titulo del modal de finalizacion
   ///

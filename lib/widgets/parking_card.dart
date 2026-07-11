@@ -5,6 +5,7 @@ import 'package:aparcabicis4/l10n/l10n.dart';
 import '../models/parking.dart';
 import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
+import '../repositories/repository_exception.dart';
 import '../utils/constants.dart';
 import '../utils/helpers.dart';
 import '../utils/platform_icons.dart';
@@ -181,43 +182,36 @@ class ParkingCard extends StatelessWidget {
       return;
     }
 
-    // Reservar directamente sin modal de confirmación
-
-    // Update parking availability
+    // Reserva directa, sin modal de confirmación. La ocupación de plazas la
+    // calcula el backend, así que solo resincronizamos al terminar.
     final parkingsProvider = context.read<ParkingsProvider>();
-    try {
-      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots - 1);
+    final errorCode = await reservationsProvider.createReservation(parking);
+    await parkingsProvider.refresh();
 
-      // Create reservation
-      final success = await reservationsProvider.createReservation(parking);
+    if (!context.mounted) return;
 
-      if (success) {
-        if (context.mounted) {
-          AppHelpers.showSuccessSnackBar(
-            context,
-            context.l10n.parkingCardReservationCreated(parking.name),
-          );
-        }
-
-        // Navigate to active reservation screen
-        NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
-      } else {
-        // Restore parking availability if reservation failed
-        parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-        if (context.mounted) {
-          AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
-        }
-      }
-    } catch (e) {
-      // Restore parking availability on error
-      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-      if (context.mounted) {
-        AppHelpers.showErrorSnackBar(context, context.l10n.parkingCardReservationError);
-      }
+    if (errorCode == null) {
+      AppHelpers.showSuccessSnackBar(
+        context,
+        context.l10n.parkingCardReservationCreated(parking.name),
+      );
+      NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
+    } else {
+      AppHelpers.showErrorSnackBar(context, _reserveErrorMessage(context, errorCode));
     }
 
     // Call optional callback
     onReserve?.call();
+  }
+
+  /// Traduce el código de error del contrato al mensaje de UI.
+  String _reserveErrorMessage(BuildContext context, String code) {
+    return switch (code) {
+      RepositoryErrorCodes.parkingFull => context.l10n.parkingCardNoSpotsAvailable,
+      RepositoryErrorCodes.reservationConflict =>
+        context.l10n.parkingCardAlreadyReserved,
+      _ => context.l10n.parkingCardReservationError,
+    };
   }
 
   String _getButtonText(BuildContext context, bool canReserve, bool hasActiveReservation) {

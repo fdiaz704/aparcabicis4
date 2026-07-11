@@ -1,8 +1,9 @@
 {
-  "@@locale": "ca",
   "activeCancelReservation": "Cancel·lar reserva",
   "activeCancelReservationError": "Error en cancel·lar la reserva",
+  "activeDoorOpenError": "No s'ha pogut obrir la porta",
   "activeDoorOpenedSuccess": "Porta oberta correctament",
+  "activeDoorUnavailable": "La porta no respon. Torna-ho a provar o contacta amb suport.",
   "activeFinalInstructions": "Instruccions finals",
   "activeFinishUsage": "Finalitzar ús",
   "activeFinishUsageError": "Error en finalitzar l'ús",
@@ -182,6 +183,7 @@
   "historyTotalReservations": "Total reserves",
   "historyTotalTime": "Temps total",
   "historyTryChangeFilter": "Prova a canviar el filtre per veure més reserves",
+  "@@locale": "ca",
   "loginEmailHint": "exemple@correu.com",
   "loginEmailInvalid": "Introdueix un correu electrònic vàlid",
   "loginEmailLabel": "Correu electrònic",

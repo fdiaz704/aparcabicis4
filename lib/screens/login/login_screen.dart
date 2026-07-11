@@ -5,6 +5,8 @@ import 'package:lucide_flutter/lucide_flutter.dart';
 import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/parkings_provider.dart';
+import '../../providers/reservations_provider.dart';
+import '../../providers/session_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../services/navigation_service.dart';
@@ -64,16 +66,31 @@ class _LoginScreenState extends State<LoginScreen> {
         _rememberMe,
       );
 
-      if (mounted) {
-        if (success) {
-          // Reset filters for the new session
-          context.read<ParkingsProvider>().resetFilters();
+      if (!mounted) return;
 
-          AppHelpers.showSuccessSnackBar(context, context.l10n.loginSuccess);
-          NavigationService.pushNamedAndClearStack(AppRoutes.main);
-        } else {
-          AppHelpers.showErrorSnackBar(context, context.l10n.loginInvalidCredentials);
-        }
+      if (!success) {
+        AppHelpers.showErrorSnackBar(context, context.l10n.loginInvalidCredentials);
+        return;
+      }
+
+      // Tras el login, el bootstrap trae perfil, parámetros del sistema y la
+      // reserva en curso en una sola llamada (RF-B.1).
+      final sessionProvider = context.read<SessionProvider>();
+      final reservationsProvider = context.read<ReservationsProvider>();
+      context.read<ParkingsProvider>().resetFilters();
+
+      await sessionProvider.load();
+      await reservationsProvider.initialize();
+
+      if (!mounted) return;
+
+      AppHelpers.showSuccessSnackBar(context, context.l10n.loginSuccess);
+
+      // Si hay uso en curso, se navega directamente a él (RF-B.3).
+      if (reservationsProvider.hasActiveReservation) {
+        NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
+      } else {
+        NavigationService.pushNamedAndClearStack(AppRoutes.main);
       }
     } catch (e) {
       if (mounted) {

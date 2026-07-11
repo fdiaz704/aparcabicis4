@@ -18,6 +18,15 @@ import 'services/navigation_service.dart';
 import 'providers/auth_provider.dart';
 import 'providers/parkings_provider.dart';
 import 'providers/reservations_provider.dart';
+import 'providers/session_provider.dart';
+
+// Repositorios (fase 1: implementaciones fake; la API real llega en fase 4)
+import 'repositories/fake/fake_access_repository.dart';
+import 'repositories/fake/fake_auth_repository.dart';
+import 'repositories/fake/fake_backend.dart';
+import 'repositories/fake/fake_config_repository.dart';
+import 'repositories/fake/fake_parkings_repository.dart';
+import 'repositories/fake/fake_reservations_repository.dart';
 
 // Utils
 import 'utils/constants.dart';
@@ -57,23 +66,61 @@ void main() async {
 }
 
 class AparcabicisApp extends StatelessWidget {
-  /// Configuración de la ciudad activa (flavor). Si no se pasa, se resuelve
-  /// desde `--dart-define=CITY=`.
+  const AparcabicisApp._({
+    required this.cityConfig,
+    required this.backend,
+    super.key,
+  });
+
+  /// Construye la app para la ciudad del flavor (o la indicada, en tests).
+  ///
+  /// En fase 1 la app trabaja contra el backend simulado ([FakeBackend]); en
+  /// fase 4 se sustituirán los `Fake*Repository` por los `Api*Repository`.
+  factory AparcabicisApp({
+    Key? key,
+    CityConfig? cityConfig,
+    FakeBackend? backend,
+  }) {
+    final city = cityConfig ?? resolveCityConfig();
+    return AparcabicisApp._(
+      key: key,
+      cityConfig: city,
+      backend: backend ?? FakeBackend(seedParkings: city.seedParkings),
+    );
+  }
+
+  /// Configuración de la ciudad activa (flavor).
   final CityConfig cityConfig;
 
-  AparcabicisApp({super.key, CityConfig? cityConfig})
-      : cityConfig = cityConfig ?? resolveCityConfig();
+  /// Backend simulado compartido por todos los repositorios fake.
+  final FakeBackend backend;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<CityConfig>.value(value: cityConfig),
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(
-          create: (_) => ParkingsProvider(seedParkings: cityConfig.seedParkings),
+          create: (_) => AuthProvider(
+            authRepository: FakeAuthRepository(backend),
+          ),
         ),
-        ChangeNotifierProvider(create: (_) => ReservationsProvider()),
+        ChangeNotifierProvider(
+          create: (_) => ParkingsProvider(
+            parkingsRepository: FakeParkingsRepository(backend),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ReservationsProvider(
+            reservationsRepository: FakeReservationsRepository(backend),
+            accessRepository: FakeAccessRepository(backend),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SessionProvider(
+            configRepository: FakeConfigRepository(backend),
+          ),
+        ),
       ],
       child: Platform.isIOS ? _buildCupertinoApp() : _buildMaterialApp(),
     );

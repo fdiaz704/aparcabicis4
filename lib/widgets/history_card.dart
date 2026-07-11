@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 import 'package:aparcabicis4/l10n/l10n.dart';
-import '../models/reservation_record.dart';
+import '../models/reservation.dart';
 import '../utils/constants.dart';
 import '../utils/helpers.dart';
 
 class HistoryCard extends StatelessWidget {
-  final ReservationRecord record;
+  final Reservation record;
   final VoidCallback? onTap;
 
   const HistoryCard({
@@ -159,6 +159,9 @@ class HistoryCard extends StatelessWidget {
 
   Color _getStatusColor(ReservationStatus status) {
     switch (status) {
+      case ReservationStatus.pending:
+      case ReservationStatus.active:
+        return AppColors.info;
       case ReservationStatus.completed:
         return AppColors.success;
       case ReservationStatus.cancelled:
@@ -170,6 +173,9 @@ class HistoryCard extends StatelessWidget {
 
   IconData _getStatusIcon(ReservationStatus status) {
     switch (status) {
+      case ReservationStatus.pending:
+      case ReservationStatus.active:
+        return Icons.access_time;
       case ReservationStatus.completed:
         return Icons.check_circle;
       case ReservationStatus.cancelled:
@@ -181,6 +187,9 @@ class HistoryCard extends StatelessWidget {
 
   String _getStatusText(BuildContext context, ReservationStatus status) {
     switch (status) {
+      case ReservationStatus.pending:
+      case ReservationStatus.active:
+        return context.l10n.historyCardUnfinished;
       case ReservationStatus.completed:
         return context.l10n.historyCardCompleted;
       case ReservationStatus.cancelled:

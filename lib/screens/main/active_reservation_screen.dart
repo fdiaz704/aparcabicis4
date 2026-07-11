@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 import 'package:aparcabicis4/l10n/l10n.dart';
+import '../../models/access_result.dart';
+import '../../models/parking.dart';
 import '../../providers/reservations_provider.dart';
 import '../../providers/parkings_provider.dart';
 import '../../utils/constants.dart';
@@ -34,7 +36,17 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
           );
         }
 
-        final parking = reservationsProvider.activeReservation!;
+        // La reserva la sirve el backend; el aparcamiento (coordenadas, plazas)
+        // se resuelve por su id contra la lista de aparcamientos.
+        final reservation = reservationsProvider.activeReservation!;
+        final parking =
+            context.watch<ParkingsProvider>().getParkingById(reservation.parkingId);
+        if (parking == null) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
         final isReserved = reservationsProvider.reservationState == ReservationState.reserved;
         final isInUse = reservationsProvider.reservationState == ReservationState.inUse;
 
@@ -105,7 +117,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     );
   }
 
-  Widget _buildHeaderMap(dynamic parking, bool isReserved, bool isInUse) {
+  Widget _buildHeaderMap(Parking parking, bool isReserved, bool isInUse) {
     // Get all parkings to show nearby ones
     final parkingsProvider = Provider.of<ParkingsProvider>(context, listen: false);
 
@@ -181,7 +193,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     );
   }
 
-  Widget _buildParkingInfo(dynamic parking) {
+  Widget _buildParkingInfo(Parking parking) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -262,7 +274,8 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
 
   Widget _buildUsageTimer(ReservationsProvider reservationsProvider) {
     final usageTime = reservationsProvider.usageTime;
-    final progress = usageTime / AppConstants.maxUsageTimeSeconds;
+    final maxUsage = reservationsProvider.maxUsageSeconds;
+    final progress = maxUsage > 0 ? usageTime / maxUsage : 0.0;
     
     return Card(
       child: Padding(
@@ -295,7 +308,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
             const SizedBox(height: AppSpacing.sm),
             
             Text(
-              context.l10n.activeMaxTime(reservationsProvider.formatTime(AppConstants.maxUsageTimeSeconds)),
+              context.l10n.activeMaxTime(reservationsProvider.formatTime(maxUsage)),
               style: AppTextStyles.bodySmall.copyWith(color: Colors.grey[600]),
             ),
             
@@ -380,7 +393,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
           child: OutlinedButton(
             onPressed: isReserved
                 ? () => _handleCancelReservation(reservationsProvider)
-                : () => _handleFinishUsage(),
+                : () => _handleFinishUsage(reservationsProvider),
             style: OutlinedButton.styleFrom(
               foregroundColor: isReserved ? Colors.red : AppColors.primary,
               side: BorderSide(
@@ -474,67 +487,82 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     );
   }
 
-  void _handleOpenDoor(ReservationsProvider reservationsProvider) {
-    // Open door functionality
-    reservationsProvider.openDoor();
-    
-    // Show success message
-    AppHelpers.showSuccessSnackBar(context, context.l10n.activeDoorOpenedSuccess);
-  }
+  /// Abre la puerta (RF-4.2). Sobre una reserva `pending` esto provoca el
+  /// check-in en el servidor (pending → active, RF-4.3).
+  Future<void> _handleOpenDoor(ReservationsProvider reservationsProvider) async {
+    final result = await reservationsProvider.openDoor();
+    if (!mounted) return;
 
-  Future<void> _handleCancelReservation(ReservationsProvider reservationsProvider) async {
-    // Cancelar reserva directamente sin modal de confirmación
-
-    try {
-      // Restore parking availability
-      final parkingsProvider = context.read<ParkingsProvider>();
-      final parking = reservationsProvider.activeReservation!;
-      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
-
-      // Cancel reservation
-      await reservationsProvider.cancelReservation();
-
-      if (mounted) {
-        AppHelpers.showInfoSnackBar(context, context.l10n.activeReservationCancelled);
-        NavigationService.pushNamedAndClearStack(AppRoutes.main);
-      }
-    } catch (e) {
-      if (mounted) {
-        AppHelpers.showErrorSnackBar(context, context.l10n.activeCancelReservationError);
-      }
+    if (result.isOpened) {
+      AppHelpers.showSuccessSnackBar(context, context.l10n.activeDoorOpenedSuccess);
+    } else {
+      AppHelpers.showErrorSnackBar(context, _doorErrorMessage(result));
     }
   }
 
-  void _handleFinishUsage() {
+  /// Mensaje según el resultado de la pasarela. En `timeout` se avisa del modo
+  /// degradado (RF-4.7).
+  String _doorErrorMessage(AccessResult result) {
+    return result.isDegraded
+        ? context.l10n.activeDoorUnavailable
+        : context.l10n.activeDoorOpenError;
+  }
+
+  Future<void> _handleCancelReservation(
+    ReservationsProvider reservationsProvider,
+  ) async {
+    // La liberación de la plaza la hace el backend al cancelar.
+    final parkingsProvider = context.read<ParkingsProvider>();
+    final cancelled = await reservationsProvider.cancelReservation();
+    await parkingsProvider.refresh();
+
+    if (!mounted) return;
+
+    if (cancelled) {
+      AppHelpers.showInfoSnackBar(context, context.l10n.activeReservationCancelled);
+      NavigationService.pushNamedAndClearStack(AppRoutes.main);
+    } else {
+      AppHelpers.showErrorSnackBar(context, context.l10n.activeCancelReservationError);
+    }
+  }
+
+  /// Finalizar uso (RF-4.5): se abre la puerta para retirar el vehículo y, tras
+  /// confirmar la retirada en el modal, se hace el checkout.
+  Future<void> _handleFinishUsage(
+    ReservationsProvider reservationsProvider,
+  ) async {
+    final result = await reservationsProvider.openDoor();
+    if (!mounted) return;
+
+    if (!result.isOpened) {
+      AppHelpers.showErrorSnackBar(context, _doorErrorMessage(result));
+      return;
+    }
+
     setState(() {
       _showFinishModal = true;
     });
   }
 
+  /// Confirmación de "he retirado mi vehículo" ⇒ checkout (`completed`).
   Future<void> _closeFinishModal() async {
     setState(() {
       _showFinishModal = false;
     });
 
-    try {
-      // Restore parking availability
-      final reservationsProvider = context.read<ReservationsProvider>();
-      final parkingsProvider = context.read<ParkingsProvider>();
-      final parking = reservationsProvider.activeReservation!;
-      
-      parkingsProvider.updateParkingAvailability(parking.id, parking.availableSpots + 1);
+    final reservationsProvider = context.read<ReservationsProvider>();
+    final parkingsProvider = context.read<ParkingsProvider>();
 
-      // Finish usage
-      await reservationsProvider.finishUsage();
+    final finished = await reservationsProvider.finishUsage();
+    await parkingsProvider.refresh();
 
-      if (mounted) {
-        AppHelpers.showSuccessSnackBar(context, context.l10n.activeUsageFinishedSuccess);
-        NavigationService.pushNamedAndClearStack(AppRoutes.main);
-      }
-    } catch (e) {
-      if (mounted) {
-        AppHelpers.showErrorSnackBar(context, context.l10n.activeFinishUsageError);
-      }
+    if (!mounted) return;
+
+    if (finished) {
+      AppHelpers.showSuccessSnackBar(context, context.l10n.activeUsageFinishedSuccess);
+      NavigationService.pushNamedAndClearStack(AppRoutes.main);
+    } else {
+      AppHelpers.showErrorSnackBar(context, context.l10n.activeFinishUsageError);
     }
   }
 }

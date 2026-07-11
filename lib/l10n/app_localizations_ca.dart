@@ -15,7 +15,14 @@ class AppLocalizationsCa extends AppLocalizations {
   String get activeCancelReservationError => 'Error en cancel·lar la reserva';
 
   @override
+  String get activeDoorOpenError => 'No s\'ha pogut obrir la porta';
+
+  @override
   String get activeDoorOpenedSuccess => 'Porta oberta correctament';
+
+  @override
+  String get activeDoorUnavailable =>
+      'La porta no respon. Torna-ho a provar o contacta amb suport.';
 
   @override
   String get activeFinalInstructions => 'Instruccions finals';

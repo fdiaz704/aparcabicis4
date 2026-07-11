@@ -5,6 +5,7 @@ import 'package:aparcabicis4/l10n/l10n.dart';
 import '../providers/auth_provider.dart';
 import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
+import '../providers/session_provider.dart';
 import '../utils/constants.dart';
 import '../services/navigation_service.dart';
 import '../utils/platform_icons.dart';
@@ -61,21 +62,28 @@ class _SplashScreenState extends State<SplashScreen>
       final authProvider = context.read<AuthProvider>();
       final parkingsProvider = context.read<ParkingsProvider>();
       final reservationsProvider = context.read<ReservationsProvider>();
-      
+      final sessionProvider = context.read<SessionProvider>();
+
       // Initialize all providers
       await Future.wait([
         authProvider.initialize(),
         parkingsProvider.initialize(),
         reservationsProvider.initialize(),
       ]);
-      
+
+      // Con sesión restaurada, el bootstrap trae perfil, parámetros del sistema
+      // y la reserva en curso en una sola llamada (RF-B.1).
+      if (authProvider.isLoggedIn) {
+        await sessionProvider.load();
+      }
+
       // Wait minimum time for splash screen
       await Future.delayed(const Duration(seconds: 2));
-      
+
       // Navigate to appropriate screen
       if (mounted) {
         if (authProvider.isLoggedIn) {
-          // Check if there's an active reservation
+          // Si hay uso en curso, se va directamente a él (RF-B.3).
           if (reservationsProvider.hasActiveReservation) {
             NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
           } else {
