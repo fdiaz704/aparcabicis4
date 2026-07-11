@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 import 'dart:io';
 import 'platform_widgets.dart';
-import 'platform_icons.dart';
 
 class AppHelpers {
   // Email validation

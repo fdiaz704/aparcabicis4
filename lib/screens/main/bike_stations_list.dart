@@ -4,11 +4,8 @@ import 'package:lucide_flutter/lucide_flutter.dart';
 
 import '../../providers/stations_provider.dart';
 import '../../providers/reservations_provider.dart';
-import '../../models/bike_station.dart';
 import '../../utils/constants.dart';
-import '../../utils/helpers.dart';
 import '../../utils/platform_widgets.dart';
-import '../../services/navigation_service.dart';
 import '../../widgets/bike_station_card.dart';
 
 class BikeStationsList extends StatefulWidget {
@@ -20,7 +17,6 @@ class BikeStationsList extends StatefulWidget {
 
 class _BikeStationsListState extends State<BikeStationsList> {
   final _searchController = TextEditingController();
-  bool _isFilterOpen = false;
 
   @override
   void initState() {
