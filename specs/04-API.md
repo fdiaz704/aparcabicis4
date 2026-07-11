@@ -12,10 +12,15 @@ Errores: `{ "error": { "code": "RESERVATION_CONFLICT", "message": "..." } }` con
 | POST | /auth/forgot-password | `{email}` | 202 (siempre, sin revelar existencia) |
 | POST | /auth/reset-password | `{token, newPassword}` | 200 |
 
-## Config de app (público — actualización forzada, req. #2)
-| Método | Ruta | Respuesta |
-|---|---|---|
-| GET | /config/app?city=<slug>&platform=android\|ios | `{latestVersion, minVersion, forceUpdate, storeUrl, termsUrl, privacyUrl}` |
+## Comprobación de versión (público — actualización forzada, req. #2)
+| Método | Ruta | Body | Respuesta |
+|---|---|---|---|
+| POST | /check_version | `{platform, version_code, build_number}` | `{latest_version, latest_build, force_update, url, client_known}` |
+
+- `platform`: `android` \| `ios`. `version_code` (p. ej. `"1.0.0"`) y `build_number` (entero) del binario instalado (package_info_plus).
+- `force_update=true` ⇒ actualización obligatoria (pantalla bloqueante). Si `latest_build > build_number` sin forzar ⇒ aviso descartable.
+- `client_known=false` indica que el backend no reconoce esa combinación plataforma/versión (cliente no registrado en `app_versions`).
+- `url`: enlace de la tienda para actualizar. Las URLs legales (términos/privacidad) **no** van aquí: la app las toma de `CityConfig` (flavor).
 
 ## Bootstrap de sesión (autenticado — req. #4)
 | Método | Ruta | Respuesta |

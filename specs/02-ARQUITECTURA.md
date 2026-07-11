@@ -14,7 +14,7 @@
                     │ HTTPS + JWT
 ┌─────────────────── Backend propio (API REST) ──────────────────────┐
 │  Auth (JWT) · Parkings · Reservations · Access · Users             │
-│  PostgreSQL                                                        │
+│  MariaDB                                                           │
 │  Gateway de acceso ── MQTT / API fabricante ──► Hardware puertas   │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -62,18 +62,18 @@ lib/
 ```
 
 ### Servicios transversales nuevos
-- **VersionCheckService** (splash): versión instalada vs tienda (`upgrader`) con respaldo `GET /config/app`; si procede, pantalla bloqueante → tienda.
+- **VersionCheckService** (splash): consulta `POST /check_version` con `{platform, version_code, build_number}` del binario instalado (package_info_plus). Respuesta `{latest_version, latest_build, force_update, url, client_known}`: si `force_update=true` ⇒ pantalla **bloqueante** no descartable con botón "Actualizar" (abre `url`); si `latest_build > build instalado` (sin forzar) ⇒ **aviso descartable**. `upgrader` puede seguir usándose como señal complementaria de tienda.
 - **BiometricService**: alta al activar "Recuérdame"; restaura sesión con biometría; fallback a contraseña.
 - **LocalNotificationsService**: programa series contra `expiresAt` (T−10', T−5', T) y `maxUntil` (T−30', T−15', T−5', luego cada 30'); se reprograma en cada sync con la API y se cancela en checkout/cancelación.
 - **RouteService**: Directions API → polyline + ETA; compara ETA con ventana de reserva restante.
 
 ## 3. Backend propio — alcance de la spec
 
-El contrato manda (04-API.md): cualquier stack que lo cumpla vale. **Sugerido:** Node.js (Fastify o NestJS) + PostgreSQL + Prisma, JWT RS256, desplegable en Docker. Repositorio separado del de la app (`aparcabicis4-api`).
+El contrato manda (04-API.md): cualquier stack que lo cumpla vale. **Elegido:** **PHP 8 + MySQL/MariaDB** sobre el hosting **LAMP** existente, con framework **Slim** (o equivalente) y JWT. Sin Docker ni ORM impuesto. El job de expiración de reservas se ejecuta con el **cron del hosting**. Repositorio separado del de la app (`aparcabicis4-api`).
 
 Módulos:
-- **auth**: registro, login, refresh, recuperación (email vía SMTP/SendGrid), borrado de cuenta.
+- **auth**: registro, login, refresh, recuperación (email vía SMTP del hosting), borrado de cuenta.
 - **parkings**: CRUD (admin) + lectura pública autenticada; ocupación derivada de reservas activas + señal del hardware si existe.
-- **reservations**: máquina de estados `pending → active → completed | cancelled | expired`. Job programado que expira reservas vencidas.
+- **reservations**: máquina de estados `pending → active → completed | cancelled | expired`. Job de expiración de reservas vencidas ejecutado por el **cron del hosting** (LAMP).
 - **access**: endpoint de apertura; publica comando a la pasarela y espera ACK con timeout de 5 s; audita todo en `access_events`.
 - **gateway hardware**: adaptador con interfaz `GateController { open(parkingId, doorId): Result }`. Implementaciones: `MqttGateController` (real) y `SimGateController` (simulador que responde éxito/fallo configurable). *

@@ -16,7 +16,7 @@ Prioridad: **M** = imprescindible v1 · **S** = deseable v1 · **C** = futuro.
 | ID | Requisito | Prioridad |
 |---|---|---|
 | RF-A.1 | En el splash, comparar versión instalada (package_info_plus) con la última publicada en tiendas (paquete `upgrader`: iTunes Lookup en iOS, Play en Android) | M |
-| RF-A.2 | Respaldo backend: `GET /config/app` devuelve `latestVersion`, `minVersion`, `forceUpdate`, `storeUrls` (fuente de verdad si la lectura de tienda falla) | M |
+| RF-A.2 | Comprobación de versión vía backend: `POST /check_version` con `{platform, version_code, build_number}` devuelve `{latest_version, latest_build, force_update, url, client_known}` (fuente de verdad si la lectura de tienda falla) | M |
 | RF-A.3 | Si hay versión más reciente ⇒ pantalla bloqueante no descartable con botón "Actualizar" que abre la tienda; el usuario no puede continuar | M |
 | RF-A.4 | Si la comprobación falla (sin red, tienda no responde) ⇒ la app continúa y reintenta en el siguiente arranque (no bloquear por un fallo de la comprobación) | M |
 

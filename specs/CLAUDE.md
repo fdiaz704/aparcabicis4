@@ -36,10 +36,10 @@ flutter pub get
 flutter analyze
 flutter test
 flutter run --dart-define=ENV=dev        # dev = repositorios fake, sin backend
-flutter run --dart-define=ENV=staging    # staging = API local (docker compose up en aparcabicis4-api)
+flutter run --dart-define=ENV=staging    # staging = API local (PHP 8 + MySQL/MariaDB de aparcabicis4-api)
 ```
 
 ## Backend (repo aparcabicis4-api — fase 3)
-- Stack: Node.js (Fastify o NestJS) + PostgreSQL + Prisma, JWT RS256, Docker.
+- Stack: PHP 8 + MySQL/MariaDB sobre hosting LAMP existente, framework Slim (o equivalente), JWT. Sin Docker. Job de expiración vía cron del hosting.
 - Implementar exactamente `specs/04-API.md` y `specs/03-MODELO-DATOS.md`.
 - La pasarela hardware se desarrolla contra `SimGateCo

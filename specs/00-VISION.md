@@ -29,7 +29,7 @@ Flujo feliz:
 | Decisión | Valor |
 |---|---|
 | Base de código | Evolucionar Aparcabicis4 (Flutter) |
-| Backend | Propio, API REST (contrato en 04-API.md; stack sugerido: Node.js + PostgreSQL, sustituible) |
+| Backend | Propio, API REST (contrato en 04-API.md; **PHP 8 + MySQL/MariaDB** sobre hosting **LAMP** existente, framework Slim o equivalente) |
 | Apertura de puerta | Comando remoto app → backend → pasarela hardware (MQTT o API del fabricante) |
 | Pagos | Fuera de v1; modelo de datos preparado |
 | **Multi-ciudad** | Desarrollo estándar con un **flavor por ciudad** (config, branding, tiendas y API base por flavor) |
