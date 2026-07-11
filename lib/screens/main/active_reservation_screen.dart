@@ -496,16 +496,30 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     if (result.isOpened) {
       AppHelpers.showSuccessSnackBar(context, context.l10n.activeDoorOpenedSuccess);
     } else {
-      AppHelpers.showErrorSnackBar(context, _doorErrorMessage(result));
+      _showDoorFailure(result);
     }
   }
 
-  /// Mensaje según el resultado de la pasarela. En `timeout` se avisa del modo
-  /// degradado (RF-4.7).
-  String _doorErrorMessage(AccessResult result) {
-    return result.isDegraded
-        ? context.l10n.activeDoorUnavailable
-        : context.l10n.activeDoorOpenError;
+  /// Fallo de apertura. Si la pasarela no responde (`timeout`) se entra en modo
+  /// degradado: mensaje + acceso al teléfono de soporte (RF-4.7).
+  void _showDoorFailure(AccessResult result) {
+    if (!result.isDegraded) {
+      AppHelpers.showErrorSnackBar(context, context.l10n.activeDoorOpenError);
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.l10n.activeDoorUnavailable),
+        backgroundColor: AppColors.error,
+        duration: const Duration(seconds: 8),
+        action: SnackBarAction(
+          label: context.l10n.settingsCallSupport,
+          textColor: Colors.white,
+          onPressed: () => AppHelpers.launchPhoneCall(AppConstants.supportPhone),
+        ),
+      ),
+    );
   }
 
   Future<void> _handleCancelReservation(
@@ -535,7 +549,7 @@ class _ActiveReservationScreenState extends State<ActiveReservationScreen> {
     if (!mounted) return;
 
     if (!result.isOpened) {
-      AppHelpers.showErrorSnackBar(context, _doorErrorMessage(result));
+      _showDoorFailure(result);
       return;
     }
 

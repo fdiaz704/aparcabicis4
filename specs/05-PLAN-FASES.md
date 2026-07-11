@@ -23,7 +23,7 @@ Objetivo: fuentes de datos tras interfaces; sesión segura con biometría; todo 
 2. [x] Providers dependen solo de interfaces (inyección por constructor); `SessionProvider` consume el bootstrap fake (user + params + currentReservation).
 3. [x] Persistencia unificada en `StorageService`; tokens en `flutter_secure_storage`; **eliminar el guardado de contraseña** ("Recuérdame" = mantener sesión).
 4. [x] **Biometría** (local_auth): alta al activar "Recuérdame"; restauración de sesión con huella/Face ID y fallback a contraseña (HU-2).
-5. [ ] Botón "Abrir puerta" contra `FakeAccessRepository`: flujo reservar → open (check-in) → open + confirmar (checkout).
+5. [x] Botón "Abrir puerta" contra `FakeAccessRepository`: flujo reservar → open (check-in) → open + confirmar (checkout).
 6. [ ] Tests unitarios de providers contra fakes + widget test del flujo completo.
 
 **DoD:** ningún provider toca SharedPreferences/datos hardcodeados; biometría operativa en dispositivo; tests verdes.
