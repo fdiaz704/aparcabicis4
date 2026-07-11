@@ -236,6 +236,54 @@ abstract class AppLocalizations {
   /// **'Aparcabicis'**
   String get appName;
 
+  /// Botón para activar la biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Activar'**
+  String get biometricEnableAccept;
+
+  /// Explicación del diálogo de alta de biometría
+  ///
+  /// In es, this message translates to:
+  /// **'La próxima vez podrás restaurar tu sesión con huella o Face ID, sin escribir la contraseña.'**
+  String get biometricEnableMessage;
+
+  /// Botón para posponer la activación de biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no'**
+  String get biometricEnableSkip;
+
+  /// Título del diálogo que ofrece activar la biometría
+  ///
+  /// In es, this message translates to:
+  /// **'¿Activar acceso biométrico?'**
+  String get biometricEnableTitle;
+
+  /// Confirmación de biometría activada
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico activado'**
+  String get biometricEnabledSuccess;
+
+  /// Mensaje de fallback cuando la biometría falla
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo verificar tu identidad. Inicia sesión con tu contraseña.'**
+  String get biometricFallbackMessage;
+
+  /// Motivo mostrado en el diálogo biométrico del sistema
+  ///
+  /// In es, this message translates to:
+  /// **'Confirma tu identidad para acceder a Aparcabicis'**
+  String get biometricPromptReason;
+
+  /// Aviso de dispositivo sin biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Este dispositivo no tiene biometría configurada'**
+  String get biometricUnavailable;
+
   /// Botón cancelar en cambiar contraseña
   ///
   /// In es, this message translates to:

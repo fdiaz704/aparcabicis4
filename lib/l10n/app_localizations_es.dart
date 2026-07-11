@@ -85,6 +85,34 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appName => 'Aparcabicis';
 
   @override
+  String get biometricEnableAccept => 'Activar';
+
+  @override
+  String get biometricEnableMessage =>
+      'La próxima vez podrás restaurar tu sesión con huella o Face ID, sin escribir la contraseña.';
+
+  @override
+  String get biometricEnableSkip => 'Ahora no';
+
+  @override
+  String get biometricEnableTitle => '¿Activar acceso biométrico?';
+
+  @override
+  String get biometricEnabledSuccess => 'Acceso biométrico activado';
+
+  @override
+  String get biometricFallbackMessage =>
+      'No se pudo verificar tu identidad. Inicia sesión con tu contraseña.';
+
+  @override
+  String get biometricPromptReason =>
+      'Confirma tu identidad para acceder a Aparcabicis';
+
+  @override
+  String get biometricUnavailable =>
+      'Este dispositivo no tiene biometría configurada';
+
+  @override
   String get changePasswordCancelButton => 'Cancelar';
 
   @override

@@ -1,5 +1,7 @@
 package com.r3recymed.aparcabicis
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// local_auth requiere FlutterFragmentActivity (no FlutterActivity) para poder
+// mostrar el diálogo biométrico de AndroidX.
+class MainActivity : FlutterFragmentActivity()

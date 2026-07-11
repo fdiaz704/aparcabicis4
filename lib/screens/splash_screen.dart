@@ -49,8 +49,9 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeOutBack,
     ));
     
-    // Start initialization
-    _initializeApp();
+    // Se difiere al primer frame: _initializeApp usa las localizaciones, que no
+    // están disponibles hasta que initState ha terminado.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeApp());
   }
 
   Future<void> _initializeApp() async {
@@ -64,9 +65,12 @@ class _SplashScreenState extends State<SplashScreen>
       final reservationsProvider = context.read<ReservationsProvider>();
       final sessionProvider = context.read<SessionProvider>();
 
-      // Initialize all providers
+      // Con biometría habilitada, initialize() pide huella/Face ID para
+      // restaurar la sesión; si falla, cae al login con contraseña (RF-1.6).
+      final biometricReason = context.l10n.biometricPromptReason;
+
       await Future.wait([
-        authProvider.initialize(),
+        authProvider.initialize(biometricReason: biometricReason),
         parkingsProvider.initialize(),
         reservationsProvider.initialize(),
       ]);

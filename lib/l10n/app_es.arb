@@ -96,6 +96,38 @@
   "@appName": {
     "description": "Nombre de la aplicación"
   },
+  "biometricEnableAccept": "Activar",
+  "@biometricEnableAccept": {
+    "description": "Botón para activar la biometría"
+  },
+  "biometricEnableMessage": "La próxima vez podrás restaurar tu sesión con huella o Face ID, sin escribir la contraseña.",
+  "@biometricEnableMessage": {
+    "description": "Explicación del diálogo de alta de biometría"
+  },
+  "biometricEnableSkip": "Ahora no",
+  "@biometricEnableSkip": {
+    "description": "Botón para posponer la activación de biometría"
+  },
+  "biometricEnableTitle": "¿Activar acceso biométrico?",
+  "@biometricEnableTitle": {
+    "description": "Título del diálogo que ofrece activar la biometría"
+  },
+  "biometricEnabledSuccess": "Acceso biométrico activado",
+  "@biometricEnabledSuccess": {
+    "description": "Confirmación de biometría activada"
+  },
+  "biometricFallbackMessage": "No se pudo verificar tu identidad. Inicia sesión con tu contraseña.",
+  "@biometricFallbackMessage": {
+    "description": "Mensaje de fallback cuando la biometría falla"
+  },
+  "biometricPromptReason": "Confirma tu identidad para acceder a Aparcabicis",
+  "@biometricPromptReason": {
+    "description": "Motivo mostrado en el diálogo biométrico del sistema"
+  },
+  "biometricUnavailable": "Este dispositivo no tiene biometría configurada",
+  "@biometricUnavailable": {
+    "description": "Aviso de dispositivo sin biometría"
+  },
   "changePasswordCancelButton": "Cancelar",
   "@changePasswordCancelButton": {
     "description": "Botón cancelar en cambiar contraseña"

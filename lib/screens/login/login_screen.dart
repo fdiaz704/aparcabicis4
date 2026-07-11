@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _loadSavedCredentials() async {
     try {
       final authProvider = context.read<AuthProvider>();
-      // "Recuérdame" only restores the email; the password is never stored.
+      // "Recuérdame" solo restaura el email; la contraseña nunca se guarda.
       final savedEmail = await authProvider.getSavedEmail();
 
       if (savedEmail != null && savedEmail.isNotEmpty) {
@@ -48,10 +48,56 @@ class _LoginScreenState extends State<LoginScreen> {
           _rememberMe = true;
         });
       }
+
+      // Si había sesión guardada pero la biometría falló, se avisa de que hay
+      // que entrar con la contraseña (fallback, RF-1.6).
+      if (mounted && authProvider.biometricFallbackRequired) {
+        AppHelpers.showInfoSnackBar(context, context.l10n.biometricFallbackMessage);
+      }
     } catch (e) {
       debugPrint('Load saved email error: $e');
     }
   }
+
+  /// Tras iniciar sesión con "Recuérdame", se ofrece dar de alta la biometría
+  /// para restaurar la sesión sin contraseña la próxima vez (RF-1.6).
+  Future<void> _offerBiometrics(AuthProvider authProvider) async {
+    if (!_rememberMe || authProvider.isBiometricEnabled) return;
+    if (!await authProvider.isBiometricAvailable()) return;
+    if (!mounted) return;
+
+    final accepted = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(dialogContext.l10n.biometricEnableTitle),
+        content: Text(dialogContext.l10n.biometricEnableMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(dialogContext.l10n.biometricEnableSkip),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(dialogContext.l10n.biometricEnableAccept),
+          ),
+        ],
+      ),
+    );
+
+    if (accepted != true || !mounted) return;
+
+    final enabled =
+        await authProvider.enableBiometrics(context.mounted ? _biometricReason() : '');
+    if (!mounted) return;
+
+    if (enabled) {
+      AppHelpers.showSuccessSnackBar(context, context.l10n.biometricEnabledSuccess);
+    } else {
+      AppHelpers.showInfoSnackBar(context, context.l10n.biometricUnavailable);
+    }
+  }
+
+  String _biometricReason() => context.l10n.biometricPromptReason;
 
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
@@ -72,6 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
         AppHelpers.showErrorSnackBar(context, context.l10n.loginInvalidCredentials);
         return;
       }
+
+      // Con "Recuérdame" activo se ofrece dar de alta la biometría (RF-1.6).
+      await _offerBiometrics(authProvider);
+      if (!mounted) return;
 
       // Tras el login, el bootstrap trae perfil, parámetros del sistema y la
       // reserva en curso en una sola llamada (RF-B.1).
