@@ -69,6 +69,12 @@ android {
             versionNameSuffix = "-demo"
             resValue("string", "app_name", "Aparcabicis Demo")
         }
+        create("palma") {
+            dimension = "city"
+            applicationIdSuffix = ".palma"
+            versionNameSuffix = "-palma"
+            resValue("string", "app_name", "Aparcabicis Palma")
+        }
     }
 }
 
