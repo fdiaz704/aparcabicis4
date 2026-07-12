@@ -1174,12 +1174,6 @@ class AppLocalizationsCa extends AppLocalizations {
       'Actualitzar la teua contrasenya d\'accés';
 
   @override
-  String get settingsDarkMode => 'Mode fosc';
-
-  @override
-  String get settingsDarkModeSubtitle => 'Usar tema fosc en l\'aplicació';
-
-  @override
   String get settingsDeleteAccount => 'Eliminar compte';
 
   @override
@@ -1234,21 +1228,14 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsLanguage => 'Idioma';
 
   @override
-  String get settingsLanguageValue => 'Valencià';
-
-  @override
   String get settingsNotifications => 'Notificacions';
 
   @override
   String get settingsNotificationsSubtitle =>
-      'Rebre notificacions de reserves i recordatoris';
+      'Preferència desada; els avisos push arribaran pròximament';
 
   @override
   String get settingsPrivacy => 'Política de privacitat';
-
-  @override
-  String get settingsPrivacyInDevelopment =>
-      'Política de privacitat - Funcionalitat en desenvolupament';
 
   @override
   String get settingsPrivacySubtitle =>
@@ -1256,10 +1243,6 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get settingsTerms => 'Termes de servei';
-
-  @override
-  String get settingsTermsInDevelopment =>
-      'Termes de servei - Funcionalitat en desenvolupament';
 
   @override
   String get settingsTermsSubtitle => 'Llig els nostres termes i condicions';
@@ -1304,4 +1287,37 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get updateStoreError => 'No s\'ha pogut obrir la botiga.';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeSystem => 'Automàtic (sistema)';
+
+  @override
+  String get settingsThemeLight => 'Clar';
+
+  @override
+  String get settingsThemeDark => 'Fosc';
+
+  @override
+  String get settingsLanguageSystem => 'Automàtic (sistema)';
+
+  @override
+  String get settingsLanguageSpanish => 'Castellà';
+
+  @override
+  String get settingsLanguageValencian => 'Valencià';
+
+  @override
+  String get settingsCity => 'Ciutat';
+
+  @override
+  String get settingsPlatform => 'Sistema';
+
+  @override
+  String get settingsLinkError => 'No s\'ha pogut obrir l\'enllaç';
+
+  @override
+  String get settingsThemeSubtitle => 'Tria l\'aspecte de l\'aplicació';
 }

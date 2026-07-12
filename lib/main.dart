@@ -21,6 +21,7 @@ import 'services/version_check_service.dart';
 // Providers
 import 'providers/auth_provider.dart';
 import 'providers/parkings_provider.dart';
+import 'providers/preferences_provider.dart';
 import 'providers/reservations_provider.dart';
 import 'providers/session_provider.dart';
 
@@ -155,6 +156,8 @@ class AparcabicisApp extends StatelessWidget {
             configRepository: FakeConfigRepository(backend),
           ),
         ),
+        // Ajustes: idioma, tema y avisos (RF-6). Cambian la app en caliente.
+        ChangeNotifierProvider(create: (_) => PreferencesProvider()),
         // Comprobación de versión en el arranque (RF-A.2). En fase 4 el
         // repositorio fake se sustituye por el que llama a POST /check_version.
         Provider<VersionCheckService>(
@@ -165,12 +168,19 @@ class AparcabicisApp extends StatelessWidget {
               ),
         ),
       ],
-      child: Platform.isIOS ? _buildCupertinoApp() : _buildMaterialApp(),
+      // El idioma y el tema se leen aquí arriba: cambiarlos en Ajustes
+      // reconstruye la app entera, sin reiniciar.
+      child: Consumer<PreferencesProvider>(
+        builder: (context, preferences, _) => Platform.isIOS
+            ? _buildCupertinoApp(preferences)
+            : _buildMaterialApp(preferences),
+      ),
     );
   }
 
-  Widget _buildCupertinoApp() {
+  Widget _buildCupertinoApp(PreferencesProvider preferences) {
     return CupertinoApp(
+      locale: preferences.locale,
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
@@ -185,11 +195,13 @@ class AparcabicisApp extends StatelessWidget {
 
       // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      
+      supportedLocales: cityConfig.supportedLocales,
+
       // Cupertino Theme
-      theme: AdaptiveTheme.getCupertinoTheme(),
-      
+      theme: AdaptiveTheme.getCupertinoTheme(
+        brightness: AdaptiveTheme.cupertinoBrightnessFor(preferences.themeMode),
+      ),
+
       // Routes
       initialRoute: '/',
       routes: {
@@ -209,8 +221,9 @@ class AparcabicisApp extends StatelessWidget {
     );
   }
 
-  Widget _buildMaterialApp() {
+  Widget _buildMaterialApp(PreferencesProvider preferences) {
     return MaterialApp(
+      locale: preferences.locale,
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
@@ -225,12 +238,13 @@ class AparcabicisApp extends StatelessWidget {
 
       // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      
+      supportedLocales: cityConfig.supportedLocales,
+
       // Material Theme
       theme: AdaptiveTheme.getMaterialTheme(),
       darkTheme: AdaptiveTheme.getMaterialTheme(isDark: true),
-      
+      themeMode: preferences.themeMode,
+
       // Routes
       initialRoute: '/',
       routes: {

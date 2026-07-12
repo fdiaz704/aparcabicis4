@@ -1167,12 +1167,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Actualizar tu contraseña de acceso';
 
   @override
-  String get settingsDarkMode => 'Modo oscuro';
-
-  @override
-  String get settingsDarkModeSubtitle => 'Usar tema oscuro en la aplicación';
-
-  @override
   String get settingsDeleteAccount => 'Eliminar cuenta';
 
   @override
@@ -1227,21 +1221,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsLanguage => 'Idioma';
 
   @override
-  String get settingsLanguageValue => 'Español';
-
-  @override
   String get settingsNotifications => 'Notificaciones';
 
   @override
   String get settingsNotificationsSubtitle =>
-      'Recibir notificaciones de reservas y recordatorios';
+      'Preferencia guardada; los avisos push llegarán próximamente';
 
   @override
   String get settingsPrivacy => 'Política de privacidad';
-
-  @override
-  String get settingsPrivacyInDevelopment =>
-      'Política de privacidad - Funcionalidad en desarrollo';
 
   @override
   String get settingsPrivacySubtitle =>
@@ -1249,10 +1236,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsTerms => 'Términos de servicio';
-
-  @override
-  String get settingsTermsInDevelopment =>
-      'Términos de servicio - Funcionalidad en desarrollo';
 
   @override
   String get settingsTermsSubtitle => 'Lee nuestros términos y condiciones';
@@ -1297,4 +1280,37 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get updateStoreError => 'No se pudo abrir la tienda.';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeSystem => 'Automático (sistema)';
+
+  @override
+  String get settingsThemeLight => 'Claro';
+
+  @override
+  String get settingsThemeDark => 'Oscuro';
+
+  @override
+  String get settingsLanguageSystem => 'Automático (sistema)';
+
+  @override
+  String get settingsLanguageSpanish => 'Castellano';
+
+  @override
+  String get settingsLanguageValencian => 'Valencià';
+
+  @override
+  String get settingsCity => 'Ciudad';
+
+  @override
+  String get settingsPlatform => 'Sistema';
+
+  @override
+  String get settingsLinkError => 'No se pudo abrir el enlace';
+
+  @override
+  String get settingsThemeSubtitle => 'Elige el aspecto de la aplicación';
 }

@@ -31,7 +31,12 @@ class AppConstants {
       'bikeParking_currentReservation';
   // Preferencia de biometría para restaurar sesión (RF-1.6).
   static const String prefKeyBiometricEnabled = 'bikeParking_biometricEnabled';
-  
+  // Preferencias de Ajustes. En fase 4 se sincronizan con PATCH /me/preferences.
+  static const String prefKeyThemeMode = 'bikeParking_themeMode';
+  static const String prefKeyLocale = 'bikeParking_locale';
+  static const String prefKeyNotificationsEnabled =
+      'bikeParking_notificationsEnabled';
+
   // Bloqueo biométrico (RF-1.6): al volver del segundo plano se vuelve a pedir
   // la biometría solo si la app estuvo fuera más de este margen, para no
   // pedirla en cambios de foco fugaces.

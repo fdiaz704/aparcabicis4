@@ -1515,14 +1515,6 @@
   "@settingsChangePasswordSubtitle": {
     "description": "Subtítulo de la acción cambiar contraseña"
   },
-  "settingsDarkMode": "Modo oscuro",
-  "@settingsDarkMode": {
-    "description": "Título del ajuste de modo oscuro"
-  },
-  "settingsDarkModeSubtitle": "Usar tema oscuro en la aplicación",
-  "@settingsDarkModeSubtitle": {
-    "description": "Subtítulo del ajuste de modo oscuro"
-  },
   "settingsDeleteAccount": "Eliminar cuenta",
   "@settingsDeleteAccount": {
     "description": "Título de la acción eliminar cuenta"
@@ -1587,25 +1579,17 @@
   "@settingsLanguage": {
     "description": "Título del ajuste de idioma"
   },
-  "settingsLanguageValue": "Español",
-  "@settingsLanguageValue": {
-    "description": "Valor mostrado del idioma seleccionado"
-  },
   "settingsNotifications": "Notificaciones",
   "@settingsNotifications": {
     "description": "Título del ajuste de notificaciones"
   },
-  "settingsNotificationsSubtitle": "Recibir notificaciones de reservas y recordatorios",
+  "settingsNotificationsSubtitle": "Preferencia guardada; los avisos push llegarán próximamente",
   "@settingsNotificationsSubtitle": {
     "description": "Subtítulo del ajuste de notificaciones"
   },
   "settingsPrivacy": "Política de privacidad",
   "@settingsPrivacy": {
     "description": "Título de la acción de política de privacidad"
-  },
-  "settingsPrivacyInDevelopment": "Política de privacidad - Funcionalidad en desarrollo",
-  "@settingsPrivacyInDevelopment": {
-    "description": "Aviso de que la política de privacidad está en desarrollo"
   },
   "settingsPrivacySubtitle": "Información sobre el manejo de tus datos",
   "@settingsPrivacySubtitle": {
@@ -1614,10 +1598,6 @@
   "settingsTerms": "Términos de servicio",
   "@settingsTerms": {
     "description": "Título de la acción de términos de servicio"
-  },
-  "settingsTermsInDevelopment": "Términos de servicio - Funcionalidad en desarrollo",
-  "@settingsTermsInDevelopment": {
-    "description": "Aviso de que los términos de servicio están en desarrollo"
   },
   "settingsTermsSubtitle": "Lee nuestros términos y condiciones",
   "@settingsTermsSubtitle": {
@@ -1681,5 +1661,49 @@
   "@updateStoreError": {
     "description": "Error al abrir el enlace de la tienda"
   },
-  "@@locale": "es"
+  "@@locale": "es",
+  "settingsTheme": "Tema",
+  "@settingsTheme": {
+    "description": "Título de la fila de tema en Ajustes"
+  },
+  "settingsThemeSystem": "Automático (sistema)",
+  "@settingsThemeSystem": {
+    "description": "Opción de tema: seguir al del dispositivo"
+  },
+  "settingsThemeLight": "Claro",
+  "@settingsThemeLight": {
+    "description": "Opción de tema claro"
+  },
+  "settingsThemeDark": "Oscuro",
+  "@settingsThemeDark": {
+    "description": "Opción de tema oscuro"
+  },
+  "settingsLanguageSystem": "Automático (sistema)",
+  "@settingsLanguageSystem": {
+    "description": "Opción de idioma: seguir al del dispositivo"
+  },
+  "settingsLanguageSpanish": "Castellano",
+  "@settingsLanguageSpanish": {
+    "description": "Opción de idioma castellano"
+  },
+  "settingsLanguageValencian": "Valencià",
+  "@settingsLanguageValencian": {
+    "description": "Opción de idioma valenciano"
+  },
+  "settingsCity": "Ciudad",
+  "@settingsCity": {
+    "description": "Fila de ciudad en Acerca de"
+  },
+  "settingsPlatform": "Sistema",
+  "@settingsPlatform": {
+    "description": "Fila del sistema operativo en Acerca de"
+  },
+  "settingsLinkError": "No se pudo abrir el enlace",
+  "@settingsLinkError": {
+    "description": "Error al abrir términos o privacidad"
+  },
+  "settingsThemeSubtitle": "Elige el aspecto de la aplicación",
+  "@settingsThemeSubtitle": {
+    "description": "Subtítulo de la fila de tema"
+  }
 }

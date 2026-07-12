@@ -2144,18 +2144,6 @@ abstract class AppLocalizations {
   /// **'Actualizar tu contraseña de acceso'**
   String get settingsChangePasswordSubtitle;
 
-  /// Título del ajuste de modo oscuro
-  ///
-  /// In es, this message translates to:
-  /// **'Modo oscuro'**
-  String get settingsDarkMode;
-
-  /// Subtítulo del ajuste de modo oscuro
-  ///
-  /// In es, this message translates to:
-  /// **'Usar tema oscuro en la aplicación'**
-  String get settingsDarkModeSubtitle;
-
   /// Título de la acción eliminar cuenta
   ///
   /// In es, this message translates to:
@@ -2252,12 +2240,6 @@ abstract class AppLocalizations {
   /// **'Idioma'**
   String get settingsLanguage;
 
-  /// Valor mostrado del idioma seleccionado
-  ///
-  /// In es, this message translates to:
-  /// **'Español'**
-  String get settingsLanguageValue;
-
   /// Título del ajuste de notificaciones
   ///
   /// In es, this message translates to:
@@ -2267,7 +2249,7 @@ abstract class AppLocalizations {
   /// Subtítulo del ajuste de notificaciones
   ///
   /// In es, this message translates to:
-  /// **'Recibir notificaciones de reservas y recordatorios'**
+  /// **'Preferencia guardada; los avisos push llegarán próximamente'**
   String get settingsNotificationsSubtitle;
 
   /// Título de la acción de política de privacidad
@@ -2275,12 +2257,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Política de privacidad'**
   String get settingsPrivacy;
-
-  /// Aviso de que la política de privacidad está en desarrollo
-  ///
-  /// In es, this message translates to:
-  /// **'Política de privacidad - Funcionalidad en desarrollo'**
-  String get settingsPrivacyInDevelopment;
 
   /// Subtítulo de la acción de política de privacidad
   ///
@@ -2293,12 +2269,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Términos de servicio'**
   String get settingsTerms;
-
-  /// Aviso de que los términos de servicio están en desarrollo
-  ///
-  /// In es, this message translates to:
-  /// **'Términos de servicio - Funcionalidad en desarrollo'**
-  String get settingsTermsInDevelopment;
 
   /// Subtítulo de la acción de términos de servicio
   ///
@@ -2377,6 +2347,72 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No se pudo abrir la tienda.'**
   String get updateStoreError;
+
+  /// Título de la fila de tema en Ajustes
+  ///
+  /// In es, this message translates to:
+  /// **'Tema'**
+  String get settingsTheme;
+
+  /// Opción de tema: seguir al del dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Automático (sistema)'**
+  String get settingsThemeSystem;
+
+  /// Opción de tema claro
+  ///
+  /// In es, this message translates to:
+  /// **'Claro'**
+  String get settingsThemeLight;
+
+  /// Opción de tema oscuro
+  ///
+  /// In es, this message translates to:
+  /// **'Oscuro'**
+  String get settingsThemeDark;
+
+  /// Opción de idioma: seguir al del dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Automático (sistema)'**
+  String get settingsLanguageSystem;
+
+  /// Opción de idioma castellano
+  ///
+  /// In es, this message translates to:
+  /// **'Castellano'**
+  String get settingsLanguageSpanish;
+
+  /// Opción de idioma valenciano
+  ///
+  /// In es, this message translates to:
+  /// **'Valencià'**
+  String get settingsLanguageValencian;
+
+  /// Fila de ciudad en Acerca de
+  ///
+  /// In es, this message translates to:
+  /// **'Ciudad'**
+  String get settingsCity;
+
+  /// Fila del sistema operativo en Acerca de
+  ///
+  /// In es, this message translates to:
+  /// **'Sistema'**
+  String get settingsPlatform;
+
+  /// Error al abrir términos o privacidad
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir el enlace'**
+  String get settingsLinkError;
+
+  /// Subtítulo de la fila de tema
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el aspecto de la aplicación'**
+  String get settingsThemeSubtitle;
 }
 
 class _AppLocalizationsDelegate
