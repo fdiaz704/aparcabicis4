@@ -257,7 +257,7 @@ class AppHelpers {
     return '${text.substring(0, maxLength)}...';
   }
 
-  // Get distance text (mock implementation)
+  // Formatea una distancia en metros para la UI (m / km).
   static String getDistanceText(double distance) {
     if (distance < 1000) {
       return '${distance.round()}m';

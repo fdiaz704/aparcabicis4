@@ -753,6 +753,20 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get mapEtaWarningCancel => 'Cancelar';
+
+  @override
+  String mapEtaWarningMessage(int minutes, int window) {
+    return 'Tardarías unos $minutes min en llegar, y la reserva solo se mantiene $window min. ¿Quieres reservar igualmente?';
+  }
+
+  @override
+  String get mapEtaWarningReserve => 'Reservar igualmente';
+
+  @override
+  String get mapEtaWarningTitle => 'Puede que no llegues a tiempo';
+
+  @override
   String mapFreeSpots(int count) {
     return '$count plazas libres';
   }
@@ -774,6 +788,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mapLocationUnavailable => 'No se ha podido obtener tu ubicación';
+
+  @override
+  String get mapNearbyTitle => 'Aparcamientos cercanos';
 
   @override
   String get mapNoSpotsAvailable =>
@@ -800,6 +817,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mapReserve => 'Reservar';
+
+  @override
+  String mapRouteEta(int minutes, String distance) {
+    return '$minutes min en bici · $distance';
+  }
+
+  @override
+  String mapRouteEtaEstimated(int minutes, String distance) {
+    return '~$minutes min en bici · $distance (estimado)';
+  }
+
+  @override
+  String get mapRouteNeedsLocation => 'Activa tu ubicación para ver la ruta';
+
+  @override
+  String get mapRouteUnavailable => 'No se ha podido calcular la ruta';
 
   @override
   String mapSpotsAvailable(int available, int total) {
@@ -906,6 +939,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get parkingsListSortBy => 'Ordenar por';
+
+  @override
+  String get parkingsListSortDistance => 'Distancia (más cercano)';
 
   @override
   String get parkingsListSortName => 'Nombre (A-Z)';

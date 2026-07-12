@@ -1442,6 +1442,30 @@ abstract class AppLocalizations {
   /// **'Centrando en {city}'**
   String mapCenteringOn(String city);
 
+  /// Cancelar la reserva tras el aviso de ETA
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get mapEtaWarningCancel;
+
+  /// Explicación del aviso de ETA (HU-4)
+  ///
+  /// In es, this message translates to:
+  /// **'Tardarías unos {minutes} min en llegar, y la reserva solo se mantiene {window} min. ¿Quieres reservar igualmente?'**
+  String mapEtaWarningMessage(int minutes, int window);
+
+  /// Confirmar reserva pese al aviso de ETA
+  ///
+  /// In es, this message translates to:
+  /// **'Reservar igualmente'**
+  String get mapEtaWarningReserve;
+
+  /// Título del aviso de ETA mayor que la ventana
+  ///
+  /// In es, this message translates to:
+  /// **'Puede que no llegues a tiempo'**
+  String get mapEtaWarningTitle;
+
   /// Fragmento del marcador con plazas libres
   ///
   /// In es, this message translates to:
@@ -1477,6 +1501,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No se ha podido obtener tu ubicación'**
   String get mapLocationUnavailable;
+
+  /// Título del panel de aparcamientos cercanos
+  ///
+  /// In es, this message translates to:
+  /// **'Aparcamientos cercanos'**
+  String get mapNearbyTitle;
 
   /// Error cuando no quedan plazas para reservar
   ///
@@ -1519,6 +1549,30 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Reservar'**
   String get mapReserve;
+
+  /// ETA y distancia de la ruta
+  ///
+  /// In es, this message translates to:
+  /// **'{minutes} min en bici · {distance}'**
+  String mapRouteEta(int minutes, String distance);
+
+  /// ETA aproximado cuando no hay ruta real de Google
+  ///
+  /// In es, this message translates to:
+  /// **'~{minutes} min en bici · {distance} (estimado)'**
+  String mapRouteEtaEstimated(int minutes, String distance);
+
+  /// Falta la ubicación para trazar la ruta
+  ///
+  /// In es, this message translates to:
+  /// **'Activa tu ubicación para ver la ruta'**
+  String get mapRouteNeedsLocation;
+
+  /// Error al calcular la ruta
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido calcular la ruta'**
+  String get mapRouteUnavailable;
 
   /// Etiqueta de disponibilidad en la tarjeta del aparcamiento
   ///
@@ -1687,6 +1741,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Ordenar por'**
   String get parkingsListSortBy;
+
+  /// Opción de orden por distancia
+  ///
+  /// In es, this message translates to:
+  /// **'Distancia (más cercano)'**
+  String get parkingsListSortDistance;
 
   /// Opción de orden: por nombre
   ///

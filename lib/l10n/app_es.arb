@@ -946,6 +946,30 @@
       }
     }
   },
+  "mapEtaWarningCancel": "Cancelar",
+  "@mapEtaWarningCancel": {
+    "description": "Cancelar la reserva tras el aviso de ETA"
+  },
+  "mapEtaWarningMessage": "Tardarías unos {minutes} min en llegar, y la reserva solo se mantiene {window} min. ¿Quieres reservar igualmente?",
+  "@mapEtaWarningMessage": {
+    "description": "Explicación del aviso de ETA (HU-4)",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "window": {
+        "type": "int"
+      }
+    }
+  },
+  "mapEtaWarningReserve": "Reservar igualmente",
+  "@mapEtaWarningReserve": {
+    "description": "Confirmar reserva pese al aviso de ETA"
+  },
+  "mapEtaWarningTitle": "Puede que no llegues a tiempo",
+  "@mapEtaWarningTitle": {
+    "description": "Título del aviso de ETA mayor que la ventana"
+  },
   "mapFreeSpots": "{count} plazas libres",
   "@mapFreeSpots": {
     "description": "Fragmento del marcador con plazas libres",
@@ -974,6 +998,10 @@
   "mapLocationUnavailable": "No se ha podido obtener tu ubicación",
   "@mapLocationUnavailable": {
     "description": "Error genérico al obtener la posición"
+  },
+  "mapNearbyTitle": "Aparcamientos cercanos",
+  "@mapNearbyTitle": {
+    "description": "Título del panel de aparcamientos cercanos"
   },
   "mapNoSpotsAvailable": "No hay plazas disponibles en este aparcamiento",
   "@mapNoSpotsAvailable": {
@@ -1012,6 +1040,38 @@
   "mapReserve": "Reservar",
   "@mapReserve": {
     "description": "Botón de reservar en la tarjeta del mapa"
+  },
+  "mapRouteEta": "{minutes} min en bici · {distance}",
+  "@mapRouteEta": {
+    "description": "ETA y distancia de la ruta",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "mapRouteEtaEstimated": "~{minutes} min en bici · {distance} (estimado)",
+  "@mapRouteEtaEstimated": {
+    "description": "ETA aproximado cuando no hay ruta real de Google",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "mapRouteNeedsLocation": "Activa tu ubicación para ver la ruta",
+  "@mapRouteNeedsLocation": {
+    "description": "Falta la ubicación para trazar la ruta"
+  },
+  "mapRouteUnavailable": "No se ha podido calcular la ruta",
+  "@mapRouteUnavailable": {
+    "description": "Error al calcular la ruta"
   },
   "mapSpotsAvailable": "{available} de {total} disponibles",
   "@mapSpotsAvailable": {
@@ -1157,6 +1217,10 @@
   "parkingsListSortBy": "Ordenar por",
   "@parkingsListSortBy": {
     "description": "Encabezado de opciones de orden"
+  },
+  "parkingsListSortDistance": "Distancia (más cercano)",
+  "@parkingsListSortDistance": {
+    "description": "Opción de orden por distancia"
   },
   "parkingsListSortName": "Nombre (A-Z)",
   "@parkingsListSortName": {

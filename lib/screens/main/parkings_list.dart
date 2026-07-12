@@ -360,6 +360,16 @@ class _ParkingsListState extends State<ParkingsList> {
                                   value: 'availability',
                                   activeColor: AppColors.primary,
                                 ),
+                                // Orden por cercanía (RF-2.7). Solo se ofrece si
+                                // ya conocemos la posición del usuario.
+                                if (parkingsProvider.userLocation != null)
+                                  RadioListTile<String>(
+                                    title: Text(
+                                      context.l10n.parkingsListSortDistance,
+                                    ),
+                                    value: 'distance',
+                                    activeColor: AppColors.primary,
+                                  ),
                               ],
                             ),
                           ),
