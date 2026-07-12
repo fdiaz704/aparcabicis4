@@ -57,7 +57,12 @@ abstract interface class NotificationScheduler {
     required String body,
   });
 
-  Future<void> cancelAll();
+  /// Cancela los avisos **aún no disparados**.
+  ///
+  /// Importante: NO toca las notificaciones ya mostradas. `cancelAll()` del
+  /// plugin sí las borra, y eso hacía que un aviso apareciera y se esfumara
+  /// al instante (la app resincroniza justo cuando el aviso salta).
+  Future<void> cancelPending();
 }
 
 /// Implementación real sobre `flutter_local_notifications`.
@@ -163,11 +168,16 @@ class PluginNotificationScheduler implements NotificationScheduler {
   }
 
   @override
-  Future<void> cancelAll() async {
+  Future<void> cancelPending() async {
     try {
-      await _plugin.cancelAll();
+      // Los ya mostrados no están en la lista de pendientes, así que
+      // cancelándolos uno a uno no se borran de la barra de notificaciones.
+      final pending = await _plugin.pendingNotificationRequests();
+      for (final request in pending) {
+        await _plugin.cancel(request.id);
+      }
     } catch (e) {
-      debugPrint('No se pudieron cancelar los avisos: $e');
+      debugPrint('No se pudieron cancelar los avisos pendientes: $e');
     }
   }
 }
@@ -217,7 +227,7 @@ class LocalNotificationsService {
     NotificationTexts texts,
   ) async {
     await initialize();
-    await _scheduler.cancelAll();
+    await _scheduler.cancelPending();
 
     if (reservation == null) return;
 
@@ -301,9 +311,11 @@ class LocalNotificationsService {
     await _scheduler.scheduleAt(id: id, when: when, title: title, body: body);
   }
 
-  /// Cancela toda la serie (checkout, cancelación o vencimiento).
-  Future<void> cancelAll() async {
+  /// Cancela los avisos pendientes (checkout, cancelación o vencimiento).
+  ///
+  /// Los ya mostrados se conservan: el usuario debe poder leerlos.
+  Future<void> cancelPending() async {
     await initialize();
-    await _scheduler.cancelAll();
+    await _scheduler.cancelPending();
   }
 }

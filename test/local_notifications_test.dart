@@ -18,7 +18,10 @@ class _Scheduled {
 /// sistema (en un test no hay AlarmManager ni centro de notificaciones).
 class _FakeScheduler implements NotificationScheduler {
   final List<_Scheduled> scheduled = [];
-  int cancelAllCalls = 0;
+  int cancelPendingCalls = 0;
+
+  /// Avisos ya mostrados al usuario. Cancelar lo pendiente NO debe tocarlos.
+  final List<_Scheduled> shown = [];
 
   @override
   Future<void> initialize() async {}
@@ -37,9 +40,16 @@ class _FakeScheduler implements NotificationScheduler {
   }
 
   @override
-  Future<void> cancelAll() async {
-    cancelAllCalls++;
-    scheduled.clear();
+  Future<void> cancelPending() async {
+    cancelPendingCalls++;
+    scheduled.clear(); // los mostrados (shown) se conservan
+  }
+
+  /// Simula que una alarma dispara: el aviso pasa de programado a mostrado.
+  void fire(int id) {
+    final index = scheduled.indexWhere((s) => s.id == id);
+    if (index == -1) return;
+    shown.add(scheduled.removeAt(index));
   }
 }
 
@@ -187,7 +197,7 @@ void main() {
       await service.syncFor(null, params, _texts);
 
       expect(plugin.scheduled, isEmpty);
-      expect(plugin.cancelAllCalls, greaterThanOrEqualTo(2));
+      expect(plugin.cancelPendingCalls, greaterThanOrEqualTo(2));
     });
 
     test('una reserva ya finalizada no programa nada', () async {
@@ -197,6 +207,26 @@ void main() {
 
       await service.syncFor(completed, params, _texts);
       expect(plugin.scheduled, isEmpty);
+    });
+
+    test(
+        'un aviso YA MOSTRADO no se borra al cancelar: el usuario debe poder '
+        'leerlo', () async {
+      final reservation = reservationPending(
+        expiresAt: DateTime.now().add(const Duration(minutes: 30)),
+      );
+      await service.syncFor(reservation, params, _texts);
+
+      // Salta el aviso de "vence en 10 min": pasa a estar mostrado.
+      plugin.fire(plugin.scheduled.first.id);
+      expect(plugin.shown, hasLength(1));
+
+      // La reserva termina y la app resincroniza (esto es lo que borraba el
+      // aviso recién mostrado cuando se usaba cancelAll()).
+      await service.syncFor(null, params, _texts);
+
+      expect(plugin.scheduled, isEmpty, reason: 'lo pendiente sí se cancela');
+      expect(plugin.shown, hasLength(1), reason: 'lo ya mostrado se conserva');
     });
 
     test('reprogramar sustituye la serie anterior, no la duplica', () async {
