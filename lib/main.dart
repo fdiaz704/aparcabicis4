@@ -29,6 +29,9 @@ import 'repositories/fake/fake_config_repository.dart';
 import 'repositories/fake/fake_parkings_repository.dart';
 import 'repositories/fake/fake_reservations_repository.dart';
 
+// Widgets
+import 'widgets/app_lock_gate.dart';
+
 // Utils
 import 'utils/constants.dart';
 import 'utils/adaptive_theme.dart';
@@ -140,7 +143,11 @@ class AparcabicisApp extends StatelessWidget {
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
-      
+
+      // Bloqueo biométrico: exige huella al volver del segundo plano (RF-1.6).
+      builder: (context, child) =>
+          AppLockGate(child: child ?? const SizedBox.shrink()),
+
       // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -172,7 +179,11 @@ class AparcabicisApp extends StatelessWidget {
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
-      
+
+      // Bloqueo biométrico: exige huella al volver del segundo plano (RF-1.6).
+      builder: (context, child) =>
+          AppLockGate(child: child ?? const SizedBox.shrink()),
+
       // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

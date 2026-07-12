@@ -803,6 +803,22 @@
     "description": "Sugerencia en estado vacio con filtro"
   },
   "@@locale": "es",
+  "lockMessage": "Desbloquea con tu huella o Face ID para continuar",
+  "@lockMessage": {
+    "description": "Mensaje de la pantalla de bloqueo"
+  },
+  "lockRetry": "Reintentar",
+  "@lockRetry": {
+    "description": "Botón para reintentar el desbloqueo biométrico"
+  },
+  "lockTitle": "App bloqueada",
+  "@lockTitle": {
+    "description": "Título de la pantalla de bloqueo biométrico"
+  },
+  "lockUsePassword": "Usar contraseña",
+  "@lockUsePassword": {
+    "description": "Botón para salir del bloqueo e iniciar sesión con contraseña"
+  },
   "loginEmailHint": "ejemplo@correo.com",
   "@loginEmailHint": {
     "description": "Placeholder del campo email en login"
@@ -1332,6 +1348,18 @@
   "settingsAppSection": "Configuración de la aplicación",
   "@settingsAppSection": {
     "description": "Encabezado de la sección de ajustes de la app"
+  },
+  "settingsBiometric": "Acceso biométrico",
+  "@settingsBiometric": {
+    "description": "Título del conmutador de biometría en Ajustes"
+  },
+  "settingsBiometricDisabled": "Acceso biométrico desactivado",
+  "@settingsBiometricDisabled": {
+    "description": "Confirmación al desactivar la biometría"
+  },
+  "settingsBiometricSubtitle": "Desbloquear la app con huella o Face ID",
+  "@settingsBiometricSubtitle": {
+    "description": "Subtítulo del conmutador de biometría"
   },
   "settingsCallSupport": "Llamar a soporte",
   "@settingsCallSupport": {

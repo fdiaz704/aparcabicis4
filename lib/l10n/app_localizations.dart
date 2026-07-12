@@ -1250,6 +1250,30 @@ abstract class AppLocalizations {
   /// **'Intenta cambiar el filtro para ver más reservas'**
   String get historyTryChangeFilter;
 
+  /// Mensaje de la pantalla de bloqueo
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloquea con tu huella o Face ID para continuar'**
+  String get lockMessage;
+
+  /// Botón para reintentar el desbloqueo biométrico
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get lockRetry;
+
+  /// Título de la pantalla de bloqueo biométrico
+  ///
+  /// In es, this message translates to:
+  /// **'App bloqueada'**
+  String get lockTitle;
+
+  /// Botón para salir del bloqueo e iniciar sesión con contraseña
+  ///
+  /// In es, this message translates to:
+  /// **'Usar contraseña'**
+  String get lockUsePassword;
+
   /// Placeholder del campo email en login
   ///
   /// In es, this message translates to:
@@ -1927,6 +1951,24 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Configuración de la aplicación'**
   String get settingsAppSection;
+
+  /// Título del conmutador de biometría en Ajustes
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico'**
+  String get settingsBiometric;
+
+  /// Confirmación al desactivar la biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico desactivado'**
+  String get settingsBiometricDisabled;
+
+  /// Subtítulo del conmutador de biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloquear la app con huella o Face ID'**
+  String get settingsBiometricSubtitle;
 
   /// Título de la acción de llamar a soporte
   ///

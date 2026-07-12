@@ -654,6 +654,19 @@ class AppLocalizationsCa extends AppLocalizations {
       'Prova a canviar el filtre per veure més reserves';
 
   @override
+  String get lockMessage =>
+      'Desbloqueja amb l\'empremta o Face ID per a continuar';
+
+  @override
+  String get lockRetry => 'Tornar a provar';
+
+  @override
+  String get lockTitle => 'App bloquejada';
+
+  @override
+  String get lockUsePassword => 'Usar contrasenya';
+
+  @override
   String get loginEmailHint => 'exemple@correu.com';
 
   @override
@@ -1040,6 +1053,16 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get settingsAppSection => 'Configuració de l\'aplicació';
+
+  @override
+  String get settingsBiometric => 'Accés biomètric';
+
+  @override
+  String get settingsBiometricDisabled => 'Accés biomètric desactivat';
+
+  @override
+  String get settingsBiometricSubtitle =>
+      'Desbloquejar l\'app amb empremta o Face ID';
 
   @override
   String get settingsCallSupport => 'Trucar a suport';

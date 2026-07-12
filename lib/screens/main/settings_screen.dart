@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:aparcabicis4/l10n/l10n.dart';
+import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/helpers.dart';
 import '../../utils/platform_widgets.dart';
@@ -42,6 +44,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               PlatformIcons.darkMode,
               _darkModeEnabled,
               (value) => setState(() => _darkModeEnabled = value),
+            ),
+            // Acceso biométrico (RF-1.6): gobierna si la app se desbloquea con
+            // huella/Face ID. Desactivarlo NO cierra la sesión.
+            _buildSwitchTile(
+              context.l10n.settingsBiometric,
+              context.l10n.settingsBiometricSubtitle,
+              Icons.fingerprint,
+              context.watch<AuthProvider>().isBiometricEnabled,
+              _handleBiometricToggle,
             ),
             _buildInfoTile(
               context.l10n.settingsLanguage,
@@ -121,6 +132,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
     );
+  }
+
+  /// Activa/desactiva el acceso biométrico (RF-1.6).
+  ///
+  /// Al activarlo se pide una verificación de prueba: si no se supera, no se
+  /// activa. Al desactivarlo, la sesión se mantiene y deja de pedirse la huella.
+  Future<void> _handleBiometricToggle(bool enable) async {
+    final authProvider = context.read<AuthProvider>();
+
+    if (!enable) {
+      await authProvider.disableBiometrics();
+      if (!mounted) return;
+      AppHelpers.showInfoSnackBar(context, context.l10n.settingsBiometricDisabled);
+      return;
+    }
+
+    final reason = context.l10n.biometricPromptReason;
+    final enabled = await authProvider.enableBiometrics(reason);
+    if (!mounted) return;
+
+    if (enabled) {
+      AppHelpers.showSuccessSnackBar(context, context.l10n.biometricEnabledSuccess);
+    } else {
+      AppHelpers.showInfoSnackBar(context, context.l10n.biometricUnavailable);
+    }
   }
 
   Widget _buildSectionHeader(String title) {

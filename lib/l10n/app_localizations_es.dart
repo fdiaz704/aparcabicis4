@@ -651,6 +651,18 @@ class AppLocalizationsEs extends AppLocalizations {
       'Intenta cambiar el filtro para ver más reservas';
 
   @override
+  String get lockMessage => 'Desbloquea con tu huella o Face ID para continuar';
+
+  @override
+  String get lockRetry => 'Reintentar';
+
+  @override
+  String get lockTitle => 'App bloqueada';
+
+  @override
+  String get lockUsePassword => 'Usar contraseña';
+
+  @override
   String get loginEmailHint => 'ejemplo@correo.com';
 
   @override
@@ -1036,6 +1048,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsAppSection => 'Configuración de la aplicación';
+
+  @override
+  String get settingsBiometric => 'Acceso biométrico';
+
+  @override
+  String get settingsBiometricDisabled => 'Acceso biométrico desactivado';
+
+  @override
+  String get settingsBiometricSubtitle =>
+      'Desbloquear la app con huella o Face ID';
 
   @override
   String get settingsCallSupport => 'Llamar a soporte';

@@ -32,6 +32,11 @@ class AppConstants {
   // Preferencia de biometría para restaurar sesión (RF-1.6).
   static const String prefKeyBiometricEnabled = 'bikeParking_biometricEnabled';
   
+  // Bloqueo biométrico (RF-1.6): al volver del segundo plano se vuelve a pedir
+  // la biometría solo si la app estuvo fuera más de este margen, para no
+  // pedirla en cambios de foco fugaces.
+  static const int biometricLockGraceSeconds = 30;
+
   // Validation Constants
   static const int minPasswordLength = 8;
   static const String deleteConfirmationText = 'ELIMINAR';
