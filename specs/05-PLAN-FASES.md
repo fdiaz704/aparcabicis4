@@ -41,7 +41,7 @@ Objetivo: implementar los requisitos de UI/UX (req. #2, #5, #6, #7, #9-12) sin b
 
 ## FASE 3 — Backend mínimo (repo nuevo `aparcabicis4-api`)
 Objetivo: API REST en **PHP 8 + MySQL/MariaDB** desplegable sobre el hosting **LAMP** existente, que cumple 04-API.md.
-1. [ ] Scaffold **PHP 8 + Slim** (o equivalente) + **MySQL/MariaDB**; sin Docker (correr con el servidor embebido de PHP o el propio LAMP). Configuración por `.env` fuera de git.
+1. [x] Scaffold **PHP 8 + Slim** (o equivalente) + **MySQL/MariaDB**; sin Docker (correr con el servidor embebido de PHP o el propio LAMP). Configuración por `.env` fuera de git. _(repo `~/repos/aparcabicis4-api`, commit `986af32`. Entorno real: VPS con Plesk, PHP 8.3.32 en `/opt/plesk/php/8.3/bin/php`, **MariaDB 10.3.39**, sin Composer en el servidor y sistema en `Europe/Madrid` ⇒ cada conexión PDO fija `time_zone='+00:00'`. API bajo subdirectorio: `https://palma.r3smartcityvmp.com/api/v1`)_
 2. [ ] Esquema/migraciones MySQL/MariaDB según 03 (incluye `cities`, `app_config`, `app_versions` y `access_events`); seed: ciudad `demo` + 8 parkings + parámetros + fila(s) de `app_versions`.
 3. [ ] Auth completo (registro, login, refresh con rotación, forgot/reset; email por SMTP del hosting).
 4. [ ] `POST /check_version` y `GET /bootstrap` (user + params + stats + currentReservation).
