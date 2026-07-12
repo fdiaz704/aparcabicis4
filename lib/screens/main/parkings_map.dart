@@ -95,7 +95,7 @@ class _ParkingsMapState extends State<ParkingsMap> {
                   EagerGestureRecognizer.new,
                 ),
               },
-              markers: _createMarkers(parkingsProvider, reservationsProvider),
+              markers: _createMarkers(parkingsProvider),
               polylines: _buildPolylines(),
               onTap: (_) => _closeSelectedParking(),
             ),
@@ -168,22 +168,12 @@ class _ParkingsMapState extends State<ParkingsMap> {
 
   /// Markers propios (assets/parking.svg), coloreados por disponibilidad
   /// (RF-2.2): verde ≥60 % libre · ámbar ≥20 % y <60 % · rojo <20 %.
-  Set<Marker> _createMarkers(
-    ParkingsProvider parkingsProvider,
-    ReservationsProvider reservationsProvider,
-  ) {
-    return parkingsProvider.parkings.map((parking) {
-      return Marker(
-        markerId: MarkerId(parking.id),
-        position: LatLng(parking.lat, parking.lng),
-        icon: _markers.markerFor(parking),
-        infoWindow: InfoWindow(
-          title: parking.name,
-          snippet: context.l10n.mapFreeSpots(parking.availableSpots),
-        ),
-        onTap: () => _selectParking(parking),
-      );
-    }).toSet();
+  Set<Marker> _createMarkers(ParkingsProvider parkingsProvider) {
+    return _markers.markersFor(
+      parkingsProvider.parkings,
+      snippet: (parking) => context.l10n.mapFreeSpots(parking.availableSpots),
+      onTap: _selectParking,
+    );
   }
 
   Widget _buildSelectedParkingCard(

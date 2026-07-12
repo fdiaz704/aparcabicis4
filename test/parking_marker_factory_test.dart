@@ -99,4 +99,42 @@ void main() {
       expect(medium, isNot(equals(low)));
     });
   });
+
+  group('markers que recibe el mapa (RF-2.2)', () {
+    testWidgets('uno por aparcamiento, con el pin del color que le toca',
+        (tester) async {
+      final factory = ParkingMarkerFactory();
+      await tester.runAsync(() async {
+        await factory.preload(devicePixelRatio: 2);
+      });
+
+      final lleno = parkingWith(available: 9, total: 10).copyWith(id: 'verde');
+      final medio = parkingWith(available: 3, total: 10).copyWith(id: 'ambar');
+      final vacio = parkingWith(available: 0, total: 10).copyWith(id: 'rojo');
+
+      final tapped = <String>[];
+      final markers = factory.markersFor(
+        [lleno, medio, vacio],
+        snippet: (parking) => '${parking.availableSpots} libres',
+        onTap: (parking) => tapped.add(parking.id),
+      );
+
+      expect(markers, hasLength(3));
+
+      Marker markerOf(String id) =>
+          markers.firstWhere((m) => m.markerId == MarkerId(id));
+
+      // El color del pin lo decide la disponibilidad, no un pin fijo.
+      expect(markerOf('verde').icon, factory.markerFor(lleno));
+      expect(markerOf('ambar').icon, factory.markerFor(medio));
+      expect(markerOf('rojo').icon, factory.markerFor(vacio));
+      expect(markerOf('verde').icon, isNot(markerOf('ambar').icon));
+      expect(markerOf('ambar').icon, isNot(markerOf('rojo').icon));
+
+      // Y el resto del marker sale del aparcamiento.
+      expect(markerOf('ambar').infoWindow.snippet, '3 libres');
+      markerOf('rojo').onTap!();
+      expect(tapped, ['rojo']);
+    });
+  });
 }

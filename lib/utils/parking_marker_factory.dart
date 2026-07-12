@@ -84,6 +84,33 @@ class ParkingMarkerFactory {
   BitmapDescriptor markerFor(Parking parking) =>
       _cache[AvailabilityLevel.of(parking)] ?? BitmapDescriptor.defaultMarker;
 
+  /// Markers del mapa: uno por aparcamiento, con el pin del color que le toca
+  /// por disponibilidad (RF-2.2).
+  ///
+  /// Vive aquí y no en la pantalla para poder comprobarlo en un test: montar un
+  /// `GoogleMap` de verdad exige la vista nativa de la plataforma, que en un
+  /// test no existe.
+  Set<Marker> markersFor(
+    Iterable<Parking> parkings, {
+    required String Function(Parking parking) snippet,
+    required void Function(Parking parking) onTap,
+  }) {
+    return parkings
+        .map(
+          (parking) => Marker(
+            markerId: MarkerId(parking.id),
+            position: LatLng(parking.lat, parking.lng),
+            icon: markerFor(parking),
+            infoWindow: InfoWindow(
+              title: parking.name,
+              snippet: snippet(parking),
+            ),
+            onTap: () => onTap(parking),
+          ),
+        )
+        .toSet();
+  }
+
   Future<BitmapDescriptor> _build(
     AvailabilityLevel level,
     double devicePixelRatio,
