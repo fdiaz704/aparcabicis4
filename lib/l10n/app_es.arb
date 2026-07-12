@@ -955,6 +955,26 @@
       }
     }
   },
+  "mapLocating": "Obteniendo tu ubicación...",
+  "@mapLocating": {
+    "description": "Aviso mientras se obtiene la posición del usuario"
+  },
+  "mapLocationDenied": "Necesitamos tu ubicación para centrar el mapa",
+  "@mapLocationDenied": {
+    "description": "Permiso de ubicación denegado"
+  },
+  "mapLocationDeniedForever": "Permiso de ubicación bloqueado. Actívalo en los ajustes del sistema.",
+  "@mapLocationDeniedForever": {
+    "description": "Permiso denegado permanentemente"
+  },
+  "mapLocationServiceDisabled": "La ubicación del dispositivo está desactivada",
+  "@mapLocationServiceDisabled": {
+    "description": "Servicio de localización apagado"
+  },
+  "mapLocationUnavailable": "No se ha podido obtener tu ubicación",
+  "@mapLocationUnavailable": {
+    "description": "Error genérico al obtener la posición"
+  },
   "mapNoSpotsAvailable": "No hay plazas disponibles en este aparcamiento",
   "@mapNoSpotsAvailable": {
     "description": "Error cuando no quedan plazas para reservar"
@@ -962,6 +982,10 @@
   "mapNotAvailable": "No disponible",
   "@mapNotAvailable": {
     "description": "Botón deshabilitado cuando no hay plazas"
+  },
+  "mapOpenSettings": "Ajustes",
+  "@mapOpenSettings": {
+    "description": "Acción para abrir los ajustes del sistema"
   },
   "mapRemovedFromFavorites": "{name} eliminado de favoritos",
   "@mapRemovedFromFavorites": {

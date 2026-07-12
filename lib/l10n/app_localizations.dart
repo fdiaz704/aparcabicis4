@@ -1448,6 +1448,36 @@ abstract class AppLocalizations {
   /// **'{count} plazas libres'**
   String mapFreeSpots(int count);
 
+  /// Aviso mientras se obtiene la posición del usuario
+  ///
+  /// In es, this message translates to:
+  /// **'Obteniendo tu ubicación...'**
+  String get mapLocating;
+
+  /// Permiso de ubicación denegado
+  ///
+  /// In es, this message translates to:
+  /// **'Necesitamos tu ubicación para centrar el mapa'**
+  String get mapLocationDenied;
+
+  /// Permiso denegado permanentemente
+  ///
+  /// In es, this message translates to:
+  /// **'Permiso de ubicación bloqueado. Actívalo en los ajustes del sistema.'**
+  String get mapLocationDeniedForever;
+
+  /// Servicio de localización apagado
+  ///
+  /// In es, this message translates to:
+  /// **'La ubicación del dispositivo está desactivada'**
+  String get mapLocationServiceDisabled;
+
+  /// Error genérico al obtener la posición
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido obtener tu ubicación'**
+  String get mapLocationUnavailable;
+
   /// Error cuando no quedan plazas para reservar
   ///
   /// In es, this message translates to:
@@ -1459,6 +1489,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No disponible'**
   String get mapNotAvailable;
+
+  /// Acción para abrir los ajustes del sistema
+  ///
+  /// In es, this message translates to:
+  /// **'Ajustes'**
+  String get mapOpenSettings;
 
   /// Mensaje al desmarcar un aparcamiento como favorito
   ///

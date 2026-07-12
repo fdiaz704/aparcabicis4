@@ -30,7 +30,7 @@ Objetivo: fuentes de datos tras interfaces; sesión segura con biometría; todo 
 
 ## FASE 2 — UX de producto: mapa, avisos y ajustes (app, contra fakes)
 Objetivo: implementar los requisitos de UI/UX (req. #2, #5, #6, #7, #9-12) sin backend.
-1. [ ] **Mapa**: markers personalizados coloreados por disponibilidad (verde ≥60 % libre, amarillo 20-59,99 % libre, rojo <20 % libre), pinch/doble toque zoom, botón "mi ubicación" con geolocalización real y permisos.
+1. [x] **Mapa**: markers personalizados coloreados por disponibilidad (verde ≥60 % libre, amarillo 20-59,99 % libre, rojo <20 % libre), pinch/doble toque zoom, botón "mi ubicación" con geolocalización real y permisos.
 2. [ ] Panel de **aparcamientos cercanos** ordenados por distancia; al elegir: **ruta** (Directions API, polyline + ETA) y advertencia si ETA > ventana de reserva restante (HU-4).
 3. [ ] **LocalNotificationsService**: avisos de reserva (T−10', T−5', vencimiento) y de uso (T−30', T−15', T−5', luego cada 30' en exceso), programados contra `expiresAt`/`maxUntil`, cancelados en checkout/cancelación (HU-5, HU-6). Al vencer reserva: sync + volver al mapa.
 4. [ ] **VersionCheckService** en splash: `POST /check_version` (fake en esta fase) con `{platform, version_code, build_number}`; bloqueo si `force_update=true`, aviso descartable si `latest_build > build instalado`; pantalla bloqueante de actualización (HU-1) y paso libre si la comprobación falla.

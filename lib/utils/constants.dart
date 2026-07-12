@@ -51,6 +51,12 @@ class AppColors {
   static const Color success = Color(0xFF7AB782);
   static const Color error = Colors.red;
   static const Color warning = Colors.orange;
+
+  // Disponibilidad de aparcamiento (RF-2.2): color del marker según el ratio
+  // de plazas libres. Verde ≥60 % · ámbar ≥20 % y <60 % · rojo <20 %.
+  static const Color availabilityHigh = Color(0xFF2E9E5B);
+  static const Color availabilityMedium = Color(0xFFE8A33D);
+  static const Color availabilityLow = Color(0xFFD64545);
   static const Color info = Colors.blue;
   
   // Status Colors

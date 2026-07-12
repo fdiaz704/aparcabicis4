@@ -758,11 +758,32 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get mapLocating => 'Obteniendo tu ubicación...';
+
+  @override
+  String get mapLocationDenied =>
+      'Necesitamos tu ubicación para centrar el mapa';
+
+  @override
+  String get mapLocationDeniedForever =>
+      'Permiso de ubicación bloqueado. Actívalo en los ajustes del sistema.';
+
+  @override
+  String get mapLocationServiceDisabled =>
+      'La ubicación del dispositivo está desactivada';
+
+  @override
+  String get mapLocationUnavailable => 'No se ha podido obtener tu ubicación';
+
+  @override
   String get mapNoSpotsAvailable =>
       'No hay plazas disponibles en este aparcamiento';
 
   @override
   String get mapNotAvailable => 'No disponible';
+
+  @override
+  String get mapOpenSettings => 'Ajustes';
 
   @override
   String mapRemovedFromFavorites(String name) {

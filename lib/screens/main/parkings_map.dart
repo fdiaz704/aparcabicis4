@@ -2,11 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 
 import 'package:aparcabicis4/l10n/l10n.dart';
 import '../../config/city_config.dart';
+import '../../services/location_service.dart';
+import '../../utils/parking_marker_factory.dart';
 import '../../models/parking.dart';
 import '../../providers/parkings_provider.dart';
 import '../../providers/reservations_provider.dart';
@@ -26,19 +29,39 @@ class _ParkingsMapState extends State<ParkingsMap> {
   Parking? _selectedParking;
   GoogleMapController? _mapController;
 
-  // Posición inicial y nombre de la ciudad, derivados del flavor (CityConfig).
+  // Posición inicial del mapa, derivada del flavor (CityConfig).
   late CameraPosition _initialPosition;
-  late String _cityName;
+
+  /// Markers propios (assets/parking.svg) coloreados por disponibilidad (RF-2.2).
+  final ParkingMarkerFactory _markers = ParkingMarkerFactory();
+
+  final LocationService _location = GeolocatorLocationService();
+  bool _locating = false;
+
+  /// Rasteriza los markers una vez y repinta el mapa ya con ellos.
+  Future<void> _preloadMarkers() async {
+    await _markers.preload(
+      devicePixelRatio: View.of(context).devicePixelRatio,
+    );
+    if (mounted) setState(() {});
+  }
+
+  bool _markersRequested = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    if (!_markersRequested) {
+      _markersRequested = true;
+      _preloadMarkers();
+    }
+
     final city = context.read<CityConfig>();
     _initialPosition = CameraPosition(
       target: LatLng(city.mapCenterLat, city.mapCenterLng),
       zoom: city.mapZoom,
     );
-    _cityName = city.name;
   }
 
   @override
@@ -54,12 +77,14 @@ class _ParkingsMapState extends State<ParkingsMap> {
               onMapCreated: (controller) => _mapController = controller,
               myLocationEnabled: true,
               myLocationButtonEnabled: false, // Custom button used below
-              zoomControlsEnabled: false, // We use custom buttons
-              scrollGesturesEnabled: false,
+              // Zoom por gestos: pinch y doble toque (RF-2.3).
+              zoomControlsEnabled: false, // Botones propios más abajo
               mapToolbarEnabled: false,
+              // El mapa reclama todos los gestos: si no, al estar dentro del
+              // TabBarView el doble toque y el arrastre no le llegan (RF-2.3).
               gestureRecognizers: {
-                Factory<OneSequenceGestureRecognizer>(
-                  () => ScaleGestureRecognizer(),
+                const Factory<OneSequenceGestureRecognizer>(
+                  EagerGestureRecognizer.new,
                 ),
               },
               markers: _createMarkers(parkingsProvider, reservationsProvider),
@@ -74,10 +99,16 @@ class _ParkingsMapState extends State<ParkingsMap> {
                 children: [
                   FloatingActionButton.small(
                     heroTag: 'location_btn',
-                    onPressed: _moveToUserLocation,
+                    onPressed: _locating ? null : _moveToUserLocation,
                     backgroundColor: Colors.white,
                     foregroundColor: AppColors.primary,
-                    child: const Icon(LucideIcons.navigation),
+                    child: _locating
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(LucideIcons.navigation),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   FloatingActionButton.small(
@@ -117,28 +148,17 @@ class _ParkingsMapState extends State<ParkingsMap> {
     );
   }
 
+  /// Markers propios (assets/parking.svg), coloreados por disponibilidad
+  /// (RF-2.2): verde ≥60 % libre · ámbar ≥20 % y <60 % · rojo <20 %.
   Set<Marker> _createMarkers(
     ParkingsProvider parkingsProvider,
     ReservationsProvider reservationsProvider,
   ) {
     return parkingsProvider.parkings.map((parking) {
-      final hasAvailableSpots = parking.availableSpots > 0;
-      final isActiveReservation = reservationsProvider.activeReservation?.id == parking.id;
-
-      // Determine marker hue based on status
-      double markerHue;
-      if (isActiveReservation) {
-        markerHue = BitmapDescriptor.hueBlue; // Reserved
-      } else if (hasAvailableSpots) {
-        markerHue = BitmapDescriptor.hueGreen; // Available
-      } else {
-        markerHue = BitmapDescriptor.hueRed; // Unavailable
-      }
-
       return Marker(
         markerId: MarkerId(parking.id),
         position: LatLng(parking.lat, parking.lng),
-        icon: BitmapDescriptor.defaultMarkerWithHue(markerHue),
+        icon: _markers.markerFor(parking),
         infoWindow: InfoWindow(
           title: parking.name,
           snippet: context.l10n.mapFreeSpots(parking.availableSpots),
@@ -269,14 +289,54 @@ class _ParkingsMapState extends State<ParkingsMap> {
     });
   }
 
+  /// Botón "mi ubicación" (RF-2.4): geolocalización real y centrado del mapa,
+  /// con gestión de permiso denegado y de la ubicación desactivada.
   Future<void> _moveToUserLocation() async {
-    // La geolocalización real (geolocator + permisos) se implementa en la
-    // fase 2. Por ahora recentramos en el centro de la ciudad del flavor.
-    _mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(_initialPosition),
-    );
+    if (_locating) return;
+    setState(() => _locating = true);
 
-    AppHelpers.showInfoSnackBar(context, context.l10n.mapCenteringOn(_cityName));
+    final result = await _location.getCurrentLocation();
+    if (!mounted) return;
+    setState(() => _locating = false);
+
+    if (result.isGranted) {
+      final position = result.location!;
+      await _mapController?.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(position.lat, position.lng), zoom: 15),
+        ),
+      );
+      return;
+    }
+
+    _showLocationProblem(result.status);
+  }
+
+  /// Explica al usuario por qué no se pudo obtener su ubicación y, si el
+  /// permiso está bloqueado, le ofrece abrir los ajustes del sistema.
+  void _showLocationProblem(LocationStatus status) {
+    final message = switch (status) {
+      LocationStatus.denied => context.l10n.mapLocationDenied,
+      LocationStatus.deniedForever => context.l10n.mapLocationDeniedForever,
+      LocationStatus.serviceDisabled => context.l10n.mapLocationServiceDisabled,
+      _ => context.l10n.mapLocationUnavailable,
+    };
+
+    final needsSettings = status == LocationStatus.deniedForever ||
+        status == LocationStatus.serviceDisabled;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 6),
+        action: needsSettings
+            ? SnackBarAction(
+                label: context.l10n.mapOpenSettings,
+                onPressed: openAppSettings,
+              )
+            : null,
+      ),
+    );
   }
 
   void _toggleFavorite(ParkingsProvider parkingsProvider, Parking parking) {
