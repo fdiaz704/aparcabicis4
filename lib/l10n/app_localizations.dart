@@ -1580,6 +1580,54 @@ abstract class AppLocalizations {
   /// **'{available} de {total} disponibles'**
   String mapSpotsAvailable(int available, int total);
 
+  /// Cuerpo del aviso de exceso de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Recoge tu vehículo y finaliza el uso cuanto antes.'**
+  String get notifOverstayBody;
+
+  /// Título del aviso de exceso de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Has superado el tiempo máximo de uso'**
+  String get notifOverstayTitle;
+
+  /// Cuerpo del aviso de reserva vencida
+  ///
+  /// In es, this message translates to:
+  /// **'La plaza ha quedado libre para otros usuarios.'**
+  String get notifReservationExpiredBody;
+
+  /// Título del aviso de reserva vencida
+  ///
+  /// In es, this message translates to:
+  /// **'Tu reserva ha vencido'**
+  String get notifReservationExpiredTitle;
+
+  /// Cuerpo del aviso de reserva por vencer
+  ///
+  /// In es, this message translates to:
+  /// **'Tu reserva vence en {minutes} min. Abre la puerta para no perder la plaza.'**
+  String notifReservationWarningBody(int minutes);
+
+  /// Título del aviso de reserva por vencer
+  ///
+  /// In es, this message translates to:
+  /// **'Tu reserva está a punto de vencer'**
+  String get notifReservationWarningTitle;
+
+  /// Cuerpo del aviso de fin de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Quedan {minutes} min de uso. Recoge tu vehículo y finaliza el uso.'**
+  String notifUseWarningBody(int minutes);
+
+  /// Título del aviso de fin de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Se acaba tu tiempo de uso'**
+  String get notifUseWarningTitle;
+
   /// Texto del botón cuando hay una reserva activa
   ///
   /// In es, this message translates to:

@@ -6,6 +6,7 @@ import '../providers/auth_provider.dart';
 import '../providers/parkings_provider.dart';
 import '../providers/reservations_provider.dart';
 import '../providers/session_provider.dart';
+import '../main.dart';
 import '../utils/constants.dart';
 import '../services/navigation_service.dart';
 import '../utils/platform_icons.dart';
@@ -79,6 +80,9 @@ class _SplashScreenState extends State<SplashScreen>
       // y la reserva en curso en una sola llamada (RF-B.1).
       if (authProvider.isLoggedIn) {
         await sessionProvider.load();
+        // Permiso de avisos de reserva y uso (Android 13+ e iOS). Si se deniega,
+        // la app sigue funcionando: solo no llegarán los recordatorios.
+        await AparcabicisApp.notifications.requestPermissions();
       }
 
       // Wait minimum time for splash screen

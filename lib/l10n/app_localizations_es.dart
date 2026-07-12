@@ -840,6 +840,37 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get notifOverstayBody =>
+      'Recoge tu vehículo y finaliza el uso cuanto antes.';
+
+  @override
+  String get notifOverstayTitle => 'Has superado el tiempo máximo de uso';
+
+  @override
+  String get notifReservationExpiredBody =>
+      'La plaza ha quedado libre para otros usuarios.';
+
+  @override
+  String get notifReservationExpiredTitle => 'Tu reserva ha vencido';
+
+  @override
+  String notifReservationWarningBody(int minutes) {
+    return 'Tu reserva vence en $minutes min. Abre la puerta para no perder la plaza.';
+  }
+
+  @override
+  String get notifReservationWarningTitle =>
+      'Tu reserva está a punto de vencer';
+
+  @override
+  String notifUseWarningBody(int minutes) {
+    return 'Quedan $minutes min de uso. Recoge tu vehículo y finaliza el uso.';
+  }
+
+  @override
+  String get notifUseWarningTitle => 'Se acaba tu tiempo de uso';
+
+  @override
   String get parkingCardActiveReservation => 'Reserva activa';
 
   @override

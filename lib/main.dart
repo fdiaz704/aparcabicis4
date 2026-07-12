@@ -12,6 +12,7 @@ import 'l10n/app_localizations.dart';
 
 // Services
 import 'services/biometric_service.dart';
+import 'services/local_notifications_service.dart';
 import 'services/storage_service.dart';
 import 'services/navigation_service.dart';
 
@@ -31,6 +32,7 @@ import 'repositories/fake/fake_reservations_repository.dart';
 
 // Widgets
 import 'widgets/app_lock_gate.dart';
+import 'widgets/notifications_sync.dart';
 
 // Utils
 import 'utils/constants.dart';
@@ -106,6 +108,10 @@ class AparcabicisApp extends StatelessWidget {
   /// inyecta una falsa, porque el emulador no tiene huella registrada.
   final BiometricAuthenticator? biometricAuthenticator;
 
+  /// Avisos locales de reserva y uso (RF-3.3, RF-4.4).
+  static final LocalNotificationsService notifications =
+      LocalNotificationsService();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -145,8 +151,12 @@ class AparcabicisApp extends StatelessWidget {
       navigatorKey: NavigationService.navigatorKey,
 
       // Bloqueo biométrico: exige huella al volver del segundo plano (RF-1.6).
-      builder: (context, child) =>
-          AppLockGate(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => AppLockGate(
+        child: NotificationsSync(
+          notifications: notifications,
+          child: child ?? const SizedBox.shrink(),
+        ),
+      ),
 
       // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -181,8 +191,12 @@ class AparcabicisApp extends StatelessWidget {
       navigatorKey: NavigationService.navigatorKey,
 
       // Bloqueo biométrico: exige huella al volver del segundo plano (RF-1.6).
-      builder: (context, child) =>
-          AppLockGate(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => AppLockGate(
+        child: NotificationsSync(
+          notifications: notifications,
+          child: child ?? const SizedBox.shrink(),
+        ),
+      ),
 
       // Localization
       localizationsDelegates: AppLocalizations.localizationsDelegates,

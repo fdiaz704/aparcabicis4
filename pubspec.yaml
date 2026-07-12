@@ -60,6 +60,11 @@ dependencies:
   # Markers personalizados del mapa (assets/parking.svg)
   flutter_svg: ^2.0.10
 
+  # Avisos locales de reserva y uso (RF-3.3, RF-3.4, RF-4.4).
+  # Deben dispararse con la app cerrada: se programan con alarmas exactas.
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.9.4
+
 
 dev_dependencies:
   flutter_test:

@@ -1085,6 +1085,48 @@
       }
     }
   },
+  "notifOverstayBody": "Recoge tu vehículo y finaliza el uso cuanto antes.",
+  "@notifOverstayBody": {
+    "description": "Cuerpo del aviso de exceso de uso"
+  },
+  "notifOverstayTitle": "Has superado el tiempo máximo de uso",
+  "@notifOverstayTitle": {
+    "description": "Título del aviso de exceso de uso"
+  },
+  "notifReservationExpiredBody": "La plaza ha quedado libre para otros usuarios.",
+  "@notifReservationExpiredBody": {
+    "description": "Cuerpo del aviso de reserva vencida"
+  },
+  "notifReservationExpiredTitle": "Tu reserva ha vencido",
+  "@notifReservationExpiredTitle": {
+    "description": "Título del aviso de reserva vencida"
+  },
+  "notifReservationWarningBody": "Tu reserva vence en {minutes} min. Abre la puerta para no perder la plaza.",
+  "@notifReservationWarningBody": {
+    "description": "Cuerpo del aviso de reserva por vencer",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notifReservationWarningTitle": "Tu reserva está a punto de vencer",
+  "@notifReservationWarningTitle": {
+    "description": "Título del aviso de reserva por vencer"
+  },
+  "notifUseWarningBody": "Quedan {minutes} min de uso. Recoge tu vehículo y finaliza el uso.",
+  "@notifUseWarningBody": {
+    "description": "Cuerpo del aviso de fin de uso",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notifUseWarningTitle": "Se acaba tu tiempo de uso",
+  "@notifUseWarningTitle": {
+    "description": "Título del aviso de fin de uso"
+  },
   "parkingCardActiveReservation": "Reserva activa",
   "@parkingCardActiveReservation": {
     "description": "Texto del botón cuando hay una reserva activa"
