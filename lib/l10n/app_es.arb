@@ -7,13 +7,13 @@
   "@activeCancelReservationError": {
     "description": "SnackBar de error al cancelar la reserva"
   },
-  "activeDoorOpenError": "No se ha podido abrir la puerta",
-  "@activeDoorOpenError": {
-    "description": "Error cuando la pasarela no consigue abrir la puerta"
-  },
   "activeDoorOpenedSuccess": "Puerta abierta correctamente",
   "@activeDoorOpenedSuccess": {
     "description": "SnackBar de exito al abrir la puerta"
+  },
+  "activeDoorOpenError": "No se ha podido abrir la puerta",
+  "@activeDoorOpenError": {
+    "description": "Error cuando la pasarela no consigue abrir la puerta"
   },
   "activeDoorUnavailable": "La puerta no responde. Inténtalo de nuevo o contacta con soporte.",
   "@activeDoorUnavailable": {
@@ -39,13 +39,13 @@
   "@activeInstructionRemoveBelongings": {
     "description": "Paso 1 de finalizacion"
   },
-  "activeInstructionSpotAvailable": "La plaza quedará disponible\npara otros usuarios",
-  "@activeInstructionSpotAvailable": {
-    "description": "Paso 3 de finalizacion"
-  },
   "activeInstructionsInUse": "Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.",
   "@activeInstructionsInUse": {
     "description": "Instrucciones cuando la plaza esta en uso"
+  },
+  "activeInstructionSpotAvailable": "La plaza quedará disponible\npara otros usuarios",
+  "@activeInstructionSpotAvailable": {
+    "description": "Paso 3 de finalizacion"
   },
   "activeInstructionsReserved": "Abre la puerta para comenzar a usar la plaza. Tienes 30 minutos para llegar.",
   "@activeInstructionsReserved": {
@@ -100,6 +100,10 @@
   "@biometricEnableAccept": {
     "description": "Botón para activar la biometría"
   },
+  "biometricEnabledSuccess": "Acceso biométrico activado",
+  "@biometricEnabledSuccess": {
+    "description": "Confirmación de biometría activada"
+  },
   "biometricEnableMessage": "La próxima vez podrás restaurar tu sesión con huella o Face ID, sin escribir la contraseña.",
   "@biometricEnableMessage": {
     "description": "Explicación del diálogo de alta de biometría"
@@ -111,10 +115,6 @@
   "biometricEnableTitle": "¿Activar acceso biométrico?",
   "@biometricEnableTitle": {
     "description": "Título del diálogo que ofrece activar la biometría"
-  },
-  "biometricEnabledSuccess": "Acceso biométrico activado",
-  "@biometricEnabledSuccess": {
-    "description": "Confirmación de biometría activada"
   },
   "biometricFallbackMessage": "No se pudo verificar tu identidad. Inicia sesión con tu contraseña.",
   "@biometricFallbackMessage": {
@@ -286,6 +286,18 @@
   "@deleteUserCancelButton": {
     "description": "Botón cancelar (diálogo y formulario) de eliminar cuenta"
   },
+  "deleteUserConfirmationInvalid": "Debes escribir exactamente \"ELIMINAR\"",
+  "@deleteUserConfirmationInvalid": {
+    "description": "Validación: texto de confirmación incorrecto"
+  },
+  "deleteUserConfirmationLabel": "Escribir \"ELIMINAR\" para confirmar",
+  "@deleteUserConfirmationLabel": {
+    "description": "Etiqueta del campo de texto de confirmación de borrado"
+  },
+  "deleteUserConfirmationRequired": "Por favor escribe ELIMINAR para confirmar",
+  "@deleteUserConfirmationRequired": {
+    "description": "Validación: texto de confirmación vacío"
+  },
   "deleteUserConfirmButton": "Eliminar",
   "@deleteUserConfirmButton": {
     "description": "Botón confirmar del diálogo de eliminar cuenta"
@@ -309,18 +321,6 @@
   "deleteUserConfirmTitle": "¿Estás seguro?",
   "@deleteUserConfirmTitle": {
     "description": "Título del diálogo de confirmación de eliminar cuenta"
-  },
-  "deleteUserConfirmationInvalid": "Debes escribir exactamente \"ELIMINAR\"",
-  "@deleteUserConfirmationInvalid": {
-    "description": "Validación: texto de confirmación incorrecto"
-  },
-  "deleteUserConfirmationLabel": "Escribir \"ELIMINAR\" para confirmar",
-  "@deleteUserConfirmationLabel": {
-    "description": "Etiqueta del campo de texto de confirmación de borrado"
-  },
-  "deleteUserConfirmationRequired": "Por favor escribe ELIMINAR para confirmar",
-  "@deleteUserConfirmationRequired": {
-    "description": "Validación: texto de confirmación vacío"
   },
   "deleteUserEmailHint": "Tu email actual",
   "@deleteUserEmailHint": {
@@ -802,7 +802,6 @@
   "@historyTryChangeFilter": {
     "description": "Sugerencia en estado vacio con filtro"
   },
-  "@@locale": "es",
   "lockMessage": "Desbloquea con tu huella o Face ID para continuar",
   "@lockMessage": {
     "description": "Mensaje de la pantalla de bloqueo"
@@ -1131,10 +1130,6 @@
   "@parkingCardActiveReservation": {
     "description": "Texto del botón cuando hay una reserva activa"
   },
-  "parkingCardAddFavorite": "Agregar a favoritos",
-  "@parkingCardAddFavorite": {
-    "description": "Tooltip para agregar a favoritos"
-  },
   "parkingCardAddedToFavorites": "{name} añadido a favoritos",
   "@parkingCardAddedToFavorites": {
     "description": "SnackBar al añadir un aparcamiento a favoritos",
@@ -1143,6 +1138,10 @@
         "type": "String"
       }
     }
+  },
+  "parkingCardAddFavorite": "Agregar a favoritos",
+  "@parkingCardAddFavorite": {
+    "description": "Tooltip para agregar a favoritos"
   },
   "parkingCardAlreadyReserved": "Ya tienes una reserva activa",
   "@parkingCardAlreadyReserved": {
@@ -1156,10 +1155,6 @@
   "@parkingCardNoSpotsAvailable": {
     "description": "Error cuando no hay plazas disponibles"
   },
-  "parkingCardRemoveFavorite": "Quitar de favoritos",
-  "@parkingCardRemoveFavorite": {
-    "description": "Tooltip para quitar de favoritos"
-  },
   "parkingCardRemovedFromFavorites": "{name} eliminado de favoritos",
   "@parkingCardRemovedFromFavorites": {
     "description": "SnackBar al eliminar un aparcamiento de favoritos",
@@ -1168,6 +1163,10 @@
         "type": "String"
       }
     }
+  },
+  "parkingCardRemoveFavorite": "Quitar de favoritos",
+  "@parkingCardRemoveFavorite": {
+    "description": "Tooltip para quitar de favoritos"
   },
   "parkingCardReservationCreated": "Reserva creada exitosamente en {name}",
   "@parkingCardReservationCreated": {
@@ -1643,5 +1642,44 @@
   "splashInitializing": "Inicializando...",
   "@splashInitializing": {
     "description": "Mensaje mostrado en el arranque mientras se inicializa"
-  }
+  },
+  "updateAvailableMessage": "Ya está disponible la versión {version}. Te recomendamos actualizar.",
+  "@updateAvailableMessage": {
+    "description": "Mensaje del aviso descartable",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateAvailableTitle": "Hay una versión nueva",
+  "@updateAvailableTitle": {
+    "description": "Título del aviso descartable de actualización"
+  },
+  "updateButton": "Actualizar",
+  "@updateButton": {
+    "description": "Botón que abre la tienda para actualizar"
+  },
+  "updateLater": "Ahora no",
+  "@updateLater": {
+    "description": "Botón para descartar el aviso de actualización"
+  },
+  "updateRequiredMessage": "Hay una versión más reciente de la aplicación ({version}). Debes actualizar para seguir usándola.",
+  "@updateRequiredMessage": {
+    "description": "Mensaje de actualización obligatoria",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateRequiredTitle": "Actualización necesaria",
+  "@updateRequiredTitle": {
+    "description": "Título de la pantalla bloqueante de actualización"
+  },
+  "updateStoreError": "No se pudo abrir la tienda.",
+  "@updateStoreError": {
+    "description": "Error al abrir el enlace de la tienda"
+  },
+  "@@locale": "es"
 }

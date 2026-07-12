@@ -6,6 +6,7 @@ import 'dart:io';
 // Config (flavors)
 import 'config/app_flavor.dart';
 import 'config/city_config.dart';
+import 'config/debug_params.dart';
 
 // Localización (i18n es/ca)
 import 'l10n/app_localizations.dart';
@@ -15,6 +16,7 @@ import 'services/biometric_service.dart';
 import 'services/local_notifications_service.dart';
 import 'services/storage_service.dart';
 import 'services/navigation_service.dart';
+import 'services/version_check_service.dart';
 
 // Providers
 import 'providers/auth_provider.dart';
@@ -76,6 +78,7 @@ class AparcabicisApp extends StatelessWidget {
     required this.cityConfig,
     required this.backend,
     this.biometricAuthenticator,
+    this.versionCheckService,
     super.key,
   });
 
@@ -88,13 +91,21 @@ class AparcabicisApp extends StatelessWidget {
     CityConfig? cityConfig,
     FakeBackend? backend,
     BiometricAuthenticator? biometricAuthenticator,
+    VersionCheckService? versionCheckService,
   }) {
     final city = cityConfig ?? resolveCityConfig();
     return AparcabicisApp._(
       key: key,
       cityConfig: city,
-      backend: backend ?? FakeBackend(seedParkings: city.seedParkings),
+      backend: backend ??
+          FakeBackend(
+            seedParkings: city.seedParkings,
+            // Con --dart-define=FAST_TIMES=true (solo en debug) el backend
+            // simulado sirve tiempos cortos, para ver saltar los avisos.
+            params: resolveFakeParams(),
+          ),
       biometricAuthenticator: biometricAuthenticator,
+      versionCheckService: versionCheckService,
     );
   }
 
@@ -107,6 +118,11 @@ class AparcabicisApp extends StatelessWidget {
   /// Biometría. En producción se resuelve sola (local_auth); en tests se
   /// inyecta una falsa, porque el emulador no tiene huella registrada.
   final BiometricAuthenticator? biometricAuthenticator;
+
+  /// Comprobación de versión. En producción lee la versión instalada con
+  /// package_info_plus; en tests se inyecta, porque no hay canal de plataforma
+  /// que responda.
+  final VersionCheckService? versionCheckService;
 
   /// Avisos locales de reserva y uso (RF-3.3, RF-4.4).
   static final LocalNotificationsService notifications =
@@ -138,6 +154,15 @@ class AparcabicisApp extends StatelessWidget {
           create: (_) => SessionProvider(
             configRepository: FakeConfigRepository(backend),
           ),
+        ),
+        // Comprobación de versión en el arranque (RF-A.2). En fase 4 el
+        // repositorio fake se sustituye por el que llama a POST /check_version.
+        Provider<VersionCheckService>(
+          create: (_) =>
+              versionCheckService ??
+              VersionCheckService(
+                configRepository: FakeConfigRepository(backend),
+              ),
         ),
       ],
       child: Platform.isIOS ? _buildCupertinoApp() : _buildMaterialApp(),

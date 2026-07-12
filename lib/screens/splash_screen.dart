@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:aparcabicis4/l10n/l10n.dart';
 import '../providers/auth_provider.dart';
@@ -9,7 +10,9 @@ import '../providers/session_provider.dart';
 import '../main.dart';
 import '../utils/constants.dart';
 import '../services/navigation_service.dart';
+import '../services/version_check_service.dart';
 import '../utils/platform_icons.dart';
+import 'update_required_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,6 +26,10 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+
+  /// Actualización obligatoria: mientras esté puesta, el splash no navega a
+  /// ningún sitio y muestra la pantalla bloqueante (RF-A.3).
+  UpdateDecision? _forcedUpdate;
 
   @override
   void initState() {
@@ -60,6 +67,15 @@ class _SplashScreenState extends State<SplashScreen>
       // Start animation
       _animationController.forward();
       
+      // Comprobación de versión antes que nada (RF-A.2). Si falla, deja pasar:
+      // nadie se queda fuera de la app porque el servidor no conteste (RF-A.4).
+      final update = await context.read<VersionCheckService>().check();
+      if (!mounted) return;
+      if (update.action == UpdateAction.forced) {
+        setState(() => _forcedUpdate = update);
+        return; // callejón sin salida: no se sigue inicializando.
+      }
+
       // Initialize providers
       final authProvider = context.read<AuthProvider>();
       final parkingsProvider = context.read<ParkingsProvider>();
@@ -88,6 +104,11 @@ class _SplashScreenState extends State<SplashScreen>
       // Wait minimum time for splash screen
       await Future.delayed(const Duration(seconds: 2));
 
+      // Versión nueva no obligatoria: se avisa, pero se puede seguir.
+      if (mounted && update.action == UpdateAction.optional) {
+        await _showOptionalUpdateNotice(update);
+      }
+
       // Navigate to appropriate screen
       if (mounted) {
         if (authProvider.isLoggedIn) {
@@ -110,6 +131,38 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
+  /// Aviso descartable de versión nueva (RF-A.2): informa, pero no bloquea.
+  Future<void> _showOptionalUpdateNotice(UpdateDecision update) async {
+    final l10n = context.l10n;
+    final version = update.latestVersion ?? '';
+
+    final wantsUpdate = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.updateAvailableTitle),
+        content: Text(l10n.updateAvailableMessage(version)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.updateLater),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(l10n.updateButton),
+          ),
+        ],
+      ),
+    );
+
+    if (wantsUpdate != true) return;
+
+    final url = update.storeUrl;
+    final uri = url == null ? null : Uri.tryParse(url);
+    if (uri != null) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -118,6 +171,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final forced = _forcedUpdate;
+    if (forced != null) {
+      return UpdateRequiredScreen(
+        latestVersion: forced.latestVersion ?? '',
+        storeUrl: forced.storeUrl,
+      );
+    }
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(

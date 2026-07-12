@@ -110,17 +110,17 @@ abstract class AppLocalizations {
   /// **'Error al cancelar la reserva'**
   String get activeCancelReservationError;
 
-  /// Error cuando la pasarela no consigue abrir la puerta
-  ///
-  /// In es, this message translates to:
-  /// **'No se ha podido abrir la puerta'**
-  String get activeDoorOpenError;
-
   /// SnackBar de exito al abrir la puerta
   ///
   /// In es, this message translates to:
   /// **'Puerta abierta correctamente'**
   String get activeDoorOpenedSuccess;
+
+  /// Error cuando la pasarela no consigue abrir la puerta
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido abrir la puerta'**
+  String get activeDoorOpenError;
 
   /// Modo degradado: la pasarela hardware no responde (RF-4.7)
   ///
@@ -158,17 +158,17 @@ abstract class AppLocalizations {
   /// **'Retire todas sus pertenencias'**
   String get activeInstructionRemoveBelongings;
 
-  /// Paso 3 de finalizacion
-  ///
-  /// In es, this message translates to:
-  /// **'La plaza quedará disponible\npara otros usuarios'**
-  String get activeInstructionSpotAvailable;
-
   /// Instrucciones cuando la plaza esta en uso
   ///
   /// In es, this message translates to:
   /// **'Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.'**
   String get activeInstructionsInUse;
+
+  /// Paso 3 de finalizacion
+  ///
+  /// In es, this message translates to:
+  /// **'La plaza quedará disponible\npara otros usuarios'**
+  String get activeInstructionSpotAvailable;
 
   /// Instrucciones cuando la reserva esta activa
   ///
@@ -242,6 +242,12 @@ abstract class AppLocalizations {
   /// **'Activar'**
   String get biometricEnableAccept;
 
+  /// Confirmación de biometría activada
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico activado'**
+  String get biometricEnabledSuccess;
+
   /// Explicación del diálogo de alta de biometría
   ///
   /// In es, this message translates to:
@@ -259,12 +265,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¿Activar acceso biométrico?'**
   String get biometricEnableTitle;
-
-  /// Confirmación de biometría activada
-  ///
-  /// In es, this message translates to:
-  /// **'Acceso biométrico activado'**
-  String get biometricEnabledSuccess;
 
   /// Mensaje de fallback cuando la biometría falla
   ///
@@ -506,6 +506,24 @@ abstract class AppLocalizations {
   /// **'Cancelar'**
   String get deleteUserCancelButton;
 
+  /// Validación: texto de confirmación incorrecto
+  ///
+  /// In es, this message translates to:
+  /// **'Debes escribir exactamente \"ELIMINAR\"'**
+  String get deleteUserConfirmationInvalid;
+
+  /// Etiqueta del campo de texto de confirmación de borrado
+  ///
+  /// In es, this message translates to:
+  /// **'Escribir \"ELIMINAR\" para confirmar'**
+  String get deleteUserConfirmationLabel;
+
+  /// Validación: texto de confirmación vacío
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor escribe ELIMINAR para confirmar'**
+  String get deleteUserConfirmationRequired;
+
   /// Botón confirmar del diálogo de eliminar cuenta
   ///
   /// In es, this message translates to:
@@ -541,24 +559,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¿Estás seguro?'**
   String get deleteUserConfirmTitle;
-
-  /// Validación: texto de confirmación incorrecto
-  ///
-  /// In es, this message translates to:
-  /// **'Debes escribir exactamente \"ELIMINAR\"'**
-  String get deleteUserConfirmationInvalid;
-
-  /// Etiqueta del campo de texto de confirmación de borrado
-  ///
-  /// In es, this message translates to:
-  /// **'Escribir \"ELIMINAR\" para confirmar'**
-  String get deleteUserConfirmationLabel;
-
-  /// Validación: texto de confirmación vacío
-  ///
-  /// In es, this message translates to:
-  /// **'Por favor escribe ELIMINAR para confirmar'**
-  String get deleteUserConfirmationRequired;
 
   /// Placeholder del campo email en eliminar cuenta
   ///
@@ -1634,17 +1634,17 @@ abstract class AppLocalizations {
   /// **'Reserva activa'**
   String get parkingCardActiveReservation;
 
-  /// Tooltip para agregar a favoritos
-  ///
-  /// In es, this message translates to:
-  /// **'Agregar a favoritos'**
-  String get parkingCardAddFavorite;
-
   /// SnackBar al añadir un aparcamiento a favoritos
   ///
   /// In es, this message translates to:
   /// **'{name} añadido a favoritos'**
   String parkingCardAddedToFavorites(String name);
+
+  /// Tooltip para agregar a favoritos
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar a favoritos'**
+  String get parkingCardAddFavorite;
 
   /// Error cuando ya existe una reserva activa
   ///
@@ -1664,17 +1664,17 @@ abstract class AppLocalizations {
   /// **'No hay plazas disponibles en este aparcamiento'**
   String get parkingCardNoSpotsAvailable;
 
-  /// Tooltip para quitar de favoritos
-  ///
-  /// In es, this message translates to:
-  /// **'Quitar de favoritos'**
-  String get parkingCardRemoveFavorite;
-
   /// SnackBar al eliminar un aparcamiento de favoritos
   ///
   /// In es, this message translates to:
   /// **'{name} eliminado de favoritos'**
   String parkingCardRemovedFromFavorites(String name);
+
+  /// Tooltip para quitar de favoritos
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar de favoritos'**
+  String get parkingCardRemoveFavorite;
 
   /// SnackBar de reserva creada con éxito
   ///
@@ -2335,6 +2335,48 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Inicializando...'**
   String get splashInitializing;
+
+  /// Mensaje del aviso descartable
+  ///
+  /// In es, this message translates to:
+  /// **'Ya está disponible la versión {version}. Te recomendamos actualizar.'**
+  String updateAvailableMessage(String version);
+
+  /// Título del aviso descartable de actualización
+  ///
+  /// In es, this message translates to:
+  /// **'Hay una versión nueva'**
+  String get updateAvailableTitle;
+
+  /// Botón que abre la tienda para actualizar
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get updateButton;
+
+  /// Botón para descartar el aviso de actualización
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no'**
+  String get updateLater;
+
+  /// Mensaje de actualización obligatoria
+  ///
+  /// In es, this message translates to:
+  /// **'Hay una versión más reciente de la aplicación ({version}). Debes actualizar para seguir usándola.'**
+  String updateRequiredMessage(String version);
+
+  /// Título de la pantalla bloqueante de actualización
+  ///
+  /// In es, this message translates to:
+  /// **'Actualización necesaria'**
+  String get updateRequiredTitle;
+
+  /// Error al abrir el enlace de la tienda
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir la tienda.'**
+  String get updateStoreError;
 }
 
 class _AppLocalizationsDelegate

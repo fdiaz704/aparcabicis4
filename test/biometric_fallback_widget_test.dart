@@ -10,6 +10,8 @@ import 'package:aparcabicis4/screens/login/login_screen.dart';
 import 'package:aparcabicis4/screens/main/main_screen.dart';
 import 'package:aparcabicis4/services/biometric_service.dart';
 import 'package:aparcabicis4/services/storage_service.dart';
+
+import 'support/version_check_doubles.dart';
 import 'package:aparcabicis4/utils/constants.dart';
 
 /// Biometría falsa. La real no se puede ejercitar en un emulador sin huella
@@ -38,14 +40,18 @@ Future<void> givenSavedSessionWithBiometrics() async {
   await StorageService.initialize();
 }
 
-Widget appWith(BiometricAuthenticator biometrics) => AparcabicisApp(
-      cityConfig: demoCity,
-      backend: FakeBackend(
-        seedParkings: demoCity.seedParkings,
-        latency: Duration.zero,
-      ),
-      biometricAuthenticator: biometrics,
-    );
+Widget appWith(BiometricAuthenticator biometrics) {
+  final backend = FakeBackend(
+    seedParkings: demoCity.seedParkings,
+    latency: Duration.zero,
+  );
+  return AparcabicisApp(
+    cityConfig: demoCity,
+    backend: backend,
+    biometricAuthenticator: biometrics,
+    versionCheckService: upToDateVersionCheck(backend),
+  );
+}
 
 void main() {
   setUp(TestWidgetsFlutterBinding.ensureInitialized);

@@ -15,10 +15,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get activeCancelReservationError => 'Error en cancel·lar la reserva';
 
   @override
-  String get activeDoorOpenError => 'No s\'ha pogut obrir la porta';
+  String get activeDoorOpenedSuccess => 'Porta oberta correctament';
 
   @override
-  String get activeDoorOpenedSuccess => 'Porta oberta correctament';
+  String get activeDoorOpenError => 'No s\'ha pogut obrir la porta';
 
   @override
   String get activeDoorUnavailable =>
@@ -41,12 +41,12 @@ class AppLocalizationsCa extends AppLocalizations {
       'Retire totes les seues pertinences';
 
   @override
-  String get activeInstructionSpotAvailable =>
-      'La plaça quedarà disponible\nper a altres usuaris';
-
-  @override
   String get activeInstructionsInUse =>
       'Pots obrir i tancar la porta tantes vegades com necessites durant el teu ús.';
+
+  @override
+  String get activeInstructionSpotAvailable =>
+      'La plaça quedarà disponible\nper a altres usuaris';
 
   @override
   String get activeInstructionsReserved =>
@@ -88,6 +88,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get biometricEnableAccept => 'Activar';
 
   @override
+  String get biometricEnabledSuccess => 'Accés biomètric activat';
+
+  @override
   String get biometricEnableMessage =>
       'La pròxima vegada podràs restaurar la sessió amb empremta o Face ID, sense escriure la contrasenya.';
 
@@ -96,9 +99,6 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get biometricEnableTitle => 'Vols activar l\'accés biomètric?';
-
-  @override
-  String get biometricEnabledSuccess => 'Accés biomètric activat';
 
   @override
   String get biometricFallbackMessage =>
@@ -235,6 +235,18 @@ class AppLocalizationsCa extends AppLocalizations {
   String get deleteUserCancelButton => 'Cancel·lar';
 
   @override
+  String get deleteUserConfirmationInvalid =>
+      'Has d\'escriure exactament \"ELIMINAR\"';
+
+  @override
+  String get deleteUserConfirmationLabel =>
+      'Escriu \"ELIMINAR\" per a confirmar';
+
+  @override
+  String get deleteUserConfirmationRequired =>
+      'Escriu ELIMINAR per a confirmar';
+
+  @override
   String get deleteUserConfirmButton => 'Eliminar';
 
   @override
@@ -253,18 +265,6 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get deleteUserConfirmTitle => 'Estàs segur?';
-
-  @override
-  String get deleteUserConfirmationInvalid =>
-      'Has d\'escriure exactament \"ELIMINAR\"';
-
-  @override
-  String get deleteUserConfirmationLabel =>
-      'Escriu \"ELIMINAR\" per a confirmar';
-
-  @override
-  String get deleteUserConfirmationRequired =>
-      'Escriu ELIMINAR per a confirmar';
 
   @override
   String get deleteUserEmailHint => 'El teu correu electrònic actual';
@@ -880,12 +880,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get parkingCardActiveReservation => 'Reserva activa';
 
   @override
-  String get parkingCardAddFavorite => 'Afegir als preferits';
-
-  @override
   String parkingCardAddedToFavorites(String name) {
     return '$name afegit als preferits';
   }
+
+  @override
+  String get parkingCardAddFavorite => 'Afegir als preferits';
 
   @override
   String get parkingCardAlreadyReserved => 'Ja tens una reserva activa';
@@ -898,12 +898,12 @@ class AppLocalizationsCa extends AppLocalizations {
       'No hi ha places disponibles en aquest aparcament';
 
   @override
-  String get parkingCardRemoveFavorite => 'Llevar dels preferits';
-
-  @override
   String parkingCardRemovedFromFavorites(String name) {
     return '$name eliminat dels preferits';
   }
+
+  @override
+  String get parkingCardRemoveFavorite => 'Llevar dels preferits';
 
   @override
   String parkingCardReservationCreated(String name) {
@@ -1279,4 +1279,29 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get splashInitializing => 'Inicialitzant...';
+
+  @override
+  String updateAvailableMessage(String version) {
+    return 'Ja està disponible la versió $version. Et recomanem actualitzar.';
+  }
+
+  @override
+  String get updateAvailableTitle => 'Hi ha una versió nova';
+
+  @override
+  String get updateButton => 'Actualitzar';
+
+  @override
+  String get updateLater => 'Ara no';
+
+  @override
+  String updateRequiredMessage(String version) {
+    return 'Hi ha una versió més recent de l\'aplicació ($version). Has d\'actualitzar per a continuar usant-la.';
+  }
+
+  @override
+  String get updateRequiredTitle => 'Actualització necessària';
+
+  @override
+  String get updateStoreError => 'No s\'ha pogut obrir la botiga.';
 }

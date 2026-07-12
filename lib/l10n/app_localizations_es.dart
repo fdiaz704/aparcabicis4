@@ -15,10 +15,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activeCancelReservationError => 'Error al cancelar la reserva';
 
   @override
-  String get activeDoorOpenError => 'No se ha podido abrir la puerta';
+  String get activeDoorOpenedSuccess => 'Puerta abierta correctamente';
 
   @override
-  String get activeDoorOpenedSuccess => 'Puerta abierta correctamente';
+  String get activeDoorOpenError => 'No se ha podido abrir la puerta';
 
   @override
   String get activeDoorUnavailable =>
@@ -41,12 +41,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Retire todas sus pertenencias';
 
   @override
-  String get activeInstructionSpotAvailable =>
-      'La plaza quedará disponible\npara otros usuarios';
-
-  @override
   String get activeInstructionsInUse =>
       'Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.';
+
+  @override
+  String get activeInstructionSpotAvailable =>
+      'La plaza quedará disponible\npara otros usuarios';
 
   @override
   String get activeInstructionsReserved =>
@@ -88,6 +88,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get biometricEnableAccept => 'Activar';
 
   @override
+  String get biometricEnabledSuccess => 'Acceso biométrico activado';
+
+  @override
   String get biometricEnableMessage =>
       'La próxima vez podrás restaurar tu sesión con huella o Face ID, sin escribir la contraseña.';
 
@@ -96,9 +99,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get biometricEnableTitle => '¿Activar acceso biométrico?';
-
-  @override
-  String get biometricEnabledSuccess => 'Acceso biométrico activado';
 
   @override
   String get biometricFallbackMessage =>
@@ -233,6 +233,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteUserCancelButton => 'Cancelar';
 
   @override
+  String get deleteUserConfirmationInvalid =>
+      'Debes escribir exactamente \"ELIMINAR\"';
+
+  @override
+  String get deleteUserConfirmationLabel =>
+      'Escribir \"ELIMINAR\" para confirmar';
+
+  @override
+  String get deleteUserConfirmationRequired =>
+      'Por favor escribe ELIMINAR para confirmar';
+
+  @override
   String get deleteUserConfirmButton => 'Eliminar';
 
   @override
@@ -251,18 +263,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleteUserConfirmTitle => '¿Estás seguro?';
-
-  @override
-  String get deleteUserConfirmationInvalid =>
-      'Debes escribir exactamente \"ELIMINAR\"';
-
-  @override
-  String get deleteUserConfirmationLabel =>
-      'Escribir \"ELIMINAR\" para confirmar';
-
-  @override
-  String get deleteUserConfirmationRequired =>
-      'Por favor escribe ELIMINAR para confirmar';
 
   @override
   String get deleteUserEmailHint => 'Tu email actual';
@@ -874,12 +874,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get parkingCardActiveReservation => 'Reserva activa';
 
   @override
-  String get parkingCardAddFavorite => 'Agregar a favoritos';
-
-  @override
   String parkingCardAddedToFavorites(String name) {
     return '$name añadido a favoritos';
   }
+
+  @override
+  String get parkingCardAddFavorite => 'Agregar a favoritos';
 
   @override
   String get parkingCardAlreadyReserved => 'Ya tienes una reserva activa';
@@ -892,12 +892,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'No hay plazas disponibles en este aparcamiento';
 
   @override
-  String get parkingCardRemoveFavorite => 'Quitar de favoritos';
-
-  @override
   String parkingCardRemovedFromFavorites(String name) {
     return '$name eliminado de favoritos';
   }
+
+  @override
+  String get parkingCardRemoveFavorite => 'Quitar de favoritos';
 
   @override
   String parkingCardReservationCreated(String name) {
@@ -1272,4 +1272,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get splashInitializing => 'Inicializando...';
+
+  @override
+  String updateAvailableMessage(String version) {
+    return 'Ya está disponible la versión $version. Te recomendamos actualizar.';
+  }
+
+  @override
+  String get updateAvailableTitle => 'Hay una versión nueva';
+
+  @override
+  String get updateButton => 'Actualizar';
+
+  @override
+  String get updateLater => 'Ahora no';
+
+  @override
+  String updateRequiredMessage(String version) {
+    return 'Hay una versión más reciente de la aplicación ($version). Debes actualizar para seguir usándola.';
+  }
+
+  @override
+  String get updateRequiredTitle => 'Actualización necesaria';
+
+  @override
+  String get updateStoreError => 'No se pudo abrir la tienda.';
 }
