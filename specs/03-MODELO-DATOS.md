@@ -108,9 +108,17 @@ Tabla real del hosting que respalda `POST /check_version`.
 | checkout_at | DATETIME(6) NULL | |
 | price_cents | INT NOT NULL DEFAULT 0 | preparado para tarifas futuras; siempre 0 en v1 |
 | currency | CHAR(3) NOT NULL DEFAULT 'EUR' | |
-| active_lock | CHAR(36) AS (IF(status IN ('pending','active'), user_id, NULL)) VIRTUAL | columna generada para el índice único parcial |
+| active_lock | CHAR(36) NULL | columna normal mantenida por **triggers**; sostiene el índice único parcial |
 
-**Regla RF-3.2 (una sola reserva/uso activo por usuario)**: como MySQL/MariaDB no tiene índices parciales, se añade la columna generada `active_lock` (= `user_id` solo mientras la reserva está `pending`/`active`, `NULL` en el resto) y un índice **`UNIQUE (active_lock)`**. Así un segundo `pending`/`active` del mismo usuario viola el índice; los estados finales quedan a `NULL` y no colisionan.
+**Regla RF-3.2 (una sola reserva/uso activo por usuario)**: como MySQL/MariaDB no tiene índices parciales, se emula con la columna `active_lock` (= `user_id` solo mientras la reserva está `pending`/`active`, `NULL` en el resto) y un índice **`UNIQUE (active_lock)`**. Así un segundo `pending`/`active` del mismo usuario viola el índice; los estados finales quedan a `NULL` y no colisionan (en SQL un `NULL` no es igual a otro `NULL`).
+
+> **Corrección (verificada contra MariaDB 10.3 y 10.11, jul-2026).** La versión anterior de este spec definía `active_lock` como **columna generada** (`AS (IF(...)) VIRTUAL`). **No es implementable**: MariaDB rechaza con el error 1901 cualquier columna generada que use una función (`IF`, `CASE`, incluso `SUBSTRING`) **si lleva un índice**, porque solo admite expresiones de su lista de deterministas. Da igual `VIRTUAL` o `PERSISTENT`, y da igual declarar el índice en el `CREATE TABLE` o añadirlo después.
+>
+> En su lugar, `active_lock` es una **columna normal** mantenida por dos triggers, `BEFORE INSERT` y `BEFORE UPDATE`:
+> ```sql
+> SET NEW.active_lock = IF(NEW.status IN ('pending','active'), NEW.user_id, NULL);
+> ```
+> La garantía sigue estando **en la base de datos y no en la aplicación**, que es lo esencial: dos peticiones simultáneas del mismo usuario pasarían ambas cualquier comprobación hecha en PHP antes de insertar. Además los triggers son inviolables desde la app: aunque escribiera `active_lock` a mano, el trigger lo sobrescribe.
 
 ## access_events (auditoría de aperturas, RF-4.6)
 | Campo | Tipo (MySQL/MariaDB) | Notas |
