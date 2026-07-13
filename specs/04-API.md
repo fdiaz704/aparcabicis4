@@ -1,7 +1,9 @@
 # 04 — Contrato API REST (v1)
 
-Base: `https://api.aparcabicis4.example/v1` · JSON · Auth: `Authorization: Bearer <access_token>` salvo donde se indique.
-Errores: `{ "error": { "code": "RESERVATION_CONFLICT", "message": "..." } }` con HTTP semántico (400/401/403/404/409/422/503).
+Base: `https://palma.r3smartcityvmp.com/api/v1` · JSON · Auth: `Authorization: Bearer <access_token>` salvo donde se indique.
+Errores: `{ "error": { "code": "RESERVATION_CONFLICT", "message": "..." } }` con HTTP semántico (400/401/403/404/409/422/429/503).
+
+**Límite de intentos.** `POST /auth/login`, `/auth/forgot-password` y `/auth/reset-password` están limitados por correo y por IP. Al superarlo: **429** con código `TOO_MANY_ATTEMPTS` y cabecera `Retry-After` (segundos). Sin esto, `/auth/login` es un banco de pruebas de contraseñas: nada impide probar diez mil por minuto, y ninguna política de contraseñas resiste eso.
 
 ## Auth (público)
 | Método | Ruta | Body | Respuesta |
