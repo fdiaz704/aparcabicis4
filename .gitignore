@@ -47,3 +47,7 @@ app.*.map.json
 # Secrets — never commit API keys (see *.example templates)
 /android/secrets.properties
 /ios/Flutter/Secrets.xcconfig
+
+# Documentación interna: menciona infraestructura de producción y deuda de
+# seguridad. El repositorio es PÚBLICO. No debe subirse.
+documentacion_v2.md
