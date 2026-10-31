@@ -210,11 +210,30 @@ class AuthProvider with ChangeNotifier {
   /// recordado y tokens aún guardados. Habilita "Entrar con huella" en el
   /// login (RF-1.6).
   Future<bool> canLoginWithBiometrics() async {
-    if (_isLoggedIn || !isBiometricEnabled) return false;
+    // Trazas de diagnóstico (visibles en la consola de `flutter run`): si la
+    // reentrada con huella no aparece, estas líneas dicen qué condición falla.
+    if (_isLoggedIn) {
+      debugPrint('BIO: sin reentrada — ya hay sesión iniciada');
+      return false;
+    }
+    if (!isBiometricEnabled) {
+      debugPrint('BIO: sin reentrada — biometría NO activada en esta app');
+      return false;
+    }
     final email = StorageService.getString(AppConstants.prefKeyEmail);
-    if (email == null || email.isEmpty) return false;
-    if (!await SecureStorageService.hasSessionToken()) return false;
-    return _biometrics.isAvailable();
+    if (email == null || email.isEmpty) {
+      debugPrint('BIO: sin reentrada — no hay email recordado');
+      return false;
+    }
+    if (!await SecureStorageService.hasSessionToken()) {
+      debugPrint('BIO: sin reentrada — no hay token en el almacén seguro');
+      return false;
+    }
+    final available = await _biometrics.isAvailable();
+    if (!available) {
+      debugPrint('BIO: sin reentrada — el sistema dice que no hay biometría');
+    }
+    return available;
   }
 
   /// Reabre la sesión bloqueada tras verificar la huella (RF-1.6).

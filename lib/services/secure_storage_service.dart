@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Almacenamiento seguro de la plataforma: Keychain en iOS y almacenamiento
@@ -25,9 +26,21 @@ class SecureStorageService {
     await _storage.write(key: _accessTokenKey, value: token);
   }
 
-  static Future<String?> getSessionToken() => _storage.read(key: _accessTokenKey);
+  /// Lectura defensiva: en algunos dispositivos (Keystore de MIUI/HyperOS
+  /// tras reinstalar) la lectura lanza en vez de devolver null, y un throw
+  /// aquí rompe en silencio la restauración y la reentrada con huella.
+  static Future<String?> _read(String key) async {
+    try {
+      return await _storage.read(key: key);
+    } catch (e) {
+      debugPrint('BIO: fallo leyendo "$key" del almacén seguro: $e');
+      return null;
+    }
+  }
 
-  static Future<String?> getRefreshToken() => _storage.read(key: _refreshTokenKey);
+  static Future<String?> getSessionToken() => _read(_accessTokenKey);
+
+  static Future<String?> getRefreshToken() => _read(_refreshTokenKey);
 
   /// Elimina la sesión completa (logout, borrado de cuenta o "Recuérdame" off).
   static Future<void> clearSession() async {
