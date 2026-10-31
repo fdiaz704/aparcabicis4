@@ -74,6 +74,9 @@ total por locker. Sin esto NO hay lista de estaciones, NI mapa, NI marcadores.
 
 De la tabla APARCABICIS
 
+> **Cerrado (confirmación del cliente, 2026-10-31):** en producción hay **4 estaciones**, todas en
+> Mallorca (Palma), cada una con distinto número de plazas. Ver GRUPO E.
+
 
 ### B2. SMTP de producción (decisión #11)
 Las credenciales del repo son de pruebas y están en claro. Para recuperación de
@@ -160,6 +163,40 @@ Hoy solo existe baja administrativa (sanción), no borrado a petición del usuar
 
 **Respuesta:**
 Borrado físico
+---
+
+## GRUPO E — Confirmaciones del cliente (2026-10-31)
+
+Respuestas del cliente a las cinco preguntas abiertas del análisis inicial de carencias. Ninguna
+reabre el contrato ([contrato-api.md](contrato-api.md)) ni los ADR; cierran los supuestos sobre los
+que estaban escritos.
+
+### E1. La API propia se construye desde cero
+No existe backend app-facing que conectar. Confirma el [ADR 0001](adr/0001-backend.md): API REST
+propia (PHP 8 + MariaDB) como **capa de integración**. Los endpoints marcados ♻️ en el contrato
+(`reserva`, `apertura`, `end_sesion`, `info_usr`, `info_plazas`) pertenecen al sistema existente
+sobre el que la nueva API se apoya, no a una API de app ya operativa.
+
+### E2. La apertura de puertas va contra la API del fabricante en la nube
+Confirma el principio del ADR 0001: comando **servidor → fabricante** (REST de solo comando, sin
+telemetría), nunca cliente → fabricante. Siguen pendientes de implementación los detalles del
+comando (autenticación, idempotencia, timeouts, fallos a medias — "Pendiente" del ADR 0001).
+
+### E3. Ámbito real v1: Mallorca (Palma), 4 estaciones
+Cada estación con **distinto número de plazas**. Confirma el alcance v1 del
+[ADR 0002](adr/0002-multi-ciudad.md) (solo Palma) y el flavor `palma` ya creado (RF-0). El catálogo
+real (nombre, dirección, lat/lng, capacidad) sale de `APARCABICIS` (B1); **no se inventan semillas
+locales** para Palma — sus datos llegan por la API (fase 4).
+
+### E4. Bicicletas y patinetes (VMP) usan las plazas indistintamente
+No se modela tipo de vehículo ni tipo de plaza de cara al usuario en v1. Confirma A3 (plaza con/sin
+enchufe no expuesta; la API autoselecciona con `Tipo_lock=2`).
+
+### E5. Una plaza por usuario: regla estricta
+Confirma la regla firme §1.7.bis del contrato (`409 ALREADY_HAS_RESERVATION`) y su corolario P3
+(no se puede borrar la cuenta con reserva/uso activo). **La regla la impone el servidor** de forma
+atómica; la comprobación local de la app es solo UX anticipada, nunca la garantía.
+
 ---
 
 ## Nota aparte (NO es una de las 11, pero no la pierdas)

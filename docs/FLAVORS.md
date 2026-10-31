@@ -10,7 +10,10 @@ compilación y toda la configuración dependiente de ciudad vive en
   centro/zoom del mapa, branding, IDs de tienda, URLs legales, idiomas y
   aparcamientos semilla).
 - `lib/config/cities/<slug>.dart` — una `CityConfig` por ciudad. Hoy: `demo`
-  (semilla con los 8 aparcamientos de Madrid).
+  (semilla con los 8 aparcamientos de Madrid) y `palma` (ciudad v1 real —
+  Mallorca, 4 estaciones en producción; sin semilla local, sus datos vendrán
+  de la API en fase 4; `apiBaseUrl`, IDs de tienda y URLs legales
+  provisionales).
 - `lib/config/app_flavor.dart` — `resolveCityConfig()` lee
   `--dart-define=CITY=<slug>` (por defecto `demo`) y devuelve la config.
 
