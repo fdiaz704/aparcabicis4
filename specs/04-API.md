@@ -1,7 +1,9 @@
 # 04 — Contrato API REST (v1)
 
-Base: `https://api.aparcabicis4.example/v1` · JSON · Auth: `Authorization: Bearer <access_token>` salvo donde se indique.
-Errores: `{ "error": { "code": "RESERVATION_CONFLICT", "message": "..." } }` con HTTP semántico (400/401/403/404/409/422/503).
+Base: `https://palma.r3smartcityvmp.com/api/v1` · JSON · Auth: `Authorization: Bearer <access_token>` salvo donde se indique.
+Errores: `{ "error": { "code": "RESERVATION_CONFLICT", "message": "..." } }` con HTTP semántico (400/401/403/404/409/422/429/503).
+
+**Límite de intentos.** `POST /auth/login`, `/auth/forgot-password` y `/auth/reset-password` están limitados por correo y por IP. Al superarlo: **429** con código `TOO_MANY_ATTEMPTS` y cabecera `Retry-After` (segundos). Sin esto, `/auth/login` es un banco de pruebas de contraseñas: nada impide probar diez mil por minuto, y ninguna política de contraseñas resiste eso.
 
 ## Auth (público)
 | Método | Ruta | Body | Respuesta |
@@ -80,12 +82,31 @@ Respuesta de parking:
 Respuesta de reserva:
 ```json
 {
-  "id": "…", "parkingId": "…", "parkingName": "Atocha Norte",
+  "id": "…", "parkingId": "…", "parkingName": "Atocha Norte", "parkingAddress": "…",
   "status": "pending",
-  "createdAt": "2026-07-11T10:00:00Z",
-  "expiresAt": "2026-07-11T10:30:00Z",
+  "createdAt": "2026-07-11T10:00:00+00:00",
+  "expiresAt": "2026-07-11T10:30:00+00:00",
   "checkinAt": null, "maxUntil": null, "checkoutAt": null,
   "priceCents": 0, "currency": "EUR"
 }
 ```
+**Todas las fechas van en UTC con la zona explícita** (`+00:00`). Sin ella, el
+móvil las interpreta como hora local y las cuentas atrás salen desviadas.
+
+## Acceso: abrir puerta (autenticado)
+| Método | Ruta | Body | Notas |
+|---|---|---|---|
+| POST | /reservations/{id}/open | `{doorId?}` | Acciona la puerta. **La primera apertura con éxito es el check-in**: `pending → active`, fija `checkinAt` y `maxUntil = checkinAt + maxUseMin`. Con la reserva ya `active` solo abre (entradas y salidas intermedias), sin cambiar de estado |
+
+Respuesta:
+```json
+{ "result": "opened", "reservation": { …reserva actualizada… } }
+```
+
+- `result`: `opened` \| `failed` \| `timeout`.
+- Errores: 409 `RESERVATION_INVALID_STATE` si la reserva no está `pending` ni `active`; 503 `GATEWAY_UNAVAILABLE` si la pasarela no responde (RF-4.7).
+- **Toda apertura se audita** en `access_events`, tenga éxito o no: es la única prueba de lo ocurrido si alguien reclama.
+- Si la pasarela falla, la reserva **no** cambia de estado: no se puede dar por empezado un uso cuya puerta nunca se abrió.
+
+> **Nota de la fase 3.** Este endpoint faltaba en el contrato, aunque la máquina de estados de `03-MODELO-DATOS.md` (`pending → active` por "open OK") y el plan de fases lo daban por hecho. Se define aquí antes de implementarlo.
 **La app calcula cuentas atrás contra `expiresAt`/`maxUntil` del

@@ -110,17 +110,17 @@ abstract class AppLocalizations {
   /// **'Error al cancelar la reserva'**
   String get activeCancelReservationError;
 
-  /// Error cuando la pasarela no consigue abrir la puerta
-  ///
-  /// In es, this message translates to:
-  /// **'No se ha podido abrir la puerta'**
-  String get activeDoorOpenError;
-
   /// SnackBar de exito al abrir la puerta
   ///
   /// In es, this message translates to:
   /// **'Puerta abierta correctamente'**
   String get activeDoorOpenedSuccess;
+
+  /// Error cuando la pasarela no consigue abrir la puerta
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido abrir la puerta'**
+  String get activeDoorOpenError;
 
   /// Modo degradado: la pasarela hardware no responde (RF-4.7)
   ///
@@ -158,17 +158,17 @@ abstract class AppLocalizations {
   /// **'Retire todas sus pertenencias'**
   String get activeInstructionRemoveBelongings;
 
-  /// Paso 3 de finalizacion
-  ///
-  /// In es, this message translates to:
-  /// **'La plaza quedará disponible\npara otros usuarios'**
-  String get activeInstructionSpotAvailable;
-
   /// Instrucciones cuando la plaza esta en uso
   ///
   /// In es, this message translates to:
   /// **'Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.'**
   String get activeInstructionsInUse;
+
+  /// Paso 3 de finalizacion
+  ///
+  /// In es, this message translates to:
+  /// **'La plaza quedará disponible\npara otros usuarios'**
+  String get activeInstructionSpotAvailable;
 
   /// Instrucciones cuando la reserva esta activa
   ///
@@ -242,6 +242,12 @@ abstract class AppLocalizations {
   /// **'Activar'**
   String get biometricEnableAccept;
 
+  /// Confirmación de biometría activada
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico activado'**
+  String get biometricEnabledSuccess;
+
   /// Explicación del diálogo de alta de biometría
   ///
   /// In es, this message translates to:
@@ -259,12 +265,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¿Activar acceso biométrico?'**
   String get biometricEnableTitle;
-
-  /// Confirmación de biometría activada
-  ///
-  /// In es, this message translates to:
-  /// **'Acceso biométrico activado'**
-  String get biometricEnabledSuccess;
 
   /// Mensaje de fallback cuando la biometría falla
   ///
@@ -506,6 +506,24 @@ abstract class AppLocalizations {
   /// **'Cancelar'**
   String get deleteUserCancelButton;
 
+  /// Validación: texto de confirmación incorrecto
+  ///
+  /// In es, this message translates to:
+  /// **'Debes escribir exactamente \"ELIMINAR\"'**
+  String get deleteUserConfirmationInvalid;
+
+  /// Etiqueta del campo de texto de confirmación de borrado
+  ///
+  /// In es, this message translates to:
+  /// **'Escribir \"ELIMINAR\" para confirmar'**
+  String get deleteUserConfirmationLabel;
+
+  /// Validación: texto de confirmación vacío
+  ///
+  /// In es, this message translates to:
+  /// **'Por favor escribe ELIMINAR para confirmar'**
+  String get deleteUserConfirmationRequired;
+
   /// Botón confirmar del diálogo de eliminar cuenta
   ///
   /// In es, this message translates to:
@@ -541,24 +559,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'¿Estás seguro?'**
   String get deleteUserConfirmTitle;
-
-  /// Validación: texto de confirmación incorrecto
-  ///
-  /// In es, this message translates to:
-  /// **'Debes escribir exactamente \"ELIMINAR\"'**
-  String get deleteUserConfirmationInvalid;
-
-  /// Etiqueta del campo de texto de confirmación de borrado
-  ///
-  /// In es, this message translates to:
-  /// **'Escribir \"ELIMINAR\" para confirmar'**
-  String get deleteUserConfirmationLabel;
-
-  /// Validación: texto de confirmación vacío
-  ///
-  /// In es, this message translates to:
-  /// **'Por favor escribe ELIMINAR para confirmar'**
-  String get deleteUserConfirmationRequired;
 
   /// Placeholder del campo email en eliminar cuenta
   ///
@@ -1250,6 +1250,30 @@ abstract class AppLocalizations {
   /// **'Intenta cambiar el filtro para ver más reservas'**
   String get historyTryChangeFilter;
 
+  /// Mensaje de la pantalla de bloqueo
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloquea con tu huella o Face ID para continuar'**
+  String get lockMessage;
+
+  /// Botón para reintentar el desbloqueo biométrico
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get lockRetry;
+
+  /// Título de la pantalla de bloqueo biométrico
+  ///
+  /// In es, this message translates to:
+  /// **'App bloqueada'**
+  String get lockTitle;
+
+  /// Botón para salir del bloqueo e iniciar sesión con contraseña
+  ///
+  /// In es, this message translates to:
+  /// **'Usar contraseña'**
+  String get lockUsePassword;
+
   /// Placeholder del campo email en login
   ///
   /// In es, this message translates to:
@@ -1418,11 +1442,71 @@ abstract class AppLocalizations {
   /// **'Centrando en {city}'**
   String mapCenteringOn(String city);
 
+  /// Cancelar la reserva tras el aviso de ETA
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get mapEtaWarningCancel;
+
+  /// Explicación del aviso de ETA (HU-4)
+  ///
+  /// In es, this message translates to:
+  /// **'Tardarías unos {minutes} min en llegar, y la reserva solo se mantiene {window} min. ¿Quieres reservar igualmente?'**
+  String mapEtaWarningMessage(int minutes, int window);
+
+  /// Confirmar reserva pese al aviso de ETA
+  ///
+  /// In es, this message translates to:
+  /// **'Reservar igualmente'**
+  String get mapEtaWarningReserve;
+
+  /// Título del aviso de ETA mayor que la ventana
+  ///
+  /// In es, this message translates to:
+  /// **'Puede que no llegues a tiempo'**
+  String get mapEtaWarningTitle;
+
   /// Fragmento del marcador con plazas libres
   ///
   /// In es, this message translates to:
   /// **'{count} plazas libres'**
   String mapFreeSpots(int count);
+
+  /// Aviso mientras se obtiene la posición del usuario
+  ///
+  /// In es, this message translates to:
+  /// **'Obteniendo tu ubicación...'**
+  String get mapLocating;
+
+  /// Permiso de ubicación denegado
+  ///
+  /// In es, this message translates to:
+  /// **'Necesitamos tu ubicación para centrar el mapa'**
+  String get mapLocationDenied;
+
+  /// Permiso denegado permanentemente
+  ///
+  /// In es, this message translates to:
+  /// **'Permiso de ubicación bloqueado. Actívalo en los ajustes del sistema.'**
+  String get mapLocationDeniedForever;
+
+  /// Servicio de localización apagado
+  ///
+  /// In es, this message translates to:
+  /// **'La ubicación del dispositivo está desactivada'**
+  String get mapLocationServiceDisabled;
+
+  /// Error genérico al obtener la posición
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido obtener tu ubicación'**
+  String get mapLocationUnavailable;
+
+  /// Título del panel de aparcamientos cercanos
+  ///
+  /// In es, this message translates to:
+  /// **'Aparcamientos cercanos'**
+  String get mapNearbyTitle;
 
   /// Error cuando no quedan plazas para reservar
   ///
@@ -1435,6 +1519,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'No disponible'**
   String get mapNotAvailable;
+
+  /// Acción para abrir los ajustes del sistema
+  ///
+  /// In es, this message translates to:
+  /// **'Ajustes'**
+  String get mapOpenSettings;
 
   /// Mensaje al desmarcar un aparcamiento como favorito
   ///
@@ -1460,11 +1550,83 @@ abstract class AppLocalizations {
   /// **'Reservar'**
   String get mapReserve;
 
+  /// ETA y distancia de la ruta
+  ///
+  /// In es, this message translates to:
+  /// **'{minutes} min en bici · {distance}'**
+  String mapRouteEta(int minutes, String distance);
+
+  /// ETA aproximado cuando no hay ruta real de Google
+  ///
+  /// In es, this message translates to:
+  /// **'~{minutes} min en bici · {distance} (estimado)'**
+  String mapRouteEtaEstimated(int minutes, String distance);
+
+  /// Falta la ubicación para trazar la ruta
+  ///
+  /// In es, this message translates to:
+  /// **'Activa tu ubicación para ver la ruta'**
+  String get mapRouteNeedsLocation;
+
+  /// Error al calcular la ruta
+  ///
+  /// In es, this message translates to:
+  /// **'No se ha podido calcular la ruta'**
+  String get mapRouteUnavailable;
+
   /// Etiqueta de disponibilidad en la tarjeta del aparcamiento
   ///
   /// In es, this message translates to:
   /// **'{available} de {total} disponibles'**
   String mapSpotsAvailable(int available, int total);
+
+  /// Cuerpo del aviso de exceso de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Recoge tu vehículo y finaliza el uso cuanto antes.'**
+  String get notifOverstayBody;
+
+  /// Título del aviso de exceso de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Has superado el tiempo máximo de uso'**
+  String get notifOverstayTitle;
+
+  /// Cuerpo del aviso de reserva vencida
+  ///
+  /// In es, this message translates to:
+  /// **'La plaza ha quedado libre para otros usuarios.'**
+  String get notifReservationExpiredBody;
+
+  /// Título del aviso de reserva vencida
+  ///
+  /// In es, this message translates to:
+  /// **'Tu reserva ha vencido'**
+  String get notifReservationExpiredTitle;
+
+  /// Cuerpo del aviso de reserva por vencer
+  ///
+  /// In es, this message translates to:
+  /// **'Tu reserva vence en {minutes} min. Abre la puerta para no perder la plaza.'**
+  String notifReservationWarningBody(int minutes);
+
+  /// Título del aviso de reserva por vencer
+  ///
+  /// In es, this message translates to:
+  /// **'Tu reserva está a punto de vencer'**
+  String get notifReservationWarningTitle;
+
+  /// Cuerpo del aviso de fin de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Quedan {minutes} min de uso. Recoge tu vehículo y finaliza el uso.'**
+  String notifUseWarningBody(int minutes);
+
+  /// Título del aviso de fin de uso
+  ///
+  /// In es, this message translates to:
+  /// **'Se acaba tu tiempo de uso'**
+  String get notifUseWarningTitle;
 
   /// Texto del botón cuando hay una reserva activa
   ///
@@ -1472,17 +1634,17 @@ abstract class AppLocalizations {
   /// **'Reserva activa'**
   String get parkingCardActiveReservation;
 
-  /// Tooltip para agregar a favoritos
-  ///
-  /// In es, this message translates to:
-  /// **'Agregar a favoritos'**
-  String get parkingCardAddFavorite;
-
   /// SnackBar al añadir un aparcamiento a favoritos
   ///
   /// In es, this message translates to:
   /// **'{name} añadido a favoritos'**
   String parkingCardAddedToFavorites(String name);
+
+  /// Tooltip para agregar a favoritos
+  ///
+  /// In es, this message translates to:
+  /// **'Agregar a favoritos'**
+  String get parkingCardAddFavorite;
 
   /// Error cuando ya existe una reserva activa
   ///
@@ -1502,17 +1664,17 @@ abstract class AppLocalizations {
   /// **'No hay plazas disponibles en este aparcamiento'**
   String get parkingCardNoSpotsAvailable;
 
-  /// Tooltip para quitar de favoritos
-  ///
-  /// In es, this message translates to:
-  /// **'Quitar de favoritos'**
-  String get parkingCardRemoveFavorite;
-
   /// SnackBar al eliminar un aparcamiento de favoritos
   ///
   /// In es, this message translates to:
   /// **'{name} eliminado de favoritos'**
   String parkingCardRemovedFromFavorites(String name);
+
+  /// Tooltip para quitar de favoritos
+  ///
+  /// In es, this message translates to:
+  /// **'Quitar de favoritos'**
+  String get parkingCardRemoveFavorite;
 
   /// SnackBar de reserva creada con éxito
   ///
@@ -1627,6 +1789,12 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Ordenar por'**
   String get parkingsListSortBy;
+
+  /// Opción de orden por distancia
+  ///
+  /// In es, this message translates to:
+  /// **'Distancia (más cercano)'**
+  String get parkingsListSortDistance;
 
   /// Opción de orden: por nombre
   ///
@@ -1928,6 +2096,24 @@ abstract class AppLocalizations {
   /// **'Configuración de la aplicación'**
   String get settingsAppSection;
 
+  /// Título del conmutador de biometría en Ajustes
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico'**
+  String get settingsBiometric;
+
+  /// Confirmación al desactivar la biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Acceso biométrico desactivado'**
+  String get settingsBiometricDisabled;
+
+  /// Subtítulo del conmutador de biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Desbloquear la app con huella o Face ID'**
+  String get settingsBiometricSubtitle;
+
   /// Título de la acción de llamar a soporte
   ///
   /// In es, this message translates to:
@@ -1957,18 +2143,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Actualizar tu contraseña de acceso'**
   String get settingsChangePasswordSubtitle;
-
-  /// Título del ajuste de modo oscuro
-  ///
-  /// In es, this message translates to:
-  /// **'Modo oscuro'**
-  String get settingsDarkMode;
-
-  /// Subtítulo del ajuste de modo oscuro
-  ///
-  /// In es, this message translates to:
-  /// **'Usar tema oscuro en la aplicación'**
-  String get settingsDarkModeSubtitle;
 
   /// Título de la acción eliminar cuenta
   ///
@@ -2066,12 +2240,6 @@ abstract class AppLocalizations {
   /// **'Idioma'**
   String get settingsLanguage;
 
-  /// Valor mostrado del idioma seleccionado
-  ///
-  /// In es, this message translates to:
-  /// **'Español'**
-  String get settingsLanguageValue;
-
   /// Título del ajuste de notificaciones
   ///
   /// In es, this message translates to:
@@ -2081,7 +2249,7 @@ abstract class AppLocalizations {
   /// Subtítulo del ajuste de notificaciones
   ///
   /// In es, this message translates to:
-  /// **'Recibir notificaciones de reservas y recordatorios'**
+  /// **'Preferencia guardada; los avisos push llegarán próximamente'**
   String get settingsNotificationsSubtitle;
 
   /// Título de la acción de política de privacidad
@@ -2089,12 +2257,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Política de privacidad'**
   String get settingsPrivacy;
-
-  /// Aviso de que la política de privacidad está en desarrollo
-  ///
-  /// In es, this message translates to:
-  /// **'Política de privacidad - Funcionalidad en desarrollo'**
-  String get settingsPrivacyInDevelopment;
 
   /// Subtítulo de la acción de política de privacidad
   ///
@@ -2107,12 +2269,6 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Términos de servicio'**
   String get settingsTerms;
-
-  /// Aviso de que los términos de servicio están en desarrollo
-  ///
-  /// In es, this message translates to:
-  /// **'Términos de servicio - Funcionalidad en desarrollo'**
-  String get settingsTermsInDevelopment;
 
   /// Subtítulo de la acción de términos de servicio
   ///
@@ -2149,6 +2305,114 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Inicializando...'**
   String get splashInitializing;
+
+  /// Mensaje del aviso descartable
+  ///
+  /// In es, this message translates to:
+  /// **'Ya está disponible la versión {version}. Te recomendamos actualizar.'**
+  String updateAvailableMessage(String version);
+
+  /// Título del aviso descartable de actualización
+  ///
+  /// In es, this message translates to:
+  /// **'Hay una versión nueva'**
+  String get updateAvailableTitle;
+
+  /// Botón que abre la tienda para actualizar
+  ///
+  /// In es, this message translates to:
+  /// **'Actualizar'**
+  String get updateButton;
+
+  /// Botón para descartar el aviso de actualización
+  ///
+  /// In es, this message translates to:
+  /// **'Ahora no'**
+  String get updateLater;
+
+  /// Mensaje de actualización obligatoria
+  ///
+  /// In es, this message translates to:
+  /// **'Hay una versión más reciente de la aplicación ({version}). Debes actualizar para seguir usándola.'**
+  String updateRequiredMessage(String version);
+
+  /// Título de la pantalla bloqueante de actualización
+  ///
+  /// In es, this message translates to:
+  /// **'Actualización necesaria'**
+  String get updateRequiredTitle;
+
+  /// Error al abrir el enlace de la tienda
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir la tienda.'**
+  String get updateStoreError;
+
+  /// Título de la fila de tema en Ajustes
+  ///
+  /// In es, this message translates to:
+  /// **'Tema'**
+  String get settingsTheme;
+
+  /// Opción de tema: seguir al del dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Automático (sistema)'**
+  String get settingsThemeSystem;
+
+  /// Opción de tema claro
+  ///
+  /// In es, this message translates to:
+  /// **'Claro'**
+  String get settingsThemeLight;
+
+  /// Opción de tema oscuro
+  ///
+  /// In es, this message translates to:
+  /// **'Oscuro'**
+  String get settingsThemeDark;
+
+  /// Opción de idioma: seguir al del dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Automático (sistema)'**
+  String get settingsLanguageSystem;
+
+  /// Opción de idioma castellano
+  ///
+  /// In es, this message translates to:
+  /// **'Castellano'**
+  String get settingsLanguageSpanish;
+
+  /// Opción de idioma valenciano
+  ///
+  /// In es, this message translates to:
+  /// **'Valencià'**
+  String get settingsLanguageValencian;
+
+  /// Fila de ciudad en Acerca de
+  ///
+  /// In es, this message translates to:
+  /// **'Ciudad'**
+  String get settingsCity;
+
+  /// Fila del sistema operativo en Acerca de
+  ///
+  /// In es, this message translates to:
+  /// **'Sistema'**
+  String get settingsPlatform;
+
+  /// Error al abrir términos o privacidad
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo abrir el enlace'**
+  String get settingsLinkError;
+
+  /// Subtítulo de la fila de tema
+  ///
+  /// In es, this message translates to:
+  /// **'Elige el aspecto de la aplicación'**
+  String get settingsThemeSubtitle;
 }
 
 class _AppLocalizationsDelegate

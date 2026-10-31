@@ -178,48 +178,58 @@ class AdaptiveTheme {
     );
   }
 
-  /// Get the appropriate Cupertino theme data for iOS
-  static CupertinoThemeData getCupertinoTheme({bool isDark = false}) {
+  /// Tema de iOS. [brightness] `null` = seguir al del sistema.
+  ///
+  /// `CupertinoApp` no tiene `themeMode`: la forma de decirle "modo oscuro" es
+  /// fijar el `brightness` del tema, y la de decirle "el del sistema" es
+  /// dejarlo a `null`. Por eso los colores se dejan **dinámicos**
+  /// (`CupertinoDynamicColor`, sin `.color`/`.darkColor`): así se resuelven
+  /// contra el brillo efectivo, sea cual sea su origen.
+  static CupertinoThemeData getCupertinoTheme({Brightness? brightness}) {
     return CupertinoThemeData(
-      brightness: isDark ? Brightness.dark : Brightness.light,
+      brightness: brightness,
       primaryColor: AppColors.primary,
       primaryContrastingColor: Colors.white,
-      scaffoldBackgroundColor: isDark 
-          ? CupertinoColors.systemBackground.darkColor
-          : CupertinoColors.systemBackground.color,
-      
-      textTheme: CupertinoTextThemeData(
+      scaffoldBackgroundColor: CupertinoColors.systemBackground,
+
+      textTheme: const CupertinoTextThemeData(
         primaryColor: AppColors.primary,
         textStyle: TextStyle(
-          color: isDark ? CupertinoColors.label.darkColor : CupertinoColors.label.color,
+          color: CupertinoColors.label,
           fontSize: 16,
         ),
-        actionTextStyle: const TextStyle(
+        actionTextStyle: TextStyle(
           color: AppColors.primary,
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
         tabLabelTextStyle: TextStyle(
-          color: isDark ? CupertinoColors.label.darkColor : CupertinoColors.label.color,
+          color: CupertinoColors.label,
           fontSize: 12,
         ),
         navTitleTextStyle: TextStyle(
-          color: isDark ? CupertinoColors.label.darkColor : CupertinoColors.label.color,
+          color: CupertinoColors.label,
           fontSize: 17,
           fontWeight: FontWeight.w600,
         ),
         navLargeTitleTextStyle: TextStyle(
-          color: isDark ? CupertinoColors.label.darkColor : CupertinoColors.label.color,
+          color: CupertinoColors.label,
           fontSize: 34,
           fontWeight: FontWeight.bold,
         ),
       ),
-      
-      barBackgroundColor: isDark 
-          ? CupertinoColors.systemBackground.darkColor
-          : CupertinoColors.systemBackground.color,
+
+      barBackgroundColor: CupertinoColors.systemBackground,
     );
   }
+
+  /// Traduce el `ThemeMode` de Ajustes al `brightness` que entiende
+  /// `CupertinoApp` (`null` = el del sistema).
+  static Brightness? cupertinoBrightnessFor(ThemeMode mode) => switch (mode) {
+        ThemeMode.system => null,
+        ThemeMode.light => Brightness.light,
+        ThemeMode.dark => Brightness.dark,
+      };
 
   /// Get system overlay style for status bar
   static SystemUiOverlayStyle getSystemOverlayStyle({bool isDark = false}) {

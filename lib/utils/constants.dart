@@ -31,7 +31,17 @@ class AppConstants {
       'bikeParking_currentReservation';
   // Preferencia de biometría para restaurar sesión (RF-1.6).
   static const String prefKeyBiometricEnabled = 'bikeParking_biometricEnabled';
-  
+  // Preferencias de Ajustes. En fase 4 se sincronizan con PATCH /me/preferences.
+  static const String prefKeyThemeMode = 'bikeParking_themeMode';
+  static const String prefKeyLocale = 'bikeParking_locale';
+  static const String prefKeyNotificationsEnabled =
+      'bikeParking_notificationsEnabled';
+
+  // Bloqueo biométrico (RF-1.6): al volver del segundo plano se vuelve a pedir
+  // la biometría solo si la app estuvo fuera más de este margen, para no
+  // pedirla en cambios de foco fugaces.
+  static const int biometricLockGraceSeconds = 30;
+
   // Validation Constants
   static const int minPasswordLength = 8;
   static const String deleteConfirmationText = 'ELIMINAR';
@@ -46,6 +56,12 @@ class AppColors {
   static const Color success = Color(0xFF7AB782);
   static const Color error = Colors.red;
   static const Color warning = Colors.orange;
+
+  // Disponibilidad de aparcamiento (RF-2.2): color del marker según el ratio
+  // de plazas libres. Verde ≥60 % · ámbar ≥20 % y <60 % · rojo <20 %.
+  static const Color availabilityHigh = Color(0xFF2E9E5B);
+  static const Color availabilityMedium = Color(0xFFE8A33D);
+  static const Color availabilityLow = Color(0xFFD64545);
   static const Color info = Colors.blue;
   
   // Status Colors

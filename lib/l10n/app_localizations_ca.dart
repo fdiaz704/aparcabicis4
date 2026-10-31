@@ -15,10 +15,10 @@ class AppLocalizationsCa extends AppLocalizations {
   String get activeCancelReservationError => 'Error en cancel·lar la reserva';
 
   @override
-  String get activeDoorOpenError => 'No s\'ha pogut obrir la porta';
+  String get activeDoorOpenedSuccess => 'Porta oberta correctament';
 
   @override
-  String get activeDoorOpenedSuccess => 'Porta oberta correctament';
+  String get activeDoorOpenError => 'No s\'ha pogut obrir la porta';
 
   @override
   String get activeDoorUnavailable =>
@@ -41,12 +41,12 @@ class AppLocalizationsCa extends AppLocalizations {
       'Retire totes les seues pertinences';
 
   @override
-  String get activeInstructionSpotAvailable =>
-      'La plaça quedarà disponible\nper a altres usuaris';
-
-  @override
   String get activeInstructionsInUse =>
       'Pots obrir i tancar la porta tantes vegades com necessites durant el teu ús.';
+
+  @override
+  String get activeInstructionSpotAvailable =>
+      'La plaça quedarà disponible\nper a altres usuaris';
 
   @override
   String get activeInstructionsReserved =>
@@ -88,6 +88,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get biometricEnableAccept => 'Activar';
 
   @override
+  String get biometricEnabledSuccess => 'Accés biomètric activat';
+
+  @override
   String get biometricEnableMessage =>
       'La pròxima vegada podràs restaurar la sessió amb empremta o Face ID, sense escriure la contrasenya.';
 
@@ -96,9 +99,6 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get biometricEnableTitle => 'Vols activar l\'accés biomètric?';
-
-  @override
-  String get biometricEnabledSuccess => 'Accés biomètric activat';
 
   @override
   String get biometricFallbackMessage =>
@@ -235,6 +235,18 @@ class AppLocalizationsCa extends AppLocalizations {
   String get deleteUserCancelButton => 'Cancel·lar';
 
   @override
+  String get deleteUserConfirmationInvalid =>
+      'Has d\'escriure exactament \"ELIMINAR\"';
+
+  @override
+  String get deleteUserConfirmationLabel =>
+      'Escriu \"ELIMINAR\" per a confirmar';
+
+  @override
+  String get deleteUserConfirmationRequired =>
+      'Escriu ELIMINAR per a confirmar';
+
+  @override
   String get deleteUserConfirmButton => 'Eliminar';
 
   @override
@@ -253,18 +265,6 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get deleteUserConfirmTitle => 'Estàs segur?';
-
-  @override
-  String get deleteUserConfirmationInvalid =>
-      'Has d\'escriure exactament \"ELIMINAR\"';
-
-  @override
-  String get deleteUserConfirmationLabel =>
-      'Escriu \"ELIMINAR\" per a confirmar';
-
-  @override
-  String get deleteUserConfirmationRequired =>
-      'Escriu ELIMINAR per a confirmar';
 
   @override
   String get deleteUserEmailHint => 'El teu correu electrònic actual';
@@ -654,6 +654,19 @@ class AppLocalizationsCa extends AppLocalizations {
       'Prova a canviar el filtre per veure més reserves';
 
   @override
+  String get lockMessage =>
+      'Desbloqueja amb l\'empremta o Face ID per a continuar';
+
+  @override
+  String get lockRetry => 'Tornar a provar';
+
+  @override
+  String get lockTitle => 'App bloquejada';
+
+  @override
+  String get lockUsePassword => 'Usar contrasenya';
+
+  @override
   String get loginEmailHint => 'exemple@correu.com';
 
   @override
@@ -744,9 +757,45 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
+  String get mapEtaWarningCancel => 'Cancel·lar';
+
+  @override
+  String mapEtaWarningMessage(int minutes, int window) {
+    return 'Tardaries uns $minutes min a arribar, i la reserva només es manté $window min. Vols reservar igualment?';
+  }
+
+  @override
+  String get mapEtaWarningReserve => 'Reservar igualment';
+
+  @override
+  String get mapEtaWarningTitle => 'Pot ser que no arribes a temps';
+
+  @override
   String mapFreeSpots(int count) {
     return '$count places lliures';
   }
+
+  @override
+  String get mapLocating => 'Obtenint la teua ubicació...';
+
+  @override
+  String get mapLocationDenied =>
+      'Necessitem la teua ubicació per a centrar el mapa';
+
+  @override
+  String get mapLocationDeniedForever =>
+      'Permís d\'ubicació bloquejat. Activa\'l en els ajustos del sistema.';
+
+  @override
+  String get mapLocationServiceDisabled =>
+      'La ubicació del dispositiu està desactivada';
+
+  @override
+  String get mapLocationUnavailable =>
+      'No s\'ha pogut obtindre la teua ubicació';
+
+  @override
+  String get mapNearbyTitle => 'Aparcaments pròxims';
 
   @override
   String get mapNoSpotsAvailable =>
@@ -754,6 +803,9 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get mapNotAvailable => 'No disponible';
+
+  @override
+  String get mapOpenSettings => 'Ajustos';
 
   @override
   String mapRemovedFromFavorites(String name) {
@@ -772,20 +824,68 @@ class AppLocalizationsCa extends AppLocalizations {
   String get mapReserve => 'Reservar';
 
   @override
+  String mapRouteEta(int minutes, String distance) {
+    return '$minutes min en bici · $distance';
+  }
+
+  @override
+  String mapRouteEtaEstimated(int minutes, String distance) {
+    return '~$minutes min en bici · $distance (estimat)';
+  }
+
+  @override
+  String get mapRouteNeedsLocation =>
+      'Activa la teua ubicació per a veure la ruta';
+
+  @override
+  String get mapRouteUnavailable => 'No s\'ha pogut calcular la ruta';
+
+  @override
   String mapSpotsAvailable(int available, int total) {
     return '$available de $total disponibles';
   }
 
   @override
-  String get parkingCardActiveReservation => 'Reserva activa';
+  String get notifOverstayBody =>
+      'Recull el teu vehicle i finalitza l\'ús com abans millor.';
 
   @override
-  String get parkingCardAddFavorite => 'Afegir als preferits';
+  String get notifOverstayTitle => 'Has superat el temps màxim d\'ús';
+
+  @override
+  String get notifReservationExpiredBody =>
+      'La plaça ha quedat lliure per a altres usuaris.';
+
+  @override
+  String get notifReservationExpiredTitle => 'La teua reserva ha vençut';
+
+  @override
+  String notifReservationWarningBody(int minutes) {
+    return 'La teua reserva venç en $minutes min. Obri la porta per a no perdre la plaça.';
+  }
+
+  @override
+  String get notifReservationWarningTitle =>
+      'La teua reserva està a punt de véncer';
+
+  @override
+  String notifUseWarningBody(int minutes) {
+    return 'Queden $minutes min d\'ús. Recull el teu vehicle i finalitza l\'ús.';
+  }
+
+  @override
+  String get notifUseWarningTitle => 'S\'acaba el teu temps d\'ús';
+
+  @override
+  String get parkingCardActiveReservation => 'Reserva activa';
 
   @override
   String parkingCardAddedToFavorites(String name) {
     return '$name afegit als preferits';
   }
+
+  @override
+  String get parkingCardAddFavorite => 'Afegir als preferits';
 
   @override
   String get parkingCardAlreadyReserved => 'Ja tens una reserva activa';
@@ -798,12 +898,12 @@ class AppLocalizationsCa extends AppLocalizations {
       'No hi ha places disponibles en aquest aparcament';
 
   @override
-  String get parkingCardRemoveFavorite => 'Llevar dels preferits';
-
-  @override
   String parkingCardRemovedFromFavorites(String name) {
     return '$name eliminat dels preferits';
   }
+
+  @override
+  String get parkingCardRemoveFavorite => 'Llevar dels preferits';
 
   @override
   String parkingCardReservationCreated(String name) {
@@ -876,6 +976,9 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get parkingsListSortBy => 'Ordenar per';
+
+  @override
+  String get parkingsListSortDistance => 'Distància (més pròxim)';
 
   @override
   String get parkingsListSortName => 'Nom (A-Z)';
@@ -1042,6 +1145,16 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsAppSection => 'Configuració de l\'aplicació';
 
   @override
+  String get settingsBiometric => 'Accés biomètric';
+
+  @override
+  String get settingsBiometricDisabled => 'Accés biomètric desactivat';
+
+  @override
+  String get settingsBiometricSubtitle =>
+      'Desbloquejar l\'app amb empremta o Face ID';
+
+  @override
   String get settingsCallSupport => 'Trucar a suport';
 
   @override
@@ -1059,12 +1172,6 @@ class AppLocalizationsCa extends AppLocalizations {
   @override
   String get settingsChangePasswordSubtitle =>
       'Actualitzar la teua contrasenya d\'accés';
-
-  @override
-  String get settingsDarkMode => 'Mode fosc';
-
-  @override
-  String get settingsDarkModeSubtitle => 'Usar tema fosc en l\'aplicació';
 
   @override
   String get settingsDeleteAccount => 'Eliminar compte';
@@ -1121,21 +1228,14 @@ class AppLocalizationsCa extends AppLocalizations {
   String get settingsLanguage => 'Idioma';
 
   @override
-  String get settingsLanguageValue => 'Valencià';
-
-  @override
   String get settingsNotifications => 'Notificacions';
 
   @override
   String get settingsNotificationsSubtitle =>
-      'Rebre notificacions de reserves i recordatoris';
+      'Preferència desada; els avisos push arribaran pròximament';
 
   @override
   String get settingsPrivacy => 'Política de privacitat';
-
-  @override
-  String get settingsPrivacyInDevelopment =>
-      'Política de privacitat - Funcionalitat en desenvolupament';
 
   @override
   String get settingsPrivacySubtitle =>
@@ -1143,10 +1243,6 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get settingsTerms => 'Termes de servei';
-
-  @override
-  String get settingsTermsInDevelopment =>
-      'Termes de servei - Funcionalitat en desenvolupament';
 
   @override
   String get settingsTermsSubtitle => 'Llig els nostres termes i condicions';
@@ -1166,4 +1262,62 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get splashInitializing => 'Inicialitzant...';
+
+  @override
+  String updateAvailableMessage(String version) {
+    return 'Ja està disponible la versió $version. Et recomanem actualitzar.';
+  }
+
+  @override
+  String get updateAvailableTitle => 'Hi ha una versió nova';
+
+  @override
+  String get updateButton => 'Actualitzar';
+
+  @override
+  String get updateLater => 'Ara no';
+
+  @override
+  String updateRequiredMessage(String version) {
+    return 'Hi ha una versió més recent de l\'aplicació ($version). Has d\'actualitzar per a continuar usant-la.';
+  }
+
+  @override
+  String get updateRequiredTitle => 'Actualització necessària';
+
+  @override
+  String get updateStoreError => 'No s\'ha pogut obrir la botiga.';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeSystem => 'Automàtic (sistema)';
+
+  @override
+  String get settingsThemeLight => 'Clar';
+
+  @override
+  String get settingsThemeDark => 'Fosc';
+
+  @override
+  String get settingsLanguageSystem => 'Automàtic (sistema)';
+
+  @override
+  String get settingsLanguageSpanish => 'Castellà';
+
+  @override
+  String get settingsLanguageValencian => 'Valencià';
+
+  @override
+  String get settingsCity => 'Ciutat';
+
+  @override
+  String get settingsPlatform => 'Sistema';
+
+  @override
+  String get settingsLinkError => 'No s\'ha pogut obrir l\'enllaç';
+
+  @override
+  String get settingsThemeSubtitle => 'Tria l\'aspecte de l\'aplicació';
 }

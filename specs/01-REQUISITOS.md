@@ -46,7 +46,7 @@ Prioridad: **M** = imprescindible v1 · **S** = deseable v1 · **C** = futuro.
 | RF-2.3 | Zoom in/out por gestos táctiles (pinch y doble toque) | M |
 | RF-2.4 | Botón "mi ubicación": geolocalización real (geolocator + permission_handler) y centrado del mapa; gestión de permiso denegado | M |
 | RF-2.5 | Panel/lista de aparcamientos **más cercanos** a la posición del usuario, ordenados por distancia | M |
-| RF-2.6 | Al elegir uno: trazar **ruta** en el mapa (polyline, Google Directions API) con ETA; si ETA > tiempo de ventana de reserva restante, avisar antes de confirmar la reserva | M |
+| RF-2.6 | Al elegir uno: mostrar el **tiempo estimado de llegada** en bici; si el ETA > tiempo de ventana de reserva restante, avisar antes de confirmar la reserva. El ETA se **estima en el cliente** (distancia + factor de rodeo + velocidad media): se descartó la Google Directions API por su coste y porque obligaría a incrustar una clave sin restricciones en el APK. La polyline de recorrido real queda pendiente de que la sirva el backend | M |
 | RF-2.7 | Búsqueda por texto, filtros (disponibles/favoritos) y ordenación por nombre, disponibilidad o distancia | M |
 | RF-2.8 | Favoritos sincronizados con el backend | S |
 

@@ -15,10 +15,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activeCancelReservationError => 'Error al cancelar la reserva';
 
   @override
-  String get activeDoorOpenError => 'No se ha podido abrir la puerta';
+  String get activeDoorOpenedSuccess => 'Puerta abierta correctamente';
 
   @override
-  String get activeDoorOpenedSuccess => 'Puerta abierta correctamente';
+  String get activeDoorOpenError => 'No se ha podido abrir la puerta';
 
   @override
   String get activeDoorUnavailable =>
@@ -41,12 +41,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Retire todas sus pertenencias';
 
   @override
-  String get activeInstructionSpotAvailable =>
-      'La plaza quedará disponible\npara otros usuarios';
-
-  @override
   String get activeInstructionsInUse =>
       'Puedes abrir y cerrar la puerta tantas veces como necesites durante tu uso.';
+
+  @override
+  String get activeInstructionSpotAvailable =>
+      'La plaza quedará disponible\npara otros usuarios';
 
   @override
   String get activeInstructionsReserved =>
@@ -88,6 +88,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get biometricEnableAccept => 'Activar';
 
   @override
+  String get biometricEnabledSuccess => 'Acceso biométrico activado';
+
+  @override
   String get biometricEnableMessage =>
       'La próxima vez podrás restaurar tu sesión con huella o Face ID, sin escribir la contraseña.';
 
@@ -96,9 +99,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get biometricEnableTitle => '¿Activar acceso biométrico?';
-
-  @override
-  String get biometricEnabledSuccess => 'Acceso biométrico activado';
 
   @override
   String get biometricFallbackMessage =>
@@ -233,6 +233,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteUserCancelButton => 'Cancelar';
 
   @override
+  String get deleteUserConfirmationInvalid =>
+      'Debes escribir exactamente \"ELIMINAR\"';
+
+  @override
+  String get deleteUserConfirmationLabel =>
+      'Escribir \"ELIMINAR\" para confirmar';
+
+  @override
+  String get deleteUserConfirmationRequired =>
+      'Por favor escribe ELIMINAR para confirmar';
+
+  @override
   String get deleteUserConfirmButton => 'Eliminar';
 
   @override
@@ -251,18 +263,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleteUserConfirmTitle => '¿Estás seguro?';
-
-  @override
-  String get deleteUserConfirmationInvalid =>
-      'Debes escribir exactamente \"ELIMINAR\"';
-
-  @override
-  String get deleteUserConfirmationLabel =>
-      'Escribir \"ELIMINAR\" para confirmar';
-
-  @override
-  String get deleteUserConfirmationRequired =>
-      'Por favor escribe ELIMINAR para confirmar';
 
   @override
   String get deleteUserEmailHint => 'Tu email actual';
@@ -651,6 +651,18 @@ class AppLocalizationsEs extends AppLocalizations {
       'Intenta cambiar el filtro para ver más reservas';
 
   @override
+  String get lockMessage => 'Desbloquea con tu huella o Face ID para continuar';
+
+  @override
+  String get lockRetry => 'Reintentar';
+
+  @override
+  String get lockTitle => 'App bloqueada';
+
+  @override
+  String get lockUsePassword => 'Usar contraseña';
+
+  @override
   String get loginEmailHint => 'ejemplo@correo.com';
 
   @override
@@ -741,9 +753,44 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get mapEtaWarningCancel => 'Cancelar';
+
+  @override
+  String mapEtaWarningMessage(int minutes, int window) {
+    return 'Tardarías unos $minutes min en llegar, y la reserva solo se mantiene $window min. ¿Quieres reservar igualmente?';
+  }
+
+  @override
+  String get mapEtaWarningReserve => 'Reservar igualmente';
+
+  @override
+  String get mapEtaWarningTitle => 'Puede que no llegues a tiempo';
+
+  @override
   String mapFreeSpots(int count) {
     return '$count plazas libres';
   }
+
+  @override
+  String get mapLocating => 'Obteniendo tu ubicación...';
+
+  @override
+  String get mapLocationDenied =>
+      'Necesitamos tu ubicación para centrar el mapa';
+
+  @override
+  String get mapLocationDeniedForever =>
+      'Permiso de ubicación bloqueado. Actívalo en los ajustes del sistema.';
+
+  @override
+  String get mapLocationServiceDisabled =>
+      'La ubicación del dispositivo está desactivada';
+
+  @override
+  String get mapLocationUnavailable => 'No se ha podido obtener tu ubicación';
+
+  @override
+  String get mapNearbyTitle => 'Aparcamientos cercanos';
 
   @override
   String get mapNoSpotsAvailable =>
@@ -751,6 +798,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mapNotAvailable => 'No disponible';
+
+  @override
+  String get mapOpenSettings => 'Ajustes';
 
   @override
   String mapRemovedFromFavorites(String name) {
@@ -769,20 +819,67 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mapReserve => 'Reservar';
 
   @override
+  String mapRouteEta(int minutes, String distance) {
+    return '$minutes min en bici · $distance';
+  }
+
+  @override
+  String mapRouteEtaEstimated(int minutes, String distance) {
+    return '~$minutes min en bici · $distance (estimado)';
+  }
+
+  @override
+  String get mapRouteNeedsLocation => 'Activa tu ubicación para ver la ruta';
+
+  @override
+  String get mapRouteUnavailable => 'No se ha podido calcular la ruta';
+
+  @override
   String mapSpotsAvailable(int available, int total) {
     return '$available de $total disponibles';
   }
 
   @override
-  String get parkingCardActiveReservation => 'Reserva activa';
+  String get notifOverstayBody =>
+      'Recoge tu vehículo y finaliza el uso cuanto antes.';
 
   @override
-  String get parkingCardAddFavorite => 'Agregar a favoritos';
+  String get notifOverstayTitle => 'Has superado el tiempo máximo de uso';
+
+  @override
+  String get notifReservationExpiredBody =>
+      'La plaza ha quedado libre para otros usuarios.';
+
+  @override
+  String get notifReservationExpiredTitle => 'Tu reserva ha vencido';
+
+  @override
+  String notifReservationWarningBody(int minutes) {
+    return 'Tu reserva vence en $minutes min. Abre la puerta para no perder la plaza.';
+  }
+
+  @override
+  String get notifReservationWarningTitle =>
+      'Tu reserva está a punto de vencer';
+
+  @override
+  String notifUseWarningBody(int minutes) {
+    return 'Quedan $minutes min de uso. Recoge tu vehículo y finaliza el uso.';
+  }
+
+  @override
+  String get notifUseWarningTitle => 'Se acaba tu tiempo de uso';
+
+  @override
+  String get parkingCardActiveReservation => 'Reserva activa';
 
   @override
   String parkingCardAddedToFavorites(String name) {
     return '$name añadido a favoritos';
   }
+
+  @override
+  String get parkingCardAddFavorite => 'Agregar a favoritos';
 
   @override
   String get parkingCardAlreadyReserved => 'Ya tienes una reserva activa';
@@ -795,12 +892,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'No hay plazas disponibles en este aparcamiento';
 
   @override
-  String get parkingCardRemoveFavorite => 'Quitar de favoritos';
-
-  @override
   String parkingCardRemovedFromFavorites(String name) {
     return '$name eliminado de favoritos';
   }
+
+  @override
+  String get parkingCardRemoveFavorite => 'Quitar de favoritos';
 
   @override
   String parkingCardReservationCreated(String name) {
@@ -873,6 +970,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get parkingsListSortBy => 'Ordenar por';
+
+  @override
+  String get parkingsListSortDistance => 'Distancia (más cercano)';
 
   @override
   String get parkingsListSortName => 'Nombre (A-Z)';
@@ -1038,6 +1138,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsAppSection => 'Configuración de la aplicación';
 
   @override
+  String get settingsBiometric => 'Acceso biométrico';
+
+  @override
+  String get settingsBiometricDisabled => 'Acceso biométrico desactivado';
+
+  @override
+  String get settingsBiometricSubtitle =>
+      'Desbloquear la app con huella o Face ID';
+
+  @override
   String get settingsCallSupport => 'Llamar a soporte';
 
   @override
@@ -1055,12 +1165,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get settingsChangePasswordSubtitle =>
       'Actualizar tu contraseña de acceso';
-
-  @override
-  String get settingsDarkMode => 'Modo oscuro';
-
-  @override
-  String get settingsDarkModeSubtitle => 'Usar tema oscuro en la aplicación';
 
   @override
   String get settingsDeleteAccount => 'Eliminar cuenta';
@@ -1117,21 +1221,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsLanguage => 'Idioma';
 
   @override
-  String get settingsLanguageValue => 'Español';
-
-  @override
   String get settingsNotifications => 'Notificaciones';
 
   @override
   String get settingsNotificationsSubtitle =>
-      'Recibir notificaciones de reservas y recordatorios';
+      'Preferencia guardada; los avisos push llegarán próximamente';
 
   @override
   String get settingsPrivacy => 'Política de privacidad';
-
-  @override
-  String get settingsPrivacyInDevelopment =>
-      'Política de privacidad - Funcionalidad en desarrollo';
 
   @override
   String get settingsPrivacySubtitle =>
@@ -1139,10 +1236,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsTerms => 'Términos de servicio';
-
-  @override
-  String get settingsTermsInDevelopment =>
-      'Términos de servicio - Funcionalidad en desarrollo';
 
   @override
   String get settingsTermsSubtitle => 'Lee nuestros términos y condiciones';
@@ -1162,4 +1255,62 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get splashInitializing => 'Inicializando...';
+
+  @override
+  String updateAvailableMessage(String version) {
+    return 'Ya está disponible la versión $version. Te recomendamos actualizar.';
+  }
+
+  @override
+  String get updateAvailableTitle => 'Hay una versión nueva';
+
+  @override
+  String get updateButton => 'Actualizar';
+
+  @override
+  String get updateLater => 'Ahora no';
+
+  @override
+  String updateRequiredMessage(String version) {
+    return 'Hay una versión más reciente de la aplicación ($version). Debes actualizar para seguir usándola.';
+  }
+
+  @override
+  String get updateRequiredTitle => 'Actualización necesaria';
+
+  @override
+  String get updateStoreError => 'No se pudo abrir la tienda.';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeSystem => 'Automático (sistema)';
+
+  @override
+  String get settingsThemeLight => 'Claro';
+
+  @override
+  String get settingsThemeDark => 'Oscuro';
+
+  @override
+  String get settingsLanguageSystem => 'Automático (sistema)';
+
+  @override
+  String get settingsLanguageSpanish => 'Castellano';
+
+  @override
+  String get settingsLanguageValencian => 'Valencià';
+
+  @override
+  String get settingsCity => 'Ciudad';
+
+  @override
+  String get settingsPlatform => 'Sistema';
+
+  @override
+  String get settingsLinkError => 'No se pudo abrir el enlace';
+
+  @override
+  String get settingsThemeSubtitle => 'Elige el aspecto de la aplicación';
 }

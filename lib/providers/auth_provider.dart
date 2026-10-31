@@ -52,9 +52,19 @@ class AuthProvider with ChangeNotifier {
     return true;
   }
 
+  /// Desactiva la biometría. La sesión se **mantiene** (sigue vigente
+  /// "Recuérdame"): simplemente se deja de pedir la huella.
   Future<void> disableBiometrics() async {
     await StorageService.setBool(AppConstants.prefKeyBiometricEnabled, false);
     notifyListeners();
+  }
+
+  /// Verificación biométrica para **desbloquear la app** ya con sesión abierta
+  /// (bloqueo al volver del segundo plano). No toca el estado de sesión: si
+  /// falla, quien decide es la UI (reintentar o entrar con contraseña).
+  Future<bool> unlockWithBiometrics(String reason) async {
+    if (!await _biometrics.isAvailable()) return false;
+    return _biometrics.authenticate(reason);
   }
 
   /// Restaura la sesión si procede.

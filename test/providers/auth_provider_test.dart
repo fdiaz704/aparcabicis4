@@ -168,6 +168,39 @@ void main() {
       expect(await provider.enableBiometrics('motivo'), isFalse);
       expect(provider.isBiometricEnabled, isFalse);
     });
+
+    test('desactivar la biometría MANTIENE la sesión y deja de pedir huella',
+        () async {
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', true);
+      await provider.enableBiometrics('motivo');
+
+      await provider.disableBiometrics();
+      expect(provider.isBiometricEnabled, isFalse);
+
+      // Nuevo arranque: entra directo, sin pedir biometría (la sesión sigue).
+      final restored =
+          buildProvider(biometrics: _FakeBiometrics(succeeds: false));
+      await restored.initialize(biometricReason: 'motivo');
+
+      expect(restored.isLoggedIn, isTrue);
+      expect(restored.biometricFallbackRequired, isFalse);
+    });
+
+    test('unlockWithBiometrics desbloquea sin tocar el estado de sesión',
+        () async {
+      final ok = buildProvider();
+      await ok.login('a@b.com', 'password123', true);
+      expect(await ok.unlockWithBiometrics('motivo'), isTrue);
+      expect(ok.isLoggedIn, isTrue);
+
+      // Si la huella falla, el desbloqueo falla pero la sesión NO se cierra:
+      // decide la UI (reintentar o entrar con contraseña).
+      final ko = buildProvider(biometrics: _FakeBiometrics(succeeds: false));
+      await ko.login('a@b.com', 'password123', true);
+      expect(await ko.unlockWithBiometrics('motivo'), isFalse);
+      expect(ko.isLoggedIn, isTrue);
+    });
   });
 
   test('logout destruye los tokens de sesión', () async {

@@ -22,11 +22,24 @@ import 'package:aparcabicis4/repositories/fake/fake_parkings_repository.dart';
 import 'package:aparcabicis4/repositories/fake/fake_reservations_repository.dart';
 import 'package:aparcabicis4/services/storage_service.dart';
 
+import 'support/version_check_doubles.dart';
+
 /// Backend fake sin latencia, para que los tests no dependan de temporizadores.
 FakeBackend newBackend() => FakeBackend(
       seedParkings: demoCity.seedParkings,
       latency: Duration.zero,
     );
+
+/// La app con la comprobación de versión resuelta: si no, el splash se queda
+/// esperando a package_info_plus, que en un test no contesta nunca.
+Widget appUnderTest() {
+  final backend = newBackend();
+  return AparcabicisApp(
+    cityConfig: demoCity,
+    backend: backend,
+    versionCheckService: upToDateVersionCheck(backend),
+  );
+}
 
 void main() {
   setUp(() async {
@@ -39,7 +52,7 @@ void main() {
 
   testWidgets('App loads and shows splash screen', (WidgetTester tester) async {
     await tester.pumpWidget(
-      AparcabicisApp(cityConfig: demoCity, backend: newBackend()),
+      appUnderTest(),
     );
 
     expect(find.text('Aparcabicis'), findsOneWidget);
@@ -53,7 +66,7 @@ void main() {
 
   testWidgets('Providers are properly initialized', (WidgetTester tester) async {
     await tester.pumpWidget(
-      AparcabicisApp(cityConfig: demoCity, backend: newBackend()),
+      appUnderTest(),
     );
 
     final BuildContext context = tester.element(find.byType(SplashScreen));

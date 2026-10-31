@@ -38,7 +38,7 @@
 | Providers llaman a SharedPreferences directamente | Todo acceso a datos pasa por repositorios; `StorageService` único punto de persistencia local |
 
 ### Nuevas dependencias Flutter
-`dio` (HTTP + interceptores JWT), `flutter_secure_storage`, `local_auth` (biometría), `flutter_local_notifications` (avisos de reserva/uso), `package_info_plus` + `upgrader` (comprobación de versión de tiendas), `flutter_polyline_points` o llamada Directions API (rutas), `mocktail` (tests). Ya presentes y por fin usadas: `geolocator`, `permission_handler`, `intl`/ARB para i18n `es`/`ca` (valencià).
+`dio` (HTTP + interceptores JWT), `flutter_secure_storage`, `local_auth` (biometría), `flutter_local_notifications` (avisos de reserva/uso), `package_info_plus` + `upgrader` (comprobación de versión de tiendas), `mocktail` (tests). Ya presentes y por fin usadas: `geolocator`, `permission_handler`, `intl`/ARB para i18n `es`/`ca` (valencià).
 
 ### Multi-ciudad (flavors)
 - Compilación: `--dart-define=CITY=<slug>` + productFlavors (Android) / schemes (iOS) con applicationId/bundleId por ciudad.
@@ -54,7 +54,7 @@ lib/
 ├── repositories/      # *_repository.dart (abstract) + fake/ + api/
 ├── services/          # api_client, secure_storage, storage, navigation, location,
 │                      # biometric_service, local_notifications_service,
-│                      # version_check_service, route_service (Directions)
+│                      # version_check_service, route_service (ETA estimado)
 ├── providers/         # auth, parkings, reservations, settings, session (bootstrap)
 ├── screens/           # (estructura actual, renombrada estación→parking)
 ├── widgets/           # markers personalizados, tarjetas, etc.
@@ -65,7 +65,7 @@ lib/
 - **VersionCheckService** (splash): consulta `POST /check_version` con `{platform, version_code, build_number}` del binario instalado (package_info_plus). Respuesta `{latest_version, latest_build, force_update, url, client_known}`: si `force_update=true` ⇒ pantalla **bloqueante** no descartable con botón "Actualizar" (abre `url`); si `latest_build > build instalado` (sin forzar) ⇒ **aviso descartable**. `upgrader` puede seguir usándose como señal complementaria de tienda.
 - **BiometricService**: alta al activar "Recuérdame"; restaura sesión con biometría; fallback a contraseña.
 - **LocalNotificationsService**: programa series contra `expiresAt` (T−10', T−5', T) y `maxUntil` (T−30', T−15', T−5', luego cada 30'); se reprograma en cada sync con la API y se cancela en checkout/cancelación.
-- **RouteService**: Directions API → polyline + ETA; compara ETA con ventana de reserva restante.
+- **RouteService**: ETA **estimado en el cliente** (haversine × factor de rodeo, a velocidad media de bici); compara el ETA con la ventana de reserva restante y avisa. Sin Directions API: descartada por coste y por no poder proteger la clave dentro del APK. Si más adelante el backend sirve la ruta real (polyline), basta cambiar la implementación tras la interfaz.
 
 ## 3. Backend propio — alcance de la spec
 

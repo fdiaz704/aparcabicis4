@@ -30,26 +30,26 @@ Objetivo: fuentes de datos tras interfaces; sesión segura con biometría; todo 
 
 ## FASE 2 — UX de producto: mapa, avisos y ajustes (app, contra fakes)
 Objetivo: implementar los requisitos de UI/UX (req. #2, #5, #6, #7, #9-12) sin backend.
-1. [ ] **Mapa**: markers personalizados coloreados por disponibilidad (verde ≥60 % libre, amarillo 20-59,99 % libre, rojo <20 % libre), pinch/doble toque zoom, botón "mi ubicación" con geolocalización real y permisos.
-2. [ ] Panel de **aparcamientos cercanos** ordenados por distancia; al elegir: **ruta** (Directions API, polyline + ETA) y advertencia si ETA > ventana de reserva restante (HU-4).
-3. [ ] **LocalNotificationsService**: avisos de reserva (T−10', T−5', vencimiento) y de uso (T−30', T−15', T−5', luego cada 30' en exceso), programados contra `expiresAt`/`maxUntil`, cancelados en checkout/cancelación (HU-5, HU-6). Al vencer reserva: sync + volver al mapa.
-4. [ ] **VersionCheckService** en splash: `POST /check_version` (fake en esta fase) con `{platform, version_code, build_number}`; bloqueo si `force_update=true`, aviso descartable si `latest_build > build instalado`; pantalla bloqueante de actualización (HU-1) y paso libre si la comprobación falla.
-5. [ ] **Ajustes**: quitar tarjeta Cuenta; selector de idioma Sistema/Castellano/Valencià (persistido, cambio en caliente); conmutador de notificaciones que solo persiste preferencia con nota "próximamente"; modo oscuro funcional incl. iOS; tarjeta "Acerca de" (versión, ciudad, sistema, términos, privacidad desde CityConfig).
-6. [ ] Tests de widget de mapa (colores de marker) y de programación/cancelación de notificaciones.
+1. [x] **Mapa**: markers personalizados coloreados por disponibilidad (verde ≥60 % libre, amarillo 20-59,99 % libre, rojo <20 % libre), pinch/doble toque zoom, botón "mi ubicación" con geolocalización real y permisos.
+2. [x] Panel de **aparcamientos cercanos** ordenados por distancia; al elegir: **ETA estimado** en bici y advertencia si ETA > ventana de reserva restante (HU-4). _(sin Directions API: descartada por coste; la polyline real queda para cuando la sirva el backend)_
+3. [x] **LocalNotificationsService**: avisos de reserva (T−10', T−5', vencimiento) y de uso (T−30', T−15', T−5', luego cada 30' en exceso), programados contra `expiresAt`/`maxUntil`, cancelados en checkout/cancelación (HU-5, HU-6). Al vencer reserva: sync + volver al mapa.
+4. [x] **VersionCheckService** en splash: `POST /check_version` (fake en esta fase) con `{platform, version_code, build_number}`; bloqueo si `force_update=true`, aviso descartable si `latest_build > build instalado`; pantalla bloqueante de actualización (HU-1) y paso libre si la comprobación falla.
+5. [x] **Ajustes**: quitar tarjeta Cuenta; selector de idioma Sistema/Castellano/Valencià (persistido, cambio en caliente); conmutador de notificaciones que solo persiste preferencia con nota "próximamente"; modo oscuro funcional incl. iOS; tarjeta "Acerca de" (versión, ciudad, sistema, términos, privacidad desde CityConfig). _(el tema es un selector Sistema/Claro/Oscuro, no un conmutador: un switch no sabe representar "el del sistema", que es el valor por defecto)_
+6. [x] Tests de widget de mapa (colores de marker) y de programación/cancelación de notificaciones. _(los markers se comprueban sobre `ParkingMarkerFactory.markersFor`, no montando un `GoogleMap`: la vista nativa no existe en un test)_
 
 **DoD:** demo completa en emulador con fakes: mapa con colores y ruta, avisos locales disparándose (tiempos acortados en modo debug), ajustes bilingües sin controles sin efecto (salvo notificaciones, documentado).
 
 ## FASE 3 — Backend mínimo (repo nuevo `aparcabicis4-api`)
 Objetivo: API REST en **PHP 8 + MySQL/MariaDB** desplegable sobre el hosting **LAMP** existente, que cumple 04-API.md.
-1. [ ] Scaffold **PHP 8 + Slim** (o equivalente) + **MySQL/MariaDB**; sin Docker (correr con el servidor embebido de PHP o el propio LAMP). Configuración por `.env` fuera de git.
-2. [ ] Esquema/migraciones MySQL/MariaDB según 03 (incluye `cities`, `app_config`, `app_versions` y `access_events`); seed: ciudad `demo` + 8 parkings + parámetros + fila(s) de `app_versions`.
-3. [ ] Auth completo (registro, login, refresh con rotación, forgot/reset; email por SMTP del hosting).
-4. [ ] `POST /check_version` y `GET /bootstrap` (user + params + stats + currentReservation).
-5. [ ] Parkings (filtrados por ciudad) + favoritos + reservas con máquina de estados y **job de expiración vía cron del hosting** (cada 1').
-6. [ ] Access con `SimGateController` (delay/tasa de fallo por env) + `access_events`; `PATCH /me/preferences`.
-7. [ ] Historial `GET /reservations` con `from` por defecto = 3 meses; tests de integración + colección .http.
+1. [x] Scaffold **PHP 8 + Slim** (o equivalente) + **MySQL/MariaDB**; sin Docker (correr con el servidor embebido de PHP o el propio LAMP). Configuración por `.env` fuera de git. _(repo `~/repos/aparcabicis4-api`, commit `986af32`. Entorno real: VPS con Plesk, PHP 8.3.32 en `/opt/plesk/php/8.3/bin/php`, **MariaDB 10.3.39**, sin Composer en el servidor y sistema en `Europe/Madrid` ⇒ cada conexión PDO fija `time_zone='+00:00'`. API bajo subdirectorio: `https://palma.r3smartcityvmp.com/api/v1`)_
+2. [x] Esquema/migraciones MySQL/MariaDB según 03 (incluye `cities`, `app_config`, `app_versions` y `access_events`); seed: ciudad `demo` + 8 parkings + parámetros + fila(s) de `app_versions`. _(commit `e5b712a`. **Corrección al modelo**: `active_lock` no puede ser columna generada —MariaDB rechaza con error 1901 cualquier columna generada con una función si lleva índice—, así que la mantienen dos triggers; ver la nota en 03-MODELO-DATOS.md)_
+3. [x] Auth completo (registro, login, refresh con rotación, forgot/reset; email por SMTP del hosting). _(commit `a58a4f6`. argon2id; tokens guardados solo como hash SHA-256; reutilizar un refresh gastado cierra todas las sesiones; login y forgot-password no revelan si la cuenta existe. **Pendiente**: el contrato no lleva la ciudad en el registro — se acepta opcional con `APP_DEFAULT_CITY` por defecto)_
+4. [x] `POST /check_version` y `GET /bootstrap` (user + params + stats + currentReservation). _(commit `ad1532c`. Fechas en ISO-8601 con zona explícita `+00:00`: sin ella el móvil las leería como hora local y las cuentas atrás irían desviadas. `check_version` no bloquea si no hay versión registrada: mejor dejar entrar con una versión vieja que dejar fuera a todos por una fila que falta)_
+5. [x] Parkings (filtrados por ciudad) + favoritos + reservas con máquina de estados y **job de expiración vía cron del hosting** (cada 1'). _(commit `317c4f2`. La ciudad sale del token, no de la query. Crear reserva bloquea la fila del parking (FOR UPDATE): sin eso, dos usuarios se llevarían la última plaza a la vez)_
+6. [x] Access con `SimGateController` (delay/tasa de fallo por env) + `access_events`; `PATCH /me/preferences`. _(commits `50d71cc` (spec) y `7916819`. **El endpoint de apertura no estaba en el contrato**: se definió primero en 04-API.md. Si la pasarela falla, la reserva NO cambia de estado: no se puede dar por empezado un uso cuya puerta nunca se abrió)_
+7. [x] Historial `GET /reservations` con `from` por defecto = 3 meses; tests de integración + colección .http. _(commit `766fe17`. `FlowTest` recorre la vida entera de un usuario endpoint a endpoint; `api.http` hace lo mismo a mano)_
 
-**DoD:** el backend arranca sobre el hosting LAMP (o con `php -S` + MySQL local); flujo completo recorrible con la colección REST; tests verdes.
+**DoD:** el backend arranca sobre el hosting LAMP (o con `php -S` + MySQL local); flujo completo recorrible con la colección REST; tests verdes. — ✅ **CUMPLIDO** (jul-2026): 106 tests verdes, PHPStan nivel 6 limpio, flujo completo verificado contra un servidor real. _Pendiente de decisión: desplegar en el servidor de producción._
 
 ## FASE 4 — Conexión app ↔ API real
 Objetivo: sustituir fakes por `Api*Repository`; eliminar todos los mocks.
