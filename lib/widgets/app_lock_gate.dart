@@ -77,7 +77,10 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
     final authProvider = context.read<AuthProvider>();
     if (!authProvider.isLoggedIn || !authProvider.isBiometricEnabled) return;
 
-    // Solo si estuvo fuera más del margen de gracia.
+    // El margen por defecto sale de la constante de producto (hoy 0 = huella
+    // SIEMPRE al volver). El lint ve redundante `seconds: 0`, pero se conserva
+    // la referencia a la constante como única fuente de verdad.
+    // ignore: avoid_redundant_argument_values
     final grace = widget.grace ??
         const Duration(seconds: AppConstants.biometricLockGraceSeconds);
     final away = _now().difference(backgroundedAt);
