@@ -271,6 +271,20 @@ void main() {
       expect(restored.user?.email, 'a@b.com');
     });
 
+    test('con biometría YA activada, el login sin "Recuérdame" conserva el '
+        'email (migración: no rompe la reentrada con huella)', () async {
+      // Instalación que ya tenía la biometría activada antes de este login.
+      await StorageService.setBool(AppConstants.prefKeyBiometricEnabled, true);
+
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', false);
+
+      expect(StorageService.getString(AppConstants.prefKeyEmail), 'a@b.com');
+
+      await provider.logout();
+      expect(await provider.canLoginWithBiometrics(), isTrue);
+    });
+
     test('forgetDevice destruye tokens, biometría y email recordado', () async {
       final provider = buildProvider();
       await provider.login('a@b.com', 'password123', false);

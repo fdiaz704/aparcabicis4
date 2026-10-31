@@ -145,7 +145,10 @@ class AuthProvider with ChangeNotifier {
         refreshToken: session.refreshToken,
       );
 
-      if (rememberMe) {
+      // La biometría implica sesión persistente (RF-1.6): con ella activada
+      // se conserva el email aunque la casilla "Recuérdame" no esté marcada;
+      // sin email recordado no habría reentrada con huella tras un logout.
+      if (rememberMe || isBiometricEnabled) {
         await _saveRememberedEmail(session.user.email);
       } else {
         await _clearRememberedEmail();
