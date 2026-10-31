@@ -105,6 +105,29 @@ class AppLocalizationsCa extends AppLocalizations {
       'No s\'ha pogut verificar la teua identitat. Inicia sessió amb la contrasenya.';
 
   @override
+  String get biometricForgetDevice => 'Oblida aquest dispositiu';
+
+  @override
+  String get biometricForgetDeviceCancel => 'Cancel·lar';
+
+  @override
+  String get biometricForgetDeviceConfirm => 'Oblida';
+
+  @override
+  String get biometricForgetDeviceDone =>
+      'Dispositiu oblidat. Entra amb la contrasenya.';
+
+  @override
+  String get biometricForgetDeviceMessage =>
+      'S\'eliminaran la sessió guardada i l\'accés amb empremta d\'aquest dispositiu. Necessitaràs la contrasenya per a tornar a entrar.';
+
+  @override
+  String get biometricForgetDeviceTitle => 'Vols oblidar aquest dispositiu?';
+
+  @override
+  String get biometricLoginButton => 'Entra amb empremta';
+
+  @override
   String get biometricPromptReason =>
       'Confirma la teua identitat per a accedir a Aparcabicis';
 

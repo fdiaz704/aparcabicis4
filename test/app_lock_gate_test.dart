@@ -86,7 +86,11 @@ void main() {
     return provider;
   }
 
-  Future<void> pumpGate(WidgetTester tester, AuthProvider authProvider) async {
+  Future<void> pumpGate(
+    WidgetTester tester,
+    AuthProvider authProvider, {
+    Duration? grace,
+  }) async {
     await tester.pumpWidget(
       ChangeNotifierProvider<AuthProvider>.value(
         value: authProvider,
@@ -95,6 +99,7 @@ void main() {
           supportedLocales: AppLocalizations.supportedLocales,
           home: AppLockGate(
             clock: () => now,
+            grace: grace,
             child: const Scaffold(body: Text('CONTENIDO PRIVADO')),
           ),
         ),
@@ -163,8 +168,9 @@ void main() {
     expect(find.text('Usar contraseña'), findsOneWidget);
   });
 
-  testWidgets('dentro del margen de gracia NO se pide la huella',
-      (tester) async {
+  testWidgets(
+      'sin margen de gracia por defecto: CUALQUIER ausencia exige la huella '
+      '(decisión de producto 2026-10-31)', (tester) async {
     final biometrics = _FakeBiometrics();
     final authProvider = await givenLoggedInSession(
       tester,
@@ -173,6 +179,21 @@ void main() {
     );
 
     await pumpGate(tester, authProvider);
+    await backgroundAndResume(tester, const Duration(seconds: 2));
+
+    expect(biometrics.authenticateCalls, 1);
+  });
+
+  testWidgets('un margen de gracia inyectado (tests) sí se respeta',
+      (tester) async {
+    final biometrics = _FakeBiometrics();
+    final authProvider = await givenLoggedInSession(
+      tester,
+      biometrics: biometrics,
+      biometricEnabled: true,
+    );
+
+    await pumpGate(tester, authProvider, grace: const Duration(seconds: 30));
     await backgroundAndResume(tester, const Duration(seconds: 2));
 
     expect(biometrics.authenticateCalls, 0);

@@ -120,6 +120,34 @@
   "@biometricFallbackMessage": {
     "description": "Mensaje de fallback cuando la biometría falla"
   },
+  "biometricForgetDevice": "Olvidar este dispositivo",
+  "@biometricForgetDevice": {
+    "description": "Enlace del login que destruye la sesión bloqueada y la biometría"
+  },
+  "biometricForgetDeviceCancel": "Cancelar",
+  "@biometricForgetDeviceCancel": {
+    "description": "Botón cancelar del diálogo de olvidar dispositivo"
+  },
+  "biometricForgetDeviceConfirm": "Olvidar",
+  "@biometricForgetDeviceConfirm": {
+    "description": "Botón de confirmación del diálogo de olvidar dispositivo"
+  },
+  "biometricForgetDeviceDone": "Dispositivo olvidado. Entra con tu contraseña.",
+  "@biometricForgetDeviceDone": {
+    "description": "Aviso tras olvidar el dispositivo"
+  },
+  "biometricForgetDeviceMessage": "Se eliminarán la sesión guardada y el acceso con huella de este dispositivo. Necesitarás tu contraseña para volver a entrar.",
+  "@biometricForgetDeviceMessage": {
+    "description": "Explicación del diálogo de olvidar dispositivo"
+  },
+  "biometricForgetDeviceTitle": "¿Olvidar este dispositivo?",
+  "@biometricForgetDeviceTitle": {
+    "description": "Título del diálogo de olvidar dispositivo"
+  },
+  "biometricLoginButton": "Entrar con huella",
+  "@biometricLoginButton": {
+    "description": "Botón del login que reabre la sesión bloqueada con biometría"
+  },
   "biometricPromptReason": "Confirma tu identidad para acceder a Aparcabicis",
   "@biometricPromptReason": {
     "description": "Motivo mostrado en el diálogo biométrico del sistema"

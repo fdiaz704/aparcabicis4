@@ -40,14 +40,22 @@ class AuthProvider with ChangeNotifier {
   /// El dispositivo admite biometría (hay huella/Face ID registrado).
   Future<bool> isBiometricAvailable() => _biometrics.isAvailable();
 
-  /// Alta de biometría (se ofrece al activar "Recuérdame").
+  /// Alta de biometría (se ofrece tras iniciar sesión, o desde Ajustes).
   ///
   /// Pide una verificación de prueba: si el usuario no la supera, no se activa.
+  ///
+  /// Activarla implica **sesión persistente**: se guardan email y continuidad
+  /// de sesión aunque el usuario no marcara "Recuérdame", porque sin ellos la
+  /// huella no tendría nada que restaurar en el siguiente arranque (RF-1.6).
   Future<bool> enableBiometrics(String reason) async {
     if (!await _biometrics.isAvailable()) return false;
     if (!await _biometrics.authenticate(reason)) return false;
 
     await StorageService.setBool(AppConstants.prefKeyBiometricEnabled, true);
+    final email = _user?.email;
+    if (email != null && email.isNotEmpty) {
+      await _saveRememberedEmail(email);
+    }
     notifyListeners();
     return true;
   }
@@ -82,8 +90,11 @@ class AuthProvider with ChangeNotifier {
 
     final rememberMe =
         StorageService.getString(AppConstants.prefKeyRememberMe) == 'true';
+    final biometricsOn = isBiometricEnabled;
 
-    if (!rememberMe) {
+    // La biometría implica sesión persistente (RF-1.6): solo cuando no hay ni
+    // "Recuérdame" ni biometría se destruye la sesión guardada.
+    if (!rememberMe && !biometricsOn) {
       await SecureStorageService.clearSession();
       await _clearRememberedEmail();
       return;
@@ -93,7 +104,7 @@ class AuthProvider with ChangeNotifier {
     final email = StorageService.getString(AppConstants.prefKeyEmail);
     if (!hasToken || email == null || email.isEmpty) return;
 
-    if (isBiometricEnabled) {
+    if (biometricsOn) {
       final verified = await _biometrics.isAvailable() &&
           await _biometrics.authenticate(biometricReason);
       if (!verified) {
@@ -151,19 +162,70 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  /// Cierra la sesión.
+  ///
+  /// Con biometría activada la sesión queda **bloqueada, no destruida**
+  /// (RF-1.6): los tokens se conservan en almacenamiento seguro para poder
+  /// reentrar con huella desde el login ([loginWithBiometrics]), y NO se
+  /// revoca nada en el servidor — es un bloqueo local. La salida total es
+  /// [forgetDevice].
+  ///
+  /// Sin biometría, el logout destruye los tokens (y revoca en el backend);
+  /// el email recordado se conserva solo para prellenar el formulario si
+  /// "Recuérdame" seguía activo.
   Future<void> logout() async {
-    try {
-      await _authRepository.logout();
-    } catch (e) {
-      debugPrint('Logout error: $e');
+    if (!isBiometricEnabled) {
+      try {
+        await _authRepository.logout();
+      } catch (e) {
+        debugPrint('Logout error: $e');
+      }
+      await SecureStorageService.clearSession();
     }
 
     _user = null;
     _isLoggedIn = false;
+    notifyListeners();
+  }
 
-    // Se destruyen los tokens; el email recordado se conserva solo para
-    // prellenar el formulario si "Recuérdame" seguía activo.
+  /// Hay una sesión bloqueada reutilizable: biometría activada, email
+  /// recordado y tokens aún guardados. Habilita "Entrar con huella" en el
+  /// login (RF-1.6).
+  Future<bool> canLoginWithBiometrics() async {
+    if (_isLoggedIn || !isBiometricEnabled) return false;
+    final email = StorageService.getString(AppConstants.prefKeyEmail);
+    if (email == null || email.isEmpty) return false;
+    if (!await SecureStorageService.hasSessionToken()) return false;
+    return _biometrics.isAvailable();
+  }
+
+  /// Reabre la sesión bloqueada tras verificar la huella (RF-1.6).
+  Future<bool> loginWithBiometrics(String reason) async {
+    if (!await canLoginWithBiometrics()) return false;
+    if (!await _biometrics.authenticate(reason)) return false;
+
+    _user = User(email: StorageService.getString(AppConstants.prefKeyEmail)!);
+    _isLoggedIn = true;
+    notifyListeners();
+    return true;
+  }
+
+  /// Salida completa ("Olvidar este dispositivo"): revoca la sesión en el
+  /// backend, destruye los tokens, desactiva la biometría y olvida el email.
+  /// Tras esto solo se puede entrar con contraseña.
+  Future<void> forgetDevice() async {
+    try {
+      await _authRepository.logout();
+    } catch (e) {
+      debugPrint('Forget device error: $e');
+    }
+
     await SecureStorageService.clearSession();
+    await StorageService.setBool(AppConstants.prefKeyBiometricEnabled, false);
+    await _clearRememberedEmail();
+
+    _user = null;
+    _isLoggedIn = false;
     notifyListeners();
   }
 

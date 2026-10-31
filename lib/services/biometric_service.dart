@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 
 /// Autenticación biométrica (RF-1.6).
@@ -36,7 +35,9 @@ class LocalAuthBiometricAuthenticator implements BiometricAuthenticator {
       if (!canCheck) return false;
       final available = await _localAuth.getAvailableBiometrics();
       return available.isNotEmpty;
-    } on PlatformException catch (e) {
+    } catch (e) {
+      // PlatformException del SO o MissingPluginException en entornos sin el
+      // plugin (tests): en ambos casos, no hay biometría utilizable.
       debugPrint('Biometría no disponible: $e');
       return false;
     }
@@ -52,7 +53,7 @@ class LocalAuthBiometricAuthenticator implements BiometricAuthenticator {
           stickyAuth: true,
         ),
       );
-    } on PlatformException catch (e) {
+    } catch (e) {
       // Sin biometría registrada, bloqueada tras varios fallos, cancelada…
       // En todos los casos la app debe caer al login con contraseña.
       debugPrint('Fallo de autenticación biométrica: $e');

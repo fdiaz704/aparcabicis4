@@ -25,6 +25,7 @@ Objetivo: fuentes de datos tras interfaces; sesión segura con biometría; todo 
 4. [x] **Biometría** (local_auth): alta al activar "Recuérdame"; restauración de sesión con huella/Face ID y fallback a contraseña (HU-2).
 5. [x] Botón "Abrir puerta" contra `FakeAccessRepository`: flujo reservar → open (check-in) → open + confirmar (checkout).
 6. [x] Tests unitarios de providers contra fakes + widget test del flujo completo.
+7. [x] Revisión RF-1.6 (2026-10-31, feedback de pruebas en dispositivo): activar biometría ⇒ sesión persistente (sin depender de "Recuérdame"); huella SIEMPRE al volver del segundo plano (sin margen de gracia); logout con biometría = sesión **bloqueada** con "Entrar con huella" en el login; salida total con "Olvidar este dispositivo". Contrato: `/auth/logout` añadido a `04-API.md` con la semántica de bloqueo local.
 
 **DoD:** ningún provider toca SharedPreferences/datos hardcodeados; biometría operativa en dispositivo; tests verdes.
 

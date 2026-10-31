@@ -272,6 +272,48 @@ abstract class AppLocalizations {
   /// **'No se pudo verificar tu identidad. Inicia sesión con tu contraseña.'**
   String get biometricFallbackMessage;
 
+  /// Enlace del login que destruye la sesión bloqueada y la biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Olvidar este dispositivo'**
+  String get biometricForgetDevice;
+
+  /// Botón cancelar del diálogo de olvidar dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Cancelar'**
+  String get biometricForgetDeviceCancel;
+
+  /// Botón de confirmación del diálogo de olvidar dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Olvidar'**
+  String get biometricForgetDeviceConfirm;
+
+  /// Aviso tras olvidar el dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Dispositivo olvidado. Entra con tu contraseña.'**
+  String get biometricForgetDeviceDone;
+
+  /// Explicación del diálogo de olvidar dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'Se eliminarán la sesión guardada y el acceso con huella de este dispositivo. Necesitarás tu contraseña para volver a entrar.'**
+  String get biometricForgetDeviceMessage;
+
+  /// Título del diálogo de olvidar dispositivo
+  ///
+  /// In es, this message translates to:
+  /// **'¿Olvidar este dispositivo?'**
+  String get biometricForgetDeviceTitle;
+
+  /// Botón del login que reabre la sesión bloqueada con biometría
+  ///
+  /// In es, this message translates to:
+  /// **'Entrar con huella'**
+  String get biometricLoginButton;
+
   /// Motivo mostrado en el diálogo biométrico del sistema
   ///
   /// In es, this message translates to:

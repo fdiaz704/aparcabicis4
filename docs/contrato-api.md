@@ -231,6 +231,13 @@ también condiciona el borrado de cuenta (§2.10, P3).
 - **Respuesta `204`** (sin cuerpo). **Efecto:** marca `trt_revocado_at` del refresh token.
 - **Errores:** `401 TOKEN_INVALID`.
 
+> **Nota — bloqueo biométrico local (RF-1.6, decisión 2026-10-31):** con biometría activada, el
+> "cerrar sesión" de la app es un **bloqueo local**: NO llama a este endpoint y conserva el refresh
+> token cifrado en el dispositivo para reabrir la sesión con huella desde el login. Este endpoint
+> (revocación real) se invoca cuando el usuario cierra sesión **sin** biometría activada, en
+> "**Olvidar este dispositivo**" y en el borrado de cuenta (§2.10). Desactivar la biometría en
+> Ajustes no revoca nada: la sesión en curso sigue viva.
+
 ### 2.7. `PUT /api/auth/password` — Cambiar contraseña 🆕
 
 - **Auth:** `Bearer`.

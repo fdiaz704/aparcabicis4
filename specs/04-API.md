@@ -13,6 +13,13 @@ Errores: `{ "error": { "code": "RESERVATION_CONFLICT", "message": "..." } }` con
 | POST | /auth/refresh | `{refreshToken}` | 200 `{accessToken, refreshToken}` (rotación) |
 | POST | /auth/forgot-password | `{email}` | 202 (siempre, sin revelar existencia) |
 | POST | /auth/reset-password | `{token, newPassword}` | 200 |
+| POST | /auth/logout | `{refreshToken}` (autenticado) | 204 — revoca el refresh token |
+
+**Logout y bloqueo biométrico (RF-1.6, decisión 2026-10-31).** Con biometría activada, "cerrar
+sesión" en la app es un **bloqueo local**: NO llama a `/auth/logout` y conserva el refresh token
+cifrado en el dispositivo para reabrir la sesión con huella desde el login ("Entrar con huella").
+`/auth/logout` (revocación real) se invoca solo al cerrar sesión **sin** biometría, en "Olvidar
+este dispositivo" y en el borrado de cuenta. Desactivar la biometría en Ajustes no revoca nada.
 
 ## Comprobación de versión (público — actualización forzada, req. #2)
 | Método | Ruta | Body | Respuesta |

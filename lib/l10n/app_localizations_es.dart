@@ -105,6 +105,29 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo verificar tu identidad. Inicia sesión con tu contraseña.';
 
   @override
+  String get biometricForgetDevice => 'Olvidar este dispositivo';
+
+  @override
+  String get biometricForgetDeviceCancel => 'Cancelar';
+
+  @override
+  String get biometricForgetDeviceConfirm => 'Olvidar';
+
+  @override
+  String get biometricForgetDeviceDone =>
+      'Dispositivo olvidado. Entra con tu contraseña.';
+
+  @override
+  String get biometricForgetDeviceMessage =>
+      'Se eliminarán la sesión guardada y el acceso con huella de este dispositivo. Necesitarás tu contraseña para volver a entrar.';
+
+  @override
+  String get biometricForgetDeviceTitle => '¿Olvidar este dispositivo?';
+
+  @override
+  String get biometricLoginButton => 'Entrar con huella';
+
+  @override
   String get biometricPromptReason =>
       'Confirma tu identidad para acceder a Aparcabicis';
 

@@ -203,7 +203,7 @@ void main() {
     });
   });
 
-  test('logout destruye los tokens de sesión', () async {
+  test('logout SIN biometría destruye los tokens de sesión', () async {
     final provider = buildProvider();
     await provider.login('a@b.com', 'password123', true);
 
@@ -211,5 +211,78 @@ void main() {
 
     expect(provider.isLoggedIn, isFalse);
     expect(await SecureStorageService.getSessionToken(), isNull);
+  });
+
+  group('sesión bloqueada y reentrada con huella (RF-1.6)', () {
+    test('activar biometría guarda la persistencia aunque no hubiera "Recuérdame"',
+        () async {
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', false);
+
+      expect(await provider.enableBiometrics('motivo'), isTrue);
+
+      expect(StorageService.getString(AppConstants.prefKeyRememberMe), 'true');
+      expect(StorageService.getString(AppConstants.prefKeyEmail), 'a@b.com');
+    });
+
+    test('logout con biometría BLOQUEA la sesión: conserva los tokens y permite '
+        'reentrar con huella', () async {
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', false);
+      await provider.enableBiometrics('motivo');
+
+      await provider.logout();
+
+      expect(provider.isLoggedIn, isFalse);
+      expect(await SecureStorageService.hasSessionToken(), isTrue);
+      expect(await provider.canLoginWithBiometrics(), isTrue);
+
+      expect(await provider.loginWithBiometrics('motivo'), isTrue);
+      expect(provider.isLoggedIn, isTrue);
+      expect(provider.user?.email, 'a@b.com');
+    });
+
+    test('la huella fallida NO reabre la sesión bloqueada', () async {
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', false);
+      await provider.enableBiometrics('motivo');
+      await provider.logout();
+
+      final failing =
+          buildProvider(biometrics: _FakeBiometrics(succeeds: false));
+      expect(await failing.loginWithBiometrics('motivo'), isFalse);
+      expect(failing.isLoggedIn, isFalse);
+      // Los tokens siguen ahí: puede reintentar o entrar con contraseña.
+      expect(await SecureStorageService.hasSessionToken(), isTrue);
+    });
+
+    test('initialize restaura la sesión con biometría aunque falte la marca de '
+        '"Recuérdame" (biometría implica persistencia)', () async {
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', false);
+      await provider.enableBiometrics('motivo');
+      // Se simula una instalación antigua sin la marca de "Recuérdame".
+      await StorageService.remove(AppConstants.prefKeyRememberMe);
+
+      final restored = buildProvider();
+      await restored.initialize(biometricReason: 'motivo');
+
+      expect(restored.isLoggedIn, isTrue);
+      expect(restored.user?.email, 'a@b.com');
+    });
+
+    test('forgetDevice destruye tokens, biometría y email recordado', () async {
+      final provider = buildProvider();
+      await provider.login('a@b.com', 'password123', false);
+      await provider.enableBiometrics('motivo');
+      await provider.logout();
+
+      await provider.forgetDevice();
+
+      expect(await SecureStorageService.hasSessionToken(), isFalse);
+      expect(provider.isBiometricEnabled, isFalse);
+      expect(StorageService.getString(AppConstants.prefKeyEmail), isNull);
+      expect(await provider.canLoginWithBiometrics(), isFalse);
+    });
   });
 }

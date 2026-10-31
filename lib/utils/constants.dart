@@ -40,7 +40,9 @@ class AppConstants {
   // Bloqueo biométrico (RF-1.6): al volver del segundo plano se vuelve a pedir
   // la biometría solo si la app estuvo fuera más de este margen, para no
   // pedirla en cambios de foco fugaces.
-  static const int biometricLockGraceSeconds = 30;
+  // 0 = la huella se exige SIEMPRE al volver del segundo plano (decisión de
+  // producto 2026-10-31). Solo los tests inyectan otros márgenes.
+  static const int biometricLockGraceSeconds = 0;
 
   // Validation Constants
   static const int minPasswordLength = 8;

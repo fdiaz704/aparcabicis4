@@ -28,7 +28,7 @@ Prioridad: **M** = imprescindible v1 · **S** = deseable v1 · **C** = futuro.
 | RF-1.3 | Tokens en almacenamiento seguro (flutter_secure_storage); nunca contraseña persistida | M |
 | RF-1.4 | Renovación silenciosa del access token con refresh token | M |
 | RF-1.5 | Recuperación de contraseña por email (token de un solo uso) | M |
-| RF-1.6 | **Biometría**: al activar "Recuérdame" se solicita habilitar biometría (local_auth). Desde entonces la sesión se restaura con huella/Face ID; fallback a contraseña si falla o el dispositivo no la soporta | M |
+| RF-1.6 | **Biometría** (revisado 2026-10-31): tras iniciar sesión se ofrece habilitarla (local_auth); activarla implica **sesión persistente** (no depende de "Recuérdame"). La huella se exige **siempre** al volver del segundo plano (sin margen de gracia) y restaura la sesión en el arranque. "Cerrar sesión" con biometría deja la sesión **bloqueada**: se reentra con huella desde el login ("Entrar con huella"); la salida total es "Olvidar este dispositivo" (destruye tokens, biometría y email). Fallback a contraseña si la huella falla o el dispositivo no la soporta | M |
 | RF-1.7 | Cambio de contraseña y eliminación de cuenta: FUERA del UI v1 (req. #11); los endpoints quedan en el contrato como opcionales | C |
 
 ### RF-B Bootstrap de sesión — [Req. #4]

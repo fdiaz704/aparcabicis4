@@ -28,6 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _isMenuOpen = false;
 
+  /// Hay una sesión bloqueada reutilizable con huella (RF-1.6): muestra el
+  /// botón "Entrar con huella" y el enlace "Olvidar este dispositivo".
+  bool _biometricLoginAvailable = false;
+
   @override
   void initState() {
     super.initState();
@@ -49,6 +53,13 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
 
+      // Sesión bloqueada (p. ej. tras un logout con biometría activa): se
+      // ofrece reentrar con huella (RF-1.6).
+      final biometricLogin = await authProvider.canLoginWithBiometrics();
+      if (mounted && biometricLogin != _biometricLoginAvailable) {
+        setState(() => _biometricLoginAvailable = biometricLogin);
+      }
+
       // Si había sesión guardada pero la biometría falló, se avisa de que hay
       // que entrar con la contraseña (fallback, RF-1.6).
       if (mounted && authProvider.biometricFallbackRequired) {
@@ -59,10 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  /// Tras iniciar sesión con "Recuérdame", se ofrece dar de alta la biometría
-  /// para restaurar la sesión sin contraseña la próxima vez (RF-1.6).
+  /// Tras iniciar sesión se ofrece dar de alta la biometría para restaurar la
+  /// sesión sin contraseña la próxima vez (RF-1.6). Activarla implica sesión
+  /// persistente, así que no depende de la casilla "Recuérdame".
   Future<void> _offerBiometrics(AuthProvider authProvider) async {
-    if (!_rememberMe || authProvider.isBiometricEnabled) return;
+    if (authProvider.isBiometricEnabled) return;
     if (!await authProvider.isBiometricAvailable()) return;
     if (!mounted) return;
 
@@ -119,29 +131,11 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
 
-      // Con "Recuérdame" activo se ofrece dar de alta la biometría (RF-1.6).
+      // Tras iniciar sesión se ofrece dar de alta la biometría (RF-1.6).
       await _offerBiometrics(authProvider);
       if (!mounted) return;
 
-      // Tras el login, el bootstrap trae perfil, parámetros del sistema y la
-      // reserva en curso en una sola llamada (RF-B.1).
-      final sessionProvider = context.read<SessionProvider>();
-      final reservationsProvider = context.read<ReservationsProvider>();
-      context.read<ParkingsProvider>().resetFilters();
-
-      await sessionProvider.load();
-      await reservationsProvider.initialize();
-
-      if (!mounted) return;
-
-      AppHelpers.showSuccessSnackBar(context, context.l10n.loginSuccess);
-
-      // Si hay uso en curso, se navega directamente a él (RF-B.3).
-      if (reservationsProvider.hasActiveReservation) {
-        NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
-      } else {
-        NavigationService.pushNamedAndClearStack(AppRoutes.main);
-      }
+      await _enterApp();
     } catch (e) {
       if (mounted) {
         AppHelpers.showErrorSnackBar(context, context.l10n.loginError);
@@ -150,6 +144,90 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  /// Reentrada con huella sobre la sesión bloqueada (RF-1.6).
+  Future<void> _handleBiometricLogin() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final authProvider = context.read<AuthProvider>();
+      final success = await authProvider.loginWithBiometrics(_biometricReason());
+
+      if (!mounted) return;
+
+      if (!success) {
+        // Huella cancelada o fallida: se puede reintentar o usar contraseña.
+        AppHelpers.showInfoSnackBar(context, context.l10n.biometricFallbackMessage);
+        return;
+      }
+
+      await _enterApp();
+    } catch (e) {
+      if (mounted) {
+        AppHelpers.showErrorSnackBar(context, context.l10n.loginError);
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  /// Salida total: destruye la sesión bloqueada, la biometría y el email
+  /// recordado, previa confirmación (RF-1.6).
+  Future<void> _handleForgetDevice() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(dialogContext.l10n.biometricForgetDeviceTitle),
+        content: Text(dialogContext.l10n.biometricForgetDeviceMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(dialogContext.l10n.biometricForgetDeviceCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(dialogContext.l10n.biometricForgetDeviceConfirm),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    await context.read<AuthProvider>().forgetDevice();
+    if (!mounted) return;
+
+    setState(() {
+      _biometricLoginAvailable = false;
+      _rememberMe = false;
+      _emailController.clear();
+    });
+    AppHelpers.showInfoSnackBar(context, context.l10n.biometricForgetDeviceDone);
+  }
+
+  /// Bootstrap común tras abrir sesión (con contraseña o con huella): trae
+  /// perfil, parámetros del sistema y la reserva en curso (RF-B.1) y navega
+  /// según haya o no un uso activo (RF-B.3).
+  Future<void> _enterApp() async {
+    final sessionProvider = context.read<SessionProvider>();
+    final reservationsProvider = context.read<ReservationsProvider>();
+    context.read<ParkingsProvider>().resetFilters();
+
+    await sessionProvider.load();
+    await reservationsProvider.initialize();
+
+    if (!mounted) return;
+
+    AppHelpers.showSuccessSnackBar(context, context.l10n.loginSuccess);
+
+    if (reservationsProvider.hasActiveReservation) {
+      NavigationService.pushNamedAndClearStack(AppRoutes.activeReservation);
+    } else {
+      NavigationService.pushNamedAndClearStack(AppRoutes.main);
     }
   }
 
@@ -392,6 +470,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   : Text(context.l10n.loginSignInButton),
                             ),
                           ),
+
+                          // Reentrada con huella sobre la sesión bloqueada y
+                          // salida total del dispositivo (RF-1.6).
+                          if (_biometricLoginAvailable) ...[
+                            const SizedBox(height: AppSpacing.md),
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton.icon(
+                                onPressed:
+                                    _isLoading ? null : _handleBiometricLogin,
+                                icon: const Icon(Icons.fingerprint,
+                                    color: AppColors.primary),
+                                label: Text(context.l10n.biometricLoginButton),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed:
+                                  _isLoading ? null : _handleForgetDevice,
+                              child: Text(context.l10n.biometricForgetDevice),
+                            ),
+                          ],
                         ],
                       ),
                     ),

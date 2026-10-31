@@ -10,12 +10,11 @@ import '../utils/constants.dart';
 /// Bloqueo biométrico de la app (RF-1.6).
 ///
 /// Envuelve toda la app. Con biometría activada y sesión iniciada, al volver
-/// del segundo plano tras más de [AppConstants.biometricLockGraceSeconds]
-/// **se exige la huella/Face ID** antes de dejar ver nada. Así la biometría no
-/// se pide solo en el arranque en frío, sino **siempre** que se vuelve a la app.
-///
-/// El margen de gracia evita pedirla en cambios de foco fugaces (mirar una
-/// notificación, el selector de apps…).
+/// del segundo plano **se exige la huella/Face ID** antes de dejar ver nada.
+/// Sin margen de gracia (decisión de producto 2026-10-31): cualquier paso por
+/// segundo plano exige la huella al volver;
+/// [AppConstants.biometricLockGraceSeconds] vale 0 y solo los tests inyectan
+/// otros márgenes vía [AppLockGate.grace].
 class AppLockGate extends StatefulWidget {
   const AppLockGate({required this.child, this.grace, this.clock, super.key});
 
@@ -26,8 +25,8 @@ class AppLockGate extends StatefulWidget {
   final DateTime Function()? clock;
 
   /// Margen de inactividad tras el cual se vuelve a exigir la biometría.
-  /// Por defecto, [AppConstants.biometricLockGraceSeconds]. Inyectable para
-  /// no tener que esperar en tiempo real en los tests.
+  /// Por defecto, [AppConstants.biometricLockGraceSeconds] (= 0: huella
+  /// SIEMPRE al volver). Inyectable solo para los tests.
   final Duration? grace;
 
   @override
@@ -56,7 +55,10 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
       case AppLifecycleState.hidden:
-        _backgroundedAt ??= _now();
+        // El propio diálogo biométrico del sistema pausa la actividad en
+        // Android: sin esta guarda, cada desbloqueo volvería a bloquear en
+        // bucle al no existir margen de gracia.
+        if (!_authenticating) _backgroundedAt ??= _now();
       case AppLifecycleState.resumed:
         _onResumed();
       case AppLifecycleState.inactive:
