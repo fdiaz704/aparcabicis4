@@ -60,6 +60,14 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() => _biometricLoginAvailable = biometricLogin);
       }
 
+      // Tras un logout bloqueante el diálogo de huella salta solo, como en
+      // las apps bancarias; cancelarlo deja contraseña y botón de reintento.
+      if (mounted &&
+          biometricLogin &&
+          authProvider.consumePendingBiometricLoginPrompt()) {
+        await _handleBiometricLogin();
+      }
+
       // Si había sesión guardada pero la biometría falló, se avisa de que hay
       // que entrar con la contraseña (fallback, RF-1.6).
       if (mounted && authProvider.biometricFallbackRequired) {

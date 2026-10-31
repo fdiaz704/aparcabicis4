@@ -25,6 +25,7 @@ class AuthProvider with ChangeNotifier {
   User? _user;
   bool _isLoggedIn = false;
   bool _biometricFallbackRequired = false;
+  bool _pendingBiometricLoginPrompt = false;
 
   User? get user => _user;
   bool get isLoggedIn => _isLoggedIn;
@@ -176,8 +177,14 @@ class AuthProvider with ChangeNotifier {
   /// Sin biometría, el logout destruye los tokens (y revoca en el backend);
   /// el email recordado se conserva solo para prellenar el formulario si
   /// "Recuérdame" seguía activo.
-  Future<void> logout() async {
-    if (!isBiometricEnabled) {
+  /// [offerBiometricRelogin]: al llegar al login tras este logout, el diálogo
+  /// de huella salta solo (no hace falta pulsar nada). El gate lo desactiva
+  /// cuando el usuario eligió explícitamente "Usar contraseña".
+  Future<void> logout({bool offerBiometricRelogin = true}) async {
+    final locked = isBiometricEnabled;
+    _pendingBiometricLoginPrompt = locked && offerBiometricRelogin;
+
+    if (!locked) {
       try {
         await _authRepository.logout();
       } catch (e) {
@@ -189,6 +196,14 @@ class AuthProvider with ChangeNotifier {
     _user = null;
     _isLoggedIn = false;
     notifyListeners();
+  }
+
+  /// Consulta y consume (una sola vez) la petición de disparar el diálogo de
+  /// huella automáticamente al llegar al login tras un logout bloqueante.
+  bool consumePendingBiometricLoginPrompt() {
+    final pending = _pendingBiometricLoginPrompt;
+    _pendingBiometricLoginPrompt = false;
+    return pending;
   }
 
   /// Hay una sesión bloqueada reutilizable: biometría activada, email

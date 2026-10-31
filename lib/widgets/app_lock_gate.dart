@@ -106,9 +106,11 @@ class _AppLockGateState extends State<AppLockGate> with WidgetsBindingObserver {
   }
 
   /// Fallback: salir del bloqueo cerrando sesión para entrar con contraseña.
+  /// Sin re-prompt biométrico en el login: el usuario acaba de pedir
+  /// explícitamente entrar con contraseña.
   Future<void> _usePassword() async {
     final authProvider = context.read<AuthProvider>();
-    await authProvider.logout();
+    await authProvider.logout(offerBiometricRelogin: false);
 
     if (!mounted) return;
     setState(() => _locked = false);
